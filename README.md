@@ -120,4 +120,4 @@ class ApiKey : IApiKey
 ```
 
 ## License
-[MIT License](https://github.com/mihirdilip/AspNetCore.Authentication.ApiKey/blob/master/LICENSE)
+[MIT License](https://github.com/mihirdilip/aspnetcore-authentication-apikey/blob/master/LICENSE)
