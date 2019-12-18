@@ -13,7 +13,7 @@
     <PackageLicenseUrl></PackageLicenseUrl>
 	<RepositoryType>GitHub</RepositoryType>
     <PackageIconUrl />
-    <PackageTags>aspnetcore, security, authentication, microsoft, microsoft.aspnetcore.authentication, microsoft-aspnetcore-authentication, microsoft.aspnetcore.authentication.apikey, microsoft-aspnetcore-authentication-apikey, asp-net-core, netstandard, netstandard20, apikey-authentication, api-key-authentication, apikeyauthentication, dotnetcore, asp-net-core-apikey-authentication, aspnetcore-apikey-authentication, asp-net-core-authentication, aspnetcore-authentication</PackageTags>
+    <PackageTags>aspnetcore, security, authentication, microsoft, microsoft.aspnetcore.authentication, microsoft-aspnetcore-authentication, microsoft.aspnetcore.authentication.apikey, microsoft-aspnetcore-authentication-apikey, asp-net-core, netstandard, netstandard20, apikey-authentication, api-key-authentication, apikeyauthentication, dotnetcore, asp-net-core-apikey-authentication, aspnetcore-apikey-authentication, asp-net-core-authentication, aspnetcore-authentication, asp, aspnet, apikey, api-key</PackageTags>
     <NeutralLanguage />
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageReleaseNotes></PackageReleaseNotes>
