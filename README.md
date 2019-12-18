@@ -89,7 +89,7 @@ public class ApiKeyProvider : IApiKeyProvider
 	{
 		try
 		{
-			// write your implementation here and return true or false depending on the validation..
+			// write your validation implementation here and return an instance of a valid ApiKey or retun null for an invalid key.
 			return Task.FromResult(null);
 		}
 		catch (System.Exception exception)
