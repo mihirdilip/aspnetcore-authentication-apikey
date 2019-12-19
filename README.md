@@ -1,6 +1,8 @@
 # AspNetCore.Authentication.ApiKey
 Easy to use and very light weight Microsoft style API Key Authentication Implementation for ASP.NET Core. It can be setup so that it can accept API Key in Header, QueryParams or HeaderOrQueryParams.
 
+[View On GitHub](https://github.com/mihirdilip/aspnetcore-authentication-apikey)
+
 ## Installing
 This library is published on NuGet. So the NuGet package can be installed directly to your project if you wish to use it without making any custom changes to the code.
 
