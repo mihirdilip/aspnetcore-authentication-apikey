@@ -16,6 +16,7 @@ jobs:
       with: 
         dotnet-version: 2.2.108
     - name: Restore
+      run: dotnet restore "*.sln" --configuration Release
     - name: Build 
       run: dotnet build "*.sln" --configuration Release
     - name: Pack 
