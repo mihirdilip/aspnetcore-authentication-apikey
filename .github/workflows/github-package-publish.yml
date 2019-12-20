@@ -3,7 +3,7 @@ on:
   push: 
     paths: 
      - 'workflow-triggers/github-package-push'
-     - 'master/.github/github-package-push-trigger/*'
+     - '.github/github-package-push-trigger/dummy'
 
 jobs:
   build_publish:
