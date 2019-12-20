@@ -1,6 +1,6 @@
 name: Push NuGet package to Github
 on:
-  push: 
+  commit_comment: 
    paths: 
      - 'master/.github/github-package-push-trigger'
 
