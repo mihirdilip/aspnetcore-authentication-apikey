@@ -15,10 +15,6 @@ jobs:
       uses: actions/setup-dotnet@v1
       with: 
         dotnet-version: 2.2.108
-    - name: LIST
-      run: ls -a
-    - name: Restore
-      run: dotnet restore "src/*.sln" 
     - name: Build 
       run: dotnet build "src/*.sln" --configuration Release
     - name: Pack 
