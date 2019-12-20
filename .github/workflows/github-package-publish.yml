@@ -18,10 +18,10 @@ jobs:
     - name: LIST
       run: ls -a
     - name: Restore
-      run: dotnet restore "**/*.sln" 
+      run: dotnet restore "src/*.sln" 
     - name: Build 
-      run: dotnet build "*.sln" --configuration Release
+      run: dotnet build "src/*.sln" --configuration Release
     - name: Pack 
-      run: dotnet pack "AspNetCore.Authentication.ApiKey/AspNetCore.Authentication.ApiKey.csproj" --configuration Release
+      run: dotnet pack "src/AspNetCore.Authentication.ApiKey/*.csproj" --configuration Release
     - name: Push to Github packages
-      run: dotnet nuget push "AspNetCore.Authentication.ApiKey/bin/Release/*.nupkg" --skip-duplicate --source "github"
+      run: dotnet nuget push "src/AspNetCore.Authentication.ApiKey/bin/Release/*.nupkg" --skip-duplicate --source "github"
