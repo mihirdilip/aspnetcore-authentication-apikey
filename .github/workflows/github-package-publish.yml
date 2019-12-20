@@ -16,8 +16,8 @@ jobs:
       with: 
         dotnet-version: 2.2.108
     - name: Build 
-      run: dotnet build "src/*.sln" --configuration Release
+      run: dotnet build "src/AspNetCore.Authentication.ApiKey.sln" --configuration Release
     - name: Pack 
-      run: dotnet pack "src/AspNetCore.Authentication.ApiKey/*.csproj" --configuration Release
+      run: dotnet pack "src/AspNetCore.Authentication.ApiKey/AspNetCore.Authentication.ApiKey.csproj" --configuration Release
     - name: Push to Github packages
       run: dotnet nuget push "src/AspNetCore.Authentication.ApiKey/bin/Release/*.nupkg" --skip-duplicate --source "github"
