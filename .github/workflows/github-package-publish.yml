@@ -2,8 +2,7 @@ name: Push NuGet package to Github
 on:
   push: 
     paths: 
-     - 'workflow-triggers/github-package-push'
-     - '.github/github-package-push-trigger/dummy'
+     - '.github/workflow-triggers/github-package-push'
 
 jobs:
   build_publish:
@@ -16,8 +15,10 @@ jobs:
       uses: actions/setup-dotnet@v1
       with: 
         dotnet-version: 2.2.108
+    - name: LIST
+      run: ls -a
     - name: Restore
-      run: dotnet restore "*.sln" 
+      run: dotnet restore "**/*.sln" 
     - name: Build 
       run: dotnet build "*.sln" --configuration Release
     - name: Pack 
