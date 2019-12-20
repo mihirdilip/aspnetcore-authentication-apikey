@@ -1,9 +1,11 @@
-name: .NET Core - Publish Nuget Package to GITHUB
-
-on: [deployment]
+name: Push NuGet package to Github
+on:
+  push: 
+   paths: 
+     - master/.github/github-package-push-trigger
 
 jobs:
-  build:
+  build_publish:
 
     runs-on: ubuntu-latest
 
@@ -13,9 +15,10 @@ jobs:
       uses: actions/setup-dotnet@v1
       with: 
         dotnet-version: 2.2.108
-    - name: Build with dotnet
-      run: dotnet build --configuration Release
-    - name: Pack with dotnet
-      run: dotnet pack --configuration Release
-    - name: Publish NuGet package with dotnet to GITHUB
-      run: dotnet nuget push "bin/Release/*.nupkg" --skip-duplicate --source "github"
+    - name: Restore
+    - name: Build 
+      run: dotnet build "*.sln" --configuration Release
+    - name: Pack 
+      run: dotnet pack "AspNetCore.Authentication.ApiKey/AspNetCore.Authentication.ApiKey.csproj" --configuration Release
+    - name: Push to Github packages
+      run: dotnet nuget push "AspNetCore.Authentication.ApiKey/bin/Release/*.nupkg" --skip-duplicate --source "github"
