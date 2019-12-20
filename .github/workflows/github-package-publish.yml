@@ -3,7 +3,7 @@ on:
   push: 
     paths: 
      - 'workflow-triggers/github-package-push'
-     - 'master/.github/github-package-push-trigger/*'
+     - '.github/github-package-push-trigger/dummy'
 
 jobs:
   build_publish:
@@ -17,7 +17,7 @@ jobs:
       with: 
         dotnet-version: 2.2.108
     - name: Restore
-      run: dotnet restore "*.sln" --configuration Release
+      run: dotnet restore "*.sln" 
     - name: Build 
       run: dotnet build "*.sln" --configuration Release
     - name: Pack 
