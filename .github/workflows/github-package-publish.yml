@@ -2,7 +2,7 @@ name: Push NuGet package to Github
 on:
   push: 
    paths: 
-     - master/.github/github-package-push-trigger
+     - 'master/.github/github-package-push-trigger'
 
 jobs:
   build_publish:
