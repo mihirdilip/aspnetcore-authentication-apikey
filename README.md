@@ -42,7 +42,7 @@ public class Startup
 		// Add the API Key authentication here..
 		// AddApiKeyInHeaderOrQueryParams extension takes an implementation of IApiKeyProvider for validating the key. 
 		// It also requires Realm and KeyName to be set in the options.
-		services.AddAuthentication(BasicDefaults.AuthenticationScheme)
+		services.AddAuthentication(ApiKeyDefaults.AuthenticationScheme)
 			//// use below to accept API Key either in header or query parameter
 			.AddApiKeyInHeaderOrQueryParams<ApiKeyProvider>(options => 
 			{ 
