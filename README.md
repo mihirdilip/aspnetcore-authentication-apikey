@@ -58,7 +58,7 @@ public class Startup
 			//});
 
 			//// use below instead to only accept API Key in query parameter
-			//.AddApiKeyQueryParams<ApiKeyProvider>(options => 
+			//.AddApiKeyInQueryParams<ApiKeyProvider>(options => 
 			//{ 
 			//	options.Realm = "My App"; 
 			//	options.KeyName = "X-API-KEY";	// Your api key name which the clients will require to send the key.
