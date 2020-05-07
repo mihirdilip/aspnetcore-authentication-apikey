@@ -16,7 +16,7 @@ PM> Install-Package AspNetCore.Authentication.ApiKey
 
 ## Example Usage
 
-Setting it up is quite simple. You will need basic working knowledge of ASP.NET Core 2.2 to get started using this code.
+Setting it up is quite simple. You will need basic working knowledge of ASP.NET Core 2.2 or newer to get started using this code.
 
 On [**Startup.cs**](#startupcs), as shown below, add 2 lines in *ConfigureServices* method `services.AddAuthentication(ApiKeyDefaults.AuthenticationScheme).AddApiKeyInHeaderOrQueryParams<ApiKeyProvider>(options => { options.Realm = "My App"; options.KeyName = "X-API-KEY"; });`. And a line `app.UseAuthentication();` in *Configure* method.
 
@@ -24,7 +24,76 @@ Also add an implementation of *IApiKeyProvider* as shown below in [**ApiKeyProvi
 
 **NOTE: Always use HTTPS (SSL Certificate) protocol in production when using API Key authentication.**
 
-#### Startup.cs
+#### Startup.cs (ASP.NET Core 3.0 or newer)
+
+```C#
+using AspNetCore.Authentication.ApiKey;
+public class Startup
+{
+	public Startup(IConfiguration configuration)
+	{
+		Configuration = configuration;
+	}
+
+	public IConfiguration Configuration { get; }
+
+	public void ConfigureServices(IServiceCollection services)
+	{
+		// Add the API Key authentication here..
+		// AddApiKeyInHeaderOrQueryParams extension takes an implementation of IApiKeyProvider for validating the key. 
+		// It also requires Realm and KeyName to be set in the options.
+		services.AddAuthentication(ApiKeyDefaults.AuthenticationScheme)
+			//// use below to accept API Key either in header or query parameter
+			.AddApiKeyInHeaderOrQueryParams<ApiKeyProvider>(options => 
+			{ 
+				options.Realm = "My App"; 
+				options.KeyName = "X-API-KEY";	// Your api key name which the clients will require to send the key.
+			});
+
+			//// use below instead to only accept API Key in header
+			//.AddApiKeyInHeader<ApiKeyProvider>(options => 
+			//{ 
+			//	options.Realm = "My App"; 
+			//	options.KeyName = "X-API-KEY";	// Your api key name which the clients will require to send the key.
+			//});
+
+			//// use below instead to only accept API Key in query parameter
+			//.AddApiKeyQueryParams<ApiKeyProvider>(options => 
+			//{ 
+			//	options.Realm = "My App"; 
+			//	options.KeyName = "X-API-KEY";	// Your api key name which the clients will require to send the key.
+			//});
+
+		services.AddControllers();
+
+		//// By default, authentication is not challenged for every request which is ASP.NET Core's default intended behaviour.
+		//// So to challenge authentication for every requests please use below option instead of above services.AddControllers().
+		//services.AddControllers(options => 
+		//{
+		//	options.Filters.Add(new AuthorizeFilter(new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build()));
+		//});
+	}
+
+	public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+	{
+		app.UseHttpsRedirection();
+
+		// The below order of pipeline chain is important!
+		app.UseRouting();
+
+		app.UseAuthentication();
+		app.UseAuthorization();
+
+		app.UseEndpoints(endpoints =>
+		{
+			endpoints.MapControllers();
+		});
+	}
+}
+```
+
+
+#### Startup.cs (ASP.NET Core 2.2)
 
 ```C#
 using AspNetCore.Authentication.ApiKey;
@@ -65,6 +134,13 @@ public class Startup
 			//});
 
 		services.AddMvc();
+
+		//// By default, authentication is not challenged for every request which is ASP.NET Core's default intended behaviour.
+		//// So to challenge authentication for every requests please use below option instead of above services.AddMvc().
+		//services.AddMvc(options => 
+		//{
+		//	options.Filters.Add(new AuthorizeFilter(new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build()));
+		//});
 	}
 
 	public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -74,6 +150,8 @@ public class Startup
 	}
 }
 ```
+
+
 
 #### ApiKeyProvider.cs
 ```C#
@@ -120,6 +198,38 @@ class ApiKey : IApiKey
 	public IReadOnlyCollection<Claim> Claims { get; }
 }
 ```
+
+## Additional Notes
+Please note that, by default, with ASP.NET Core, all the requests are not challenged for authentication. So don't worry if your *ApiKeyProvider* is not hit when you don't pass the required api key authentication details with the request. It is a normal behaviour. ASP.NET Core challenges authentication only when it is specifically told to do so either by decorating controller/method with *[Authorize]* filter attribute or by some other means. 
+
+However, if you want all the requests to challenge authentication by default, depending on what you are using, you can add the below options line to *ConfigureServices* method on *Startup* class.
+
+```C#
+services.AddControllers(options => 
+{ 
+    options.Filters.Add(new AuthorizeFilter(new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build()));
+});
+
+// OR
+
+services.AddMvc(options => 
+{
+    options.Filters.Add(new AuthorizeFilter(new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build()));
+});
+```
+  
+If you are not using MVC but, using Endpoints on ASP.NET Core 3.0 or newer, you can add a chain method `.RequireAuthorization()` to the endpoint map under *Configure* method on *Startup* class as shown below.
+
+```C#
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapGet("/", async context =>
+    {
+        await context.Response.WriteAsync("Hello World!");
+    }).RequireAuthorization();  // NOTE THIS HERE!!!! 
+});
+```
+
 
 ## License
 [MIT License](https://github.com/mihirdilip/aspnetcore-authentication-apikey/blob/master/LICENSE)
