@@ -44,6 +44,12 @@ namespace AspNetCore.Authentication.ApiKey
 				return AuthenticateResult.Fail("Invalid API Key provided.");
 			}
 
+			// Validate key against the key that comes through the request
+			if (!String.Equals(validatedKey.Key, key))
+            {
+				return AuthenticateResult.Fail("Invalid API Key provided.");
+			}
+
 			// Create 'AuthenticationTicket' and return as success if the above validation was successful.
 			var claims = new List<Claim>();
 			if (validatedKey.Claims != null)
