@@ -38,7 +38,7 @@ namespace AspNetCore.Authentication.ApiKey
 			}
 
 			// Validate key by using the implementation of IApiKeyValidationService.
-			var validatedKey = await _apiKeyValidationService.ProvideAsync(key).ConfigureAwait(false);
+			var validatedKey = await _apiKeyValidationService.ProvideAsync().ConfigureAwait(false);
 			if (validatedKey == null)
 			{
 				return AuthenticateResult.Fail("Invalid API Key provided.");

@@ -15,6 +15,6 @@ namespace AspNetCore.Authentication.ApiKey
 		/// </summary>
 		/// <param name="key"></param>
 		/// <returns></returns>
-		Task<IApiKey> ProvideAsync(string key);
+		Task<IApiKey> ProvideAsync();
 	}
 }
