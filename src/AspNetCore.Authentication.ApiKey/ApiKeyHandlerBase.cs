@@ -19,11 +19,13 @@ namespace AspNetCore.Authentication.ApiKey
 	internal abstract class ApiKeyHandlerBase : AuthenticationHandler<ApiKeyOptions>
 	{
 		private readonly IApiKeyProvider _apiKeyValidationService;
+		private readonly IApiKeyValidator _apiKeyValidator;
 
-		protected ApiKeyHandlerBase(IOptionsMonitor<ApiKeyOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock, IApiKeyProvider apiKeyValidationService)
+		protected ApiKeyHandlerBase(IOptionsMonitor<ApiKeyOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock, IApiKeyProvider apiKeyValidationService, IApiKeyValidator apiKeyValidator)
 			: base(options, logger, encoder, clock)
 		{
 			_apiKeyValidationService = apiKeyValidationService;
+			_apiKeyValidator = apiKeyValidator;
 		}
 
 		protected abstract string AuthenticationScheme { get; }
@@ -44,8 +46,10 @@ namespace AspNetCore.Authentication.ApiKey
 				return AuthenticateResult.Fail("Invalid API Key provided.");
 			}
 
+			
+
 			// Validate key against the key that comes through the request
-			if (!String.Equals(validatedKey.Key, key))
+			if (!_apiKeyValidator.IsValidKey(validatedKey, key))
 			{
 				return AuthenticateResult.Fail("Invalid API Key provided.");
 			}

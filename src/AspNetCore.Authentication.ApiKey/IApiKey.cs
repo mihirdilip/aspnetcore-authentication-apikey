@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Mihir Dilip. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
+using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 
@@ -14,7 +15,9 @@ namespace AspNetCore.Authentication.ApiKey
 		/// <summary>
 		/// API Key
 		/// </summary>
-		string Key { get; }
+		IEnumerable<string> Key { get; }
+
+		StringComparison StringComparison { get; }
 
 		/// <summary>
 		/// Owner of the API Key. It can be username or any other key owner name.

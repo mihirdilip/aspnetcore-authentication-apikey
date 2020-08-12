@@ -12,8 +12,8 @@ namespace AspNetCore.Authentication.ApiKey
 {
 	internal class ApiKeyInQueryParamsHandler : ApiKeyHandlerBase
 	{
-		public ApiKeyInQueryParamsHandler(IOptionsMonitor<ApiKeyOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock, IApiKeyProvider apiKeyValidationService)
-			: base(options, logger, encoder, clock, apiKeyValidationService)
+		public ApiKeyInQueryParamsHandler(IOptionsMonitor<ApiKeyOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock, IApiKeyProvider apiKeyValidationService, IApiKeyValidator apiKeyValidator)
+			: base(options, logger, encoder, clock, apiKeyValidationService, apiKeyValidator)
 		{
 		}
 

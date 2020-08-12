@@ -62,6 +62,10 @@ namespace AspNetCore.Authentication.ApiKey
 			// Adds implementation of IBasicUserValidationService to the dependency container.
 			builder.Services.AddTransient<IApiKeyProvider, TApiKeyProvider>();
 
+			// Adds a default validation for Api keys. 
+			// If a different implementation for IApiKeyValidator is needed then that other implementation just has to be registered afterwards
+			builder.Services.AddTransient<IApiKeyValidator, ApiKeyValidator>();
+
 			// Adds basic authentication scheme to the pipeline.
 			return builder.AddScheme<ApiKeyOptions, TApiKeyHandler>(ApiKeyDefaults.AuthenticationScheme, configureOptions);
 		}
