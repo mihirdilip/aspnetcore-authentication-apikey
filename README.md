@@ -198,6 +198,13 @@ class ApiKey : IApiKey
 	public IReadOnlyCollection<Claim> Claims { get; }
 }
 ```
+### Samples
+The samples of server and client are avalable on separate repositories:
+
+[authentication-serverside-samples Authentication.ServerSide.ApiKey project](https://github.com/mihirdilip/authentication-serverside-samples/tree/master/src/Authentication.ServerSide.ApiKey)  
+
+[authentication-clientside-samples Authentication.ClientSide.ApiKey project](https://github.com/mihirdilip/authentication-clientside-samples/tree/master/src/Authentication.ClientSide.ApiKey)  
+The client side uses other [restapi-client library](https://github.com/mihirdilip/restapi-client) which is still under development and preview is available on NuGet.
 
 ## Additional Notes
 Please note that, by default, with ASP.NET Core, all the requests are not challenged for authentication. So don't worry if your *ApiKeyProvider* is not hit when you don't pass the required api key authentication details with the request. It is a normal behaviour. ASP.NET Core challenges authentication only when it is specifically told to do so either by decorating controller/method with *[Authorize]* filter attribute or by some other means. 
