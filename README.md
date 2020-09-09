@@ -160,7 +160,7 @@ public class ApiKeyProvider : IApiKeyProvider
 {
 	private readonly ILogger<ApiKeyProvider> _logger;
 	
-	public BasicUserValidationService(ILogger<ApiKeyProvider> logger)
+	public ApiKeyProvider(ILogger<ApiKeyProvider> logger)
 	{
 		_logger = logger;
 	}

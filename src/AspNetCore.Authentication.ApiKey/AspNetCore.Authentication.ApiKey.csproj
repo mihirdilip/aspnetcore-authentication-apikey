@@ -9,6 +9,9 @@
     <PackageReleaseNotes>- Multitarget framework support added
 - Strong Name Key support added
 - Source Link support added
+- SuppressWWWAuthenticateHeader added to configure options
+- ForLegacyIgnoreExtraValidatedApiKeyCheck added to configure options
+- Events added to configure options
     </PackageReleaseNotes>
     <Description>Easy to use and very light weight Microsoft style API Key Authentication Implementation for ASP.NET Core. It can be setup so that it can accept API Key either in Header, QueryParams or HeaderOrQueryParams.</Description>
     <Authors>Mihir Dilip</Authors>

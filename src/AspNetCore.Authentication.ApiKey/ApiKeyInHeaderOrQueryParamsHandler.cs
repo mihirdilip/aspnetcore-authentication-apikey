@@ -1,5 +1,5 @@
 ﻿// Copyright (c) Mihir Dilip. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Licensed under the MIT License. See LICENSE file in the project root for license information.
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
@@ -10,32 +10,29 @@ using System.Threading.Tasks;
 
 namespace AspNetCore.Authentication.ApiKey
 {
-	internal class ApiKeyInHeaderOrQueryParamsHandler : ApiKeyHandlerBase
+    internal class ApiKeyInHeaderOrQueryParamsHandler : ApiKeyHandlerBase
 	{
-		public ApiKeyInHeaderOrQueryParamsHandler(IOptionsMonitor<ApiKeyOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock, IApiKeyProvider apiKeyValidationService) 
-			: base(options, logger, encoder, clock, apiKeyValidationService)
+		public ApiKeyInHeaderOrQueryParamsHandler(IOptionsMonitor<ApiKeyOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock) 
+			: base(options, logger, encoder, clock)
 		{
 		}
 
-		protected override string AuthenticationScheme { get; } = ApiKeyDefaults.InHeaderOrQueryParamsAuthenticationScheme;
-
-		/// <summary>
-		/// Searches the header and query parameters for 'ApiKey' value of which is validated using implementation of <see cref="IApiKeyProvider"/> passed as type parameter when setting up ApiKey authentication in the Startup.cs 
-		/// </summary>
-		/// <returns></returns>
-		protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
-		{
-			if (!Request.Headers.TryGetValue(Options.KeyName, out var value))
+        protected override Task<string> ParseApiKeyAsync()
+        {
+			// Try query parameter
+			if (Request.Query.TryGetValue(Options.KeyName, out var value))
 			{
-				if (!Request.Query.TryGetValue(Options.KeyName, out value))
-				{
-					// No Header or QueryParameter found
-					return AuthenticateResult.NoResult();
-				}
+				return Task.FromResult(value.FirstOrDefault());
 			}
 
-			var key = value.FirstOrDefault();
-			return await HandleAuthenticateAsync(key).ConfigureAwait(false);
+			// No ApiKey query parameter found try headers
+			if (Request.Headers.TryGetValue(Options.KeyName, out var headerValue))
+			{
+				return Task.FromResult(headerValue.FirstOrDefault());
+			}
+
+			// No ApiKey found
+			return Task.FromResult(string.Empty);
 		}
-	}
+    }
 }
