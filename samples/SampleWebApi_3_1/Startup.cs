@@ -55,10 +55,10 @@ namespace SampleWebApi_3_1
                     options.Events = new ApiKeyEvents
                     {
 
-                        //// A delegate assigned to this property will be invoked just before validating credentials. 
+                        //// A delegate assigned to this property will be invoked just before validating the api key. 
                         //OnValidateKey = async (context) =>
                         //{
-                        //    // custom code to handle credentials, create principal and call Success method on context.
+                        //    // custom code to handle the api key, create principal and call Success method on context.
                         //    var apiKeyRepository = context.HttpContext.RequestServices.GetRequiredService<IApiKeyRepository>();
                         //    var apiKey = await apiKeyRepository.GetApiKeyAsync(context.ApiKey);
                         //    var isValid = apiKey != null && apiKey.Key.Equals(context.ApiKey, StringComparison.OrdinalIgnoreCase);
@@ -80,11 +80,11 @@ namespace SampleWebApi_3_1
                         //    }
                         //},
 
-                        //// A delegate assigned to this property will be invoked just before validating credentials. 
+                        //// A delegate assigned to this property will be invoked just before validating the api key. 
                         //// NOTE: Same as above delegate but slightly different implementation which will give same result.
                         //OnValidateKey = async (context) =>
                         //{
-                        //    // custom code to handle credentials, create principal and call Success method on context.
+                        //    // custom code to handle the api key, create principal and call Success method on context.
                         //    var apiKeyRepository = context.HttpContext.RequestServices.GetRequiredService<IApiKeyRepository>();
                         //    var apiKey = await apiKeyRepository.GetApiKeyAsync(context.ApiKey);
                         //    var isValid = apiKey != null && apiKey.Key.Equals(context.ApiKey, StringComparison.OrdinalIgnoreCase);
