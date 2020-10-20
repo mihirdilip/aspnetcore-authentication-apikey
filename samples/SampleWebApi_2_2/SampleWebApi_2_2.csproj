@@ -6,15 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!--<PackageReference Include="AspNetCore.Authentication.ApiKey" Version="3.1.0" />-->
+    <PackageReference Include="AspNetCore.Authentication.ApiKey" Version="3.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
   </ItemGroup>
   
   <Import Project="..\SampleWebApi.Shared\SampleWebApi.Shared.projitems" Label="Shared" />
 
-  <ItemGroup>
+  <!--<ItemGroup>
     <ProjectReference Include="..\..\src\AspNetCore.Authentication.ApiKey\AspNetCore.Authentication.ApiKey.csproj" />
-  </ItemGroup>
+  </ItemGroup>-->
 
 </Project>
