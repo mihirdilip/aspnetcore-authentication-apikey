@@ -1,0 +1,131 @@
+{
+	"info": {
+		"_postman_id": "d1468654-1b2a-4caf-9380-6ae0e6d03f6f",
+		"name": "ApiKeySamplesClient",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Values No Auth",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/values",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"values"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Values",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/values",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"values"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Claims",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/values/claims",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"values",
+						"claims"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Forbid",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/values/forbid",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"values",
+						"forbid"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "Key1",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "X-API-Key",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "28b765c6-41cd-4b65-8801-02fba6cac26b",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "939052e9-9216-4135-b1c9-45ce33bcfc6f",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "c46c2023-75a9-4c27-8c41-dbb222f466af",
+			"key": "base_url",
+			"value": "https://localhost:44304/"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
