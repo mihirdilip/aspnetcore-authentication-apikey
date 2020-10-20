@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SampleWebApi_2_2.Controllers
+namespace SampleWebApi_3_1.Controllers
 {
     [Route("api/[controller]")]
 	[ApiController]

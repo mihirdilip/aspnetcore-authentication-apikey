@@ -14,12 +14,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3920/api/values",
-					"protocol": "http",
+					"raw": "{{base_url}}/api/values",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "3920",
 					"path": [
 						"api",
 						"values"
@@ -34,12 +32,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3920/api/values",
-					"protocol": "http",
+					"raw": "{{base_url}}/api/values",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "3920",
 					"path": [
 						"api",
 						"values"
@@ -54,12 +50,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3920/api/values/claims",
-					"protocol": "http",
+					"raw": "{{base_url}}/api/values/claims",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "3920",
 					"path": [
 						"api",
 						"values",
@@ -75,12 +69,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3920/api/values/forbid",
-					"protocol": "http",
+					"raw": "{{base_url}}/api/values/forbid",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "3920",
 					"path": [
 						"api",
 						"values",
@@ -126,6 +118,13 @@
 					""
 				]
 			}
+		}
+	],
+	"variable": [
+		{
+			"id": "c46c2023-75a9-4c27-8c41-dbb222f466af",
+			"key": "base_url",
+			"value": "https://localhost:44304/"
 		}
 	],
 	"protocolProfileBehavior": {}
