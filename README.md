@@ -177,6 +177,11 @@ Required to be set. It is the name of the header if it is setup as in-header or 
 
 #### Realm
 Required to be set if SuppressWWWAuthenticateHeader is not set to true. It is used with WWW-Authenticate response header when challenging un-authenticated requests.  
+
+#### ForLegacyIgnoreExtraValidatedApiKeyCheck
+Default value is false. 
+If set to true, IApiKey.Key property returned from IApiKeyProvider.ProvideAsync(string) method is not compared with the key parsed from the request.
+This extra check did not existed in the previous version. So you if want to revert back to old version validation, please set this to true.
    
 #### SuppressWWWAuthenticateHeader
 Default value is false.  
