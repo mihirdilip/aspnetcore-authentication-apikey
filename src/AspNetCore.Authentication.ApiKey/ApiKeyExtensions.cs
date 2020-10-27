@@ -66,7 +66,7 @@ namespace AspNetCore.Authentication.ApiKey
 		/// <param name="configureOptions">The configure options.</param>
 		/// <returns>The instance of <see cref="AuthenticationBuilder"/></returns>
 		public static AuthenticationBuilder AddApiKeyInHeader(this AuthenticationBuilder builder, string authenticationScheme, string displayName, Action<ApiKeyOptions> configureOptions)
-			=> builder.AddApiKey<ApiKeyInHeaderOrQueryParamsHandler>(authenticationScheme, displayName, configureOptions);
+			=> builder.AddApiKey<ApiKeyInHeaderHandler>(authenticationScheme, displayName, configureOptions);
 
 
 
@@ -127,7 +127,7 @@ namespace AspNetCore.Authentication.ApiKey
 		/// <param name="configureOptions">The <see cref="ApiKeyOptions"/>.</param>
 		/// <returns>The instance of <see cref="AuthenticationBuilder"/></returns>
 		public static AuthenticationBuilder AddApiKeyInHeader<TApiKeyProvider>(this AuthenticationBuilder builder, string authenticationScheme, string displayName, Action<ApiKeyOptions> configureOptions) where TApiKeyProvider : class, IApiKeyProvider
-			=> builder.AddApiKey<TApiKeyProvider, ApiKeyInHeaderOrQueryParamsHandler>(authenticationScheme, displayName, configureOptions);
+			=> builder.AddApiKey<TApiKeyProvider, ApiKeyInHeaderHandler>(authenticationScheme, displayName, configureOptions);
 
 		#endregion // API Key - In Header
 
@@ -183,7 +183,7 @@ namespace AspNetCore.Authentication.ApiKey
 		/// <param name="configureOptions">The configure options.</param>
 		/// <returns>The instance of <see cref="AuthenticationBuilder"/></returns>
 		public static AuthenticationBuilder AddApiKeyInQueryParams(this AuthenticationBuilder builder, string authenticationScheme, string displayName, Action<ApiKeyOptions> configureOptions)
-			=> builder.AddApiKey<ApiKeyInHeaderOrQueryParamsHandler>(authenticationScheme, displayName, configureOptions);
+			=> builder.AddApiKey<ApiKeyInQueryParamsHandler>(authenticationScheme, displayName, configureOptions);
 
 
 
@@ -244,7 +244,7 @@ namespace AspNetCore.Authentication.ApiKey
 		/// <param name="configureOptions">The <see cref="ApiKeyOptions"/>.</param>
 		/// <returns>The instance of <see cref="AuthenticationBuilder"/></returns>
 		public static AuthenticationBuilder AddApiKeyInQueryParams<TApiKeyProvider>(this AuthenticationBuilder builder, string authenticationScheme, string displayName, Action<ApiKeyOptions> configureOptions) where TApiKeyProvider : class, IApiKeyProvider
-			=> builder.AddApiKey<TApiKeyProvider, ApiKeyInHeaderOrQueryParamsHandler>(authenticationScheme, displayName, configureOptions);
+			=> builder.AddApiKey<TApiKeyProvider, ApiKeyInQueryParamsHandler>(authenticationScheme, displayName, configureOptions);
 
 		#endregion // API Key - In Query Parameters
 
