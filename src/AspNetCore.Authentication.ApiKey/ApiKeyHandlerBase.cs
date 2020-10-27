@@ -7,7 +7,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 using System;
-using System.Net.Http.Headers;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
@@ -44,17 +43,6 @@ namespace AspNetCore.Authentication.ApiKey
 			try
 			{
 				apiKey = await ParseApiKeyAsync().ConfigureAwait(false);
-
-				if (string.IsNullOrWhiteSpace(apiKey))
-                {
-					// No ApiKey found try Authorization header
-					if (Request.Headers.ContainsKey(HeaderNames.Authorization)
-						&& AuthenticationHeaderValue.TryParse(Request.Headers[HeaderNames.Authorization], out var headerValue)
-						&& headerValue.Scheme.Equals(Options.KeyName, StringComparison.OrdinalIgnoreCase))
-					{
-						apiKey = headerValue.Parameter;
-					}
-				}
 			}
 			catch (Exception exception)
 			{

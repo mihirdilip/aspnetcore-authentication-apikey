@@ -4,7 +4,10 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.Net.Http.Headers;
+using System;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
@@ -29,6 +32,15 @@ namespace AspNetCore.Authentication.ApiKey
 			if (Request.Headers.TryGetValue(Options.KeyName, out var headerValue))
 			{
 				return Task.FromResult(headerValue.FirstOrDefault());
+			}
+
+			// No ApiKey query parameter or header found then try Authorization header
+			if (Request.Headers.ContainsKey(HeaderNames.Authorization)
+					&& AuthenticationHeaderValue.TryParse(Request.Headers[HeaderNames.Authorization], out var authHeaderValue)
+					&& authHeaderValue.Scheme.Equals(Options.KeyName, StringComparison.OrdinalIgnoreCase)
+			)
+			{
+				return Task.FromResult(authHeaderValue.Parameter);
 			}
 
 			// No ApiKey found
