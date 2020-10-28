@@ -18,7 +18,7 @@ namespace AspNetCore.Authentication.ApiKey
 
 		/// <summary>
 		/// Adds API Key - In Header authentication scheme to the project.
-		/// <see cref="ApiKeyEvents.OnValidateKey"/> delegate must be set on the <see cref="ApiKeyOptions.Events"/> if an implementation of <see cref="IApiKeyProvider"/> is not registered in the dependency container.
+		/// <see cref="ApiKeyEvents.OnValidateKey"/> delegate must be set on the <see cref="ApiKeyOptions.Events"/>.
 		/// </summary>
 		/// <param name="builder"></param>
 		/// <returns>The instance of <see cref="AuthenticationBuilder"/></returns>
@@ -27,7 +27,7 @@ namespace AspNetCore.Authentication.ApiKey
 
 		/// <summary>
 		/// Adds API Key - In Header authentication scheme to the project.
-		/// <see cref="ApiKeyEvents.OnValidateKey"/> delegate must be set on the <see cref="ApiKeyOptions.Events"/> if an implementation of <see cref="IApiKeyProvider"/> is not registered in the dependency container.
+		/// <see cref="ApiKeyEvents.OnValidateKey"/> delegate must be set on the <see cref="ApiKeyOptions.Events"/>.
 		/// </summary>
 		/// <param name="builder"></param>
 		/// <param name="authenticationScheme">The authentication scheme.</param>
@@ -37,7 +37,7 @@ namespace AspNetCore.Authentication.ApiKey
 
 		/// <summary>
 		/// Adds API Key - In Header authentication scheme to the project.
-		/// <see cref="ApiKeyEvents.OnValidateKey"/> delegate must be set on the Events property on <paramref name="configureOptions"/> if an implementation of <see cref="IApiKeyProvider"/> is not registered in the dependency container.
+		/// <see cref="ApiKeyEvents.OnValidateKey"/> delegate must be set on the Events property on <paramref name="configureOptions"/>.
 		/// </summary>
 		/// <param name="builder"></param>
 		/// <param name="configureOptions">The configure options.</param>
@@ -47,7 +47,7 @@ namespace AspNetCore.Authentication.ApiKey
 
 		/// <summary>
 		/// Adds API Key - In Header authentication scheme to the project.
-		/// <see cref="ApiKeyEvents.OnValidateKey"/> delegate must be set on the Events property on <paramref name="configureOptions"/> if an implementation of <see cref="IApiKeyProvider"/> is not registered in the dependency container.
+		/// <see cref="ApiKeyEvents.OnValidateKey"/> delegate must be set on the Events property on <paramref name="configureOptions"/>.
 		/// </summary>
 		/// <param name="builder"></param>
 		/// <param name="authenticationScheme">The authentication scheme.</param>
@@ -58,7 +58,7 @@ namespace AspNetCore.Authentication.ApiKey
 
 		/// <summary>
 		/// Adds API Key - In Header authentication scheme to the project.
-		/// <see cref="ApiKeyEvents.OnValidateKey"/> delegate must be set on the Events property on <paramref name="configureOptions"/> if an implementation of <see cref="IApiKeyProvider"/> is not registered in the dependency container.
+		/// <see cref="ApiKeyEvents.OnValidateKey"/> delegate must be set on the Events property on <paramref name="configureOptions"/>.
 		/// </summary>
 		/// <param name="builder"></param>
 		/// <param name="authenticationScheme">The authentication scheme.</param>
@@ -135,7 +135,7 @@ namespace AspNetCore.Authentication.ApiKey
 
 		/// <summary>
 		/// Adds API Key - In Authorization Header authentication scheme to the project.
-		/// <see cref="ApiKeyEvents.OnValidateKey"/> delegate must be set on the <see cref="ApiKeyOptions.Events"/> if an implementation of <see cref="IApiKeyProvider"/> is not registered in the dependency container.
+		/// <see cref="ApiKeyEvents.OnValidateKey"/> delegate must be set on the <see cref="ApiKeyOptions.Events"/>.
 		/// </summary>
 		/// <param name="builder"></param>
 		/// <returns>The instance of <see cref="AuthenticationBuilder"/></returns>
@@ -144,7 +144,7 @@ namespace AspNetCore.Authentication.ApiKey
 
 		/// <summary>
 		/// Adds API Key - In Authorization Header authentication scheme to the project.
-		/// <see cref="ApiKeyEvents.OnValidateKey"/> delegate must be set on the <see cref="ApiKeyOptions.Events"/> if an implementation of <see cref="IApiKeyProvider"/> is not registered in the dependency container.
+		/// <see cref="ApiKeyEvents.OnValidateKey"/> delegate must be set on the <see cref="ApiKeyOptions.Events"/>.
 		/// </summary>
 		/// <param name="builder"></param>
 		/// <param name="authenticationScheme">The authentication scheme.</param>
@@ -154,7 +154,7 @@ namespace AspNetCore.Authentication.ApiKey
 
 		/// <summary>
 		/// Adds API Key - In Authorization Header authentication scheme to the project.
-		/// <see cref="ApiKeyEvents.OnValidateKey"/> delegate must be set on the Events property on <paramref name="configureOptions"/> if an implementation of <see cref="IApiKeyProvider"/> is not registered in the dependency container.
+		/// <see cref="ApiKeyEvents.OnValidateKey"/> delegate must be set on the Events property on <paramref name="configureOptions"/>.
 		/// </summary>
 		/// <param name="builder"></param>
 		/// <param name="configureOptions">The configure options.</param>
@@ -164,7 +164,7 @@ namespace AspNetCore.Authentication.ApiKey
 
 		/// <summary>
 		/// Adds API Key - In Authorization Header authentication scheme to the project.
-		/// <see cref="ApiKeyEvents.OnValidateKey"/> delegate must be set on the Events property on <paramref name="configureOptions"/> if an implementation of <see cref="IApiKeyProvider"/> is not registered in the dependency container.
+		/// <see cref="ApiKeyEvents.OnValidateKey"/> delegate must be set on the Events property on <paramref name="configureOptions"/>.
 		/// </summary>
 		/// <param name="builder"></param>
 		/// <param name="authenticationScheme">The authentication scheme.</param>
@@ -175,7 +175,7 @@ namespace AspNetCore.Authentication.ApiKey
 
 		/// <summary>
 		/// Adds API Key - In Authorization Header authentication scheme to the project.
-		/// <see cref="ApiKeyEvents.OnValidateKey"/> delegate must be set on the Events property on <paramref name="configureOptions"/> if an implementation of <see cref="IApiKeyProvider"/> is not registered in the dependency container.
+		/// <see cref="ApiKeyEvents.OnValidateKey"/> delegate must be set on the Events property on <paramref name="configureOptions"/>.
 		/// </summary>
 		/// <param name="builder"></param>
 		/// <param name="authenticationScheme">The authentication scheme.</param>
@@ -252,7 +252,7 @@ namespace AspNetCore.Authentication.ApiKey
 
 		/// <summary>
 		/// Adds API Key - In Query Parameters authentication scheme to the project.
-		/// <see cref="ApiKeyEvents.OnValidateKey"/> delegate must be set on the <see cref="ApiKeyOptions.Events"/> if an implementation of <see cref="IApiKeyProvider"/> is not registered in the dependency container.
+		/// <see cref="ApiKeyEvents.OnValidateKey"/> delegate must be set on the <see cref="ApiKeyOptions.Events"/>.
 		/// </summary>
 		/// <param name="builder"></param>
 		/// <returns>The instance of <see cref="AuthenticationBuilder"/></returns>
@@ -261,7 +261,7 @@ namespace AspNetCore.Authentication.ApiKey
 
 		/// <summary>
 		/// Adds API Key - In Query Parameters authentication scheme to the project.
-		/// <see cref="ApiKeyEvents.OnValidateKey"/> delegate must be set on the <see cref="ApiKeyOptions.Events"/> if an implementation of <see cref="IApiKeyProvider"/> is not registered in the dependency container.
+		/// <see cref="ApiKeyEvents.OnValidateKey"/> delegate must be set on the <see cref="ApiKeyOptions.Events"/>.
 		/// </summary>
 		/// <param name="builder"></param>
 		/// <param name="authenticationScheme">The authentication scheme.</param>
@@ -271,7 +271,7 @@ namespace AspNetCore.Authentication.ApiKey
 
 		/// <summary>
 		/// Adds API Key - In Query Parameters authentication scheme to the project.
-		/// <see cref="ApiKeyEvents.OnValidateKey"/> delegate must be set on the Events property on <paramref name="configureOptions"/> if an implementation of <see cref="IApiKeyProvider"/> is not registered in the dependency container.
+		/// <see cref="ApiKeyEvents.OnValidateKey"/> delegate must be set on the Events property on <paramref name="configureOptions"/>.
 		/// </summary>
 		/// <param name="builder"></param>
 		/// <param name="configureOptions">The configure options.</param>
@@ -281,7 +281,7 @@ namespace AspNetCore.Authentication.ApiKey
 
 		/// <summary>
 		/// Adds API Key - In Query Parameters authentication scheme to the project.
-		/// <see cref="ApiKeyEvents.OnValidateKey"/> delegate must be set on the Events property on <paramref name="configureOptions"/> if an implementation of <see cref="IApiKeyProvider"/> is not registered in the dependency container.
+		/// <see cref="ApiKeyEvents.OnValidateKey"/> delegate must be set on the Events property on <paramref name="configureOptions"/>.
 		/// </summary>
 		/// <param name="builder"></param>
 		/// <param name="authenticationScheme">The authentication scheme.</param>
@@ -292,7 +292,7 @@ namespace AspNetCore.Authentication.ApiKey
 
 		/// <summary>
 		/// Adds API Key - In Query Parameters authentication scheme to the project.
-		/// <see cref="ApiKeyEvents.OnValidateKey"/> delegate must be set on the Events property on <paramref name="configureOptions"/> if an implementation of <see cref="IApiKeyProvider"/> is not registered in the dependency container.
+		/// <see cref="ApiKeyEvents.OnValidateKey"/> delegate must be set on the Events property on <paramref name="configureOptions"/>.
 		/// </summary>
 		/// <param name="builder"></param>
 		/// <param name="authenticationScheme">The authentication scheme.</param>
@@ -369,7 +369,7 @@ namespace AspNetCore.Authentication.ApiKey
 
 		/// <summary>
 		/// Adds API Key - In Header Or Query Parameters authentication scheme to the project.
-		/// <see cref="ApiKeyEvents.OnValidateKey"/> delegate must be set on the <see cref="ApiKeyOptions.Events"/> if an implementation of <see cref="IApiKeyProvider"/> is not registered in the dependency container.
+		/// <see cref="ApiKeyEvents.OnValidateKey"/> delegate must be set on the <see cref="ApiKeyOptions.Events"/>.
 		/// </summary>
 		/// <param name="builder"></param>
 		/// <returns>The instance of <see cref="AuthenticationBuilder"/></returns>
@@ -378,7 +378,7 @@ namespace AspNetCore.Authentication.ApiKey
 
 		/// <summary>
 		/// Adds API Key - In Header Or Query Parameters authentication scheme to the project.
-		/// <see cref="ApiKeyEvents.OnValidateKey"/> delegate must be set on the <see cref="ApiKeyOptions.Events"/> if an implementation of <see cref="IApiKeyProvider"/> is not registered in the dependency container.
+		/// <see cref="ApiKeyEvents.OnValidateKey"/> delegate must be set on the <see cref="ApiKeyOptions.Events"/>.
 		/// </summary>
 		/// <param name="builder"></param>
 		/// <param name="authenticationScheme">The authentication scheme.</param>
@@ -388,7 +388,7 @@ namespace AspNetCore.Authentication.ApiKey
 
 		/// <summary>
 		/// Adds API Key - In Header Or Query Parameters authentication scheme to the project.
-		/// <see cref="ApiKeyEvents.OnValidateKey"/> delegate must be set on the Events property on <paramref name="configureOptions"/> if an implementation of <see cref="IApiKeyProvider"/> is not registered in the dependency container.
+		/// <see cref="ApiKeyEvents.OnValidateKey"/> delegate must be set on the Events property on <paramref name="configureOptions"/>.
 		/// </summary>
 		/// <param name="builder"></param>
 		/// <param name="configureOptions">The configure options.</param>
@@ -398,7 +398,7 @@ namespace AspNetCore.Authentication.ApiKey
 
 		/// <summary>
 		/// Adds API Key - In Header Or Query Parameters authentication scheme to the project.
-		/// <see cref="ApiKeyEvents.OnValidateKey"/> delegate must be set on the Events property on <paramref name="configureOptions"/> if an implementation of <see cref="IApiKeyProvider"/> is not registered in the dependency container.
+		/// <see cref="ApiKeyEvents.OnValidateKey"/> delegate must be set on the Events property on <paramref name="configureOptions"/>.
 		/// </summary>
 		/// <param name="builder"></param>
 		/// <param name="authenticationScheme">The authentication scheme.</param>
@@ -409,7 +409,7 @@ namespace AspNetCore.Authentication.ApiKey
 
 		/// <summary>
 		/// Adds API Key - In Header Or Query Parameters authentication scheme to the project.
-		/// <see cref="ApiKeyEvents.OnValidateKey"/> delegate must be set on the Events property on <paramref name="configureOptions"/> if an implementation of <see cref="IApiKeyProvider"/> is not registered in the dependency container.
+		/// <see cref="ApiKeyEvents.OnValidateKey"/> delegate must be set on the Events property on <paramref name="configureOptions"/>.
 		/// </summary>
 		/// <param name="builder"></param>
 		/// <param name="authenticationScheme">The authentication scheme.</param>
