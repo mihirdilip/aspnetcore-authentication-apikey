@@ -178,21 +178,28 @@ namespace AspNetCore.Authentication.ApiKey
 
 		private async Task<IApiKey> ValidateUsingApiKeyProviderAsync(string apiKey)
 		{
-			var apiKeyProvider = Context.RequestServices.GetService<IApiKeyProvider>();
-			if (apiKeyProvider == null)
-			{
-				if (Options.ApiKeyProviderType != null)
-				{
-					apiKeyProvider = Context.RequestServices.GetService(Options.ApiKeyProviderType) as IApiKeyProvider;
-				}
-
-				if (apiKeyProvider == null)
-				{
-					throw new InvalidOperationException($"Either {nameof(Options.Events.OnValidateKey)} delegate on configure options {nameof(Options.Events)} should be set or an implementaion of {nameof(IApiKeyProvider)} should be registered in the dependency container.");
-				}
+			IApiKeyProvider apiKeyProvider = null;
+			if (Options.ApiKeyProviderType != null)
+            {
+				apiKeyProvider = ActivatorUtilities.GetServiceOrCreateInstance(Context.RequestServices, Options.ApiKeyProviderType) as IApiKeyProvider;
 			}
 
-			return await apiKeyProvider.ProvideAsync(apiKey).ConfigureAwait(false);
+			if (apiKeyProvider == null)
+			{
+				throw new InvalidOperationException($"Either {nameof(Options.Events.OnValidateKey)} delegate on configure options {nameof(Options.Events)} should be set or use an extention method with type parameter of type {nameof(IApiKeyProvider)}.");
+			}
+
+            try
+            {
+				return await apiKeyProvider.ProvideAsync(apiKey).ConfigureAwait(false);
+			}
+            finally
+            {
+				if (apiKeyProvider is IDisposable disposableApiKeyProvider)
+                {
+					disposableApiKeyProvider.Dispose();
+                }
+            }
 		}
 	}
 }

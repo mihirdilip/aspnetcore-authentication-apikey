@@ -25,7 +25,7 @@ namespace AspNetCore.Authentication.ApiKey
 
 			if (options.Events?.OnValidateKey == null && options.EventsType == null && options.ApiKeyProviderType == null)
 			{
-				throw new InvalidOperationException($"Either {nameof(options.Events.OnValidateKey)} delegate on {nameof(options.Events)} property of configure options {typeof(ApiKeyOptions).Name} should be set or an implementaion of {typeof(IApiKeyProvider).Name} should be registered in the dependency container.");
+				throw new InvalidOperationException($"Either {nameof(ApiKeyOptions.Events.OnValidateKey)} delegate on configure options {nameof(ApiKeyOptions.Events)} should be set or use an extention method with type parameter of type {nameof(IApiKeyProvider)}.");
 			}
 		}
 	}
