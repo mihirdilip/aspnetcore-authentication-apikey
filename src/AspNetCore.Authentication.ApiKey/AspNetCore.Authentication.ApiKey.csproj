@@ -2,16 +2,13 @@
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.1;netcoreapp3.0;netstandard2.0;net461</TargetFrameworks>
-    <Version>3.1.0</Version>
-    <RepositoryUrl>https://github.com/mihirdilip/aspnetcore-authentication-apiKey/tree/3.1.0</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/mihirdilip/aspnetcore-authentication-apiKey/tree/3.1.0</PackageProjectUrl>
+    <Version>3.1.1</Version>
+    <RepositoryUrl>https://github.com/mihirdilip/aspnetcore-authentication-apiKey/tree/$(Version)</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/mihirdilip/aspnetcore-authentication-apiKey/tree/$(Version)</PackageProjectUrl>
     <PackageTags>aspnetcore, security, authentication, microsoft, microsoft.aspnetcore.authentication, microsoft-aspnetcore-authentication, microsoft.aspnetcore.authentication.apikey, microsoft-aspnetcore-authentication-apikey, asp-net-core, netstandard, netstandard20, apikey-authentication, api-key-authentication, apikeyauthentication, dotnetcore, dotnetcore3.1, asp-net-core-apikey-authentication, aspnetcore-apikey-authentication, asp-net-core-authentication, aspnetcore-authentication, asp, aspnet, apikey, api-key, authentication-scheme</PackageTags>
-    <PackageReleaseNotes>- Multitarget framework support added
-- Strong Name Key support added
-- Source Link support added
-- SuppressWWWAuthenticateHeader added to configure options
-- ForLegacyIgnoreExtraValidatedApiKeyCheck added to configure options
-- Events added to configure options
+    <PackageReleaseNotes>- Ability to have ApiKey in Authorization header added
+- Fixed extensions methods to use correct handler
+- Fixed issue with resolving of IApiKeyProvider implementation when using multiple schemes
     </PackageReleaseNotes>
     <Description>Easy to use and very light weight Microsoft style API Key Authentication Implementation for ASP.NET Core. It can be setup so that it can accept API Key either in Header, QueryParams or HeaderOrQueryParams.</Description>
     <Authors>Mihir Dilip</Authors>
