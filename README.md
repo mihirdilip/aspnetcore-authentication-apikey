@@ -54,11 +54,11 @@ public class Startup
 		services.AddControllers();
 
 		//// By default, authentication is not challenged for every request which is ASP.NET Core's default intended behaviour.
-		//// So to challenge authentication for every requests please use below option instead of above services.AddControllers().
-		//services.AddControllers(options => 
-		//{
-		//	options.Filters.Add(new AuthorizeFilter(new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build()));
-		//});
+		//// So to challenge authentication for every requests please use below FallbackPolicy option.
+        //services.AddAuthorization(options =>
+        //{
+        //    options.FallbackPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+        //});
 	}
 
 	public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -178,15 +178,19 @@ Required to be set. It is the name of the header if it is setup as in-header or 
 #### Realm
 Required to be set if SuppressWWWAuthenticateHeader is not set to true. It is used with WWW-Authenticate response header when challenging un-authenticated requests.  
 
-#### ForLegacyIgnoreExtraValidatedApiKeyCheck
-Default value is false. 
-If set to true, IApiKey.Key property returned from IApiKeyProvider.ProvideAsync(string) method is not compared with the key parsed from the request.
-This extra check did not existed in the previous version. So you if want to revert back to old version validation, please set this to true.
-   
 #### SuppressWWWAuthenticateHeader
 Default value is false.  
 When set to true, it will NOT return WWW-Authenticate response header when challenging un-authenticated requests.  
 When set to false, it will return WWW-Authenticate response header when challenging un-authenticated requests.
+
+#### IgnoreAuthenticationIfAllowAnonymous
+Default value is false.  
+If set to true, it checks if AllowAnonymous filter on controller action or metadata on the endpoint which, if found, it does not try to authenticate the request.
+
+#### ForLegacyIgnoreExtraValidatedApiKeyCheck
+Default value is false. 
+If set to true, IApiKey.Key property returned from IApiKeyProvider.ProvideAsync(string) method is not compared with the key parsed from the request.
+This extra check did not existed in the previous version. So you if want to revert back to old version validation, please set this to true.
 
 #### Events
 The object provided by the application to process events raised by the api key authentication middleware.  
@@ -222,9 +226,9 @@ Please note that, by default, with ASP.NET Core, all the requests are not challe
 However, if you want all the requests to challenge authentication by default, depending on what you are using, you can add the below options line to *ConfigureServices* method on *Startup* class.
 
 ```C#
-services.AddControllers(options => 
-{ 
-    options.Filters.Add(new AuthorizeFilter(new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build()));
+services.AddAuthorization(options =>
+{
+    options.FallbackPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
 });
 
 // OR

@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE file in the project root for license information.
 
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -39,6 +40,12 @@ namespace AspNetCore.Authentication.ApiKey
 
 		protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
 		{
+			if (IgnoreAuthenticationIfAllowAnonymous())
+            {
+				Logger.LogInformation("AllowAnonymous found on the endpoint so request was not authenticated.");
+				return AuthenticateResult.NoResult();
+			}
+
 			var apiKey = string.Empty;
 			try
 			{
@@ -200,6 +207,16 @@ namespace AspNetCore.Authentication.ApiKey
 					disposableApiKeyProvider.Dispose();
                 }
             }
+		}
+
+		private bool IgnoreAuthenticationIfAllowAnonymous()
+		{
+#if (NET461 || NETSTANDARD2_0)
+			return false;
+#else
+			return Options.IgnoreAuthenticationIfAllowAnonymous
+				&& Context.GetEndpoint()?.Metadata?.GetMetadata<Microsoft.AspNetCore.Authorization.IAllowAnonymous>() != null;
+#endif
 		}
 	}
 }
