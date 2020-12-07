@@ -55,10 +55,10 @@ public class Startup
 
 		//// By default, authentication is not challenged for every request which is ASP.NET Core's default intended behaviour.
 		//// So to challenge authentication for every requests please use below FallbackPolicy option.
-        //services.AddAuthorization(options =>
-        //{
-        //    options.FallbackPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
-        //});
+		//services.AddAuthorization(options =>
+		//{
+		//	options.FallbackPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+		//});
 	}
 
 	public void Configure(IApplicationBuilder app, IHostingEnvironment env)
