@@ -40,8 +40,7 @@ namespace AspNetCore.Authentication.ApiKey
         /// <exception cref="ArgumentNullException"></exception>
         public void ReplacePrincipal(ClaimsPrincipal principal)
         {
-            if (principal == null) throw new ArgumentNullException(nameof(principal));
-            base.Principal = principal;
+            base.Principal = principal ?? throw new ArgumentNullException(nameof(principal));
         }
 
         /// <summary>

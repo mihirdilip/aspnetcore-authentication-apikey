@@ -50,6 +50,14 @@ namespace AspNetCore.Authentication.ApiKey
         /// </summary>
         public bool ForLegacyIgnoreExtraValidatedApiKeyCheck { get; set; }
 
+#if !(NET461 || NETSTANDARD2_0)
+        /// <summary>
+        /// Default value is false.
+        /// If set to true, it checks if AllowAnonymous filter on controller action or metadata on the endpoint which, if found, it does not try to authenticate the request.
+        /// </summary>
+        public bool IgnoreAuthenticationIfAllowAnonymous { get; set; }
+#endif
+
         internal Type ApiKeyProviderType { get; set; } = null;
     }
 }

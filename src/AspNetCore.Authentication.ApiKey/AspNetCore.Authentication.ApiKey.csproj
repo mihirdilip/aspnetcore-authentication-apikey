@@ -1,16 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;netcoreapp3.0;netstandard2.0;net461</TargetFrameworks>
-    <Version>3.1.1</Version>
+    <TargetFrameworks>net5.0;netcoreapp3.1;netcoreapp3.0;netstandard2.0;net461</TargetFrameworks>
+    <Version>5.0.0</Version>
     <RepositoryUrl>https://github.com/mihirdilip/aspnetcore-authentication-apiKey/tree/$(Version)</RepositoryUrl>
     <PackageProjectUrl>https://github.com/mihirdilip/aspnetcore-authentication-apiKey/tree/$(Version)</PackageProjectUrl>
-    <PackageTags>aspnetcore, security, authentication, microsoft, microsoft.aspnetcore.authentication, microsoft-aspnetcore-authentication, microsoft.aspnetcore.authentication.apikey, microsoft-aspnetcore-authentication-apikey, asp-net-core, netstandard, netstandard20, apikey-authentication, api-key-authentication, apikeyauthentication, dotnetcore, dotnetcore3.1, asp-net-core-apikey-authentication, aspnetcore-apikey-authentication, asp-net-core-authentication, aspnetcore-authentication, asp, aspnet, apikey, api-key, authentication-scheme</PackageTags>
-    <PackageReleaseNotes>- Ability to have ApiKey in Authorization header added
-- Fixed extensions methods to use correct handler
-- Fixed issue with resolving of IApiKeyProvider implementation when using multiple schemes
+    <PackageTags>aspnetcore, security, authentication, microsoft, microsoft.aspnetcore.authentication, microsoft-aspnetcore-authentication, microsoft.aspnetcore.authentication.apikey, microsoft-aspnetcore-authentication-apikey, asp-net-core, netstandard, netstandard20, apikey-authentication, api-key-authentication, apikeyauthentication, dotnetcore, dotnetcore3.1, net5, asp-net-core-apikey-authentication, aspnetcore-apikey-authentication, net5-apikey-authentication, asp-net-core-authentication, aspnetcore-authentication, net5-authentication, asp, aspnet, apikey, api-key, authentication-scheme</PackageTags>
+    <PackageReleaseNotes>- Net 5.0 target framework added
+- IgnoreAuthenticationIfAllowAnonymous added to the ApiKeyOptions from netcoreapp3.0 onwards
     </PackageReleaseNotes>
-    <Description>Easy to use and very light weight Microsoft style API Key Authentication Implementation for ASP.NET Core. It can be setup so that it can accept API Key either in Header, QueryParams or HeaderOrQueryParams.</Description>
+    <Description>Easy to use and very light weight Microsoft style API Key Authentication Implementation for ASP.NET Core. It can be setup so that it can accept API Key either in Header, Authorization Header, QueryParams or HeaderOrQueryParams.</Description>
     <Authors>Mihir Dilip</Authors>
     <Company>Mihir Dilip</Company>
     <Copyright>Copyright (c) 2020 Mihir Dilip</Copyright>
@@ -21,6 +20,7 @@
     <NeutralLanguage />
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -52,7 +52,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0' Or '$(TargetFramework)' == 'netcoreapp3.1'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0' Or '$(TargetFramework)' == 'netcoreapp3.1' Or '$(TargetFramework)' == 'net5.0'">
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
