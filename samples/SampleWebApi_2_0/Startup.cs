@@ -17,19 +17,19 @@ using System.Threading.Tasks;
 namespace SampleWebApi
 {
     public class Startup
-	{
-		public Startup(IConfiguration configuration)
-		{
-			Configuration = configuration;
-		}
+    {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
 
-		public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; }
 
-		// This method gets called by the runtime. Use this method to add services to the container.
-		public void ConfigureServices(IServiceCollection services)
-		{
-			// Add User repository to the dependency container.
-			services.AddTransient<IApiKeyRepository, InMemoryApiKeyRepository>();
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
+        {
+            // Add User repository to the dependency container.
+            services.AddTransient<IApiKeyRepository, InMemoryApiKeyRepository>();
 
             // Add the ApiKey scheme authentication here..
             // It requires Realm to be set in the options if SuppressWWWAuthenticateHeader is not set.
@@ -150,32 +150,32 @@ namespace SampleWebApi
                 });
 
             services.AddMvc(options =>
-				{
-					// ALWAYS USE HTTPS (SSL) protocol in production when using ApiKey authentication.
-					//options.Filters.Add<RequireHttpsAttribute>();
+            {
+                // ALWAYS USE HTTPS (SSL) protocol in production when using ApiKey authentication.
+                //options.Filters.Add<RequireHttpsAttribute>();
 
-					// All the requests will need to be authorized. 
-					// Alternatively, add [Authorize] attribute to Controller or Action Method where necessary.
-					options.Filters.Add(new AuthorizeFilter(new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build()));
-				}
-			); //.AddXmlSerializerFormatters();	// To enable XML along with JSON
-		}
+                // All the requests will need to be authorized. 
+                // Alternatively, add [Authorize] attribute to Controller or Action Method where necessary.
+                options.Filters.Add(new AuthorizeFilter(new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build()));
+            }
+            ); //.AddXmlSerializerFormatters();	// To enable XML along with JSON
+        }
 
-		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-		{
-			if (env.IsDevelopment())
-			{
-				app.UseDeveloperExceptionPage();
-			}
-			else
-			{
-				// ALWAYS USE HTTPS (SSL) protocol in production when using ApiKey authentication.
-				app.UseRewriter(new RewriteOptions().AddRedirectToHttpsPermanent());
-			}
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                // ALWAYS USE HTTPS (SSL) protocol in production when using ApiKey authentication.
+                app.UseRewriter(new RewriteOptions().AddRedirectToHttpsPermanent());
+            }
 
-			app.UseAuthentication();
-			app.UseMvc();
-		}
-	}
+            app.UseAuthentication();
+            app.UseMvc();
+        }
+    }
 }

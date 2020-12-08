@@ -7,7 +7,7 @@ namespace SampleWebApi.Repositories
     /// NOTE: DO NOT USE THIS IMPLEMENTATION. THIS IS FOR DEMO PURPOSE ONLY
     /// </summary>
     public interface IApiKeyRepository
-	{
-		Task<IApiKey> GetApiKeyAsync(string key);
-	}
+    {
+        Task<IApiKey> GetApiKeyAsync(string key);
+    }
 }

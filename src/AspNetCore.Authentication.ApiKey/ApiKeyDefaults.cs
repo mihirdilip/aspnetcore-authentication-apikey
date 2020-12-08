@@ -3,10 +3,10 @@
 
 namespace AspNetCore.Authentication.ApiKey
 {
-    /// <summary>
-    /// Default values used by api key authentication.
-    /// </summary>
-    public static class ApiKeyDefaults
+	/// <summary>
+	/// Default values used by api key authentication.
+	/// </summary>
+	public static class ApiKeyDefaults
 	{
 		/// <summary>
 		/// Default value for AuthenticationScheme 

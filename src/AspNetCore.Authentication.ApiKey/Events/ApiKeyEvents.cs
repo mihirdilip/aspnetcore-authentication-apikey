@@ -9,7 +9,7 @@ namespace AspNetCore.Authentication.ApiKey
     /// <summary>
     /// ApiKey Events.
     /// </summary>
-    public class ApiKeyEvents 
+    public class ApiKeyEvents
     {
         /// <summary>
         /// A delegate assigned to this property will be invoked just before validating api key. 
@@ -34,7 +34,7 @@ namespace AspNetCore.Authentication.ApiKey
         /// <summary>
         /// A delegate assigned to this property will be invoked when the authentication fails.
         /// </summary>
-        public Func<ApiKeyAuthenticationFailedContext, Task> OnAuthenticationFailed { get; set; } 
+        public Func<ApiKeyAuthenticationFailedContext, Task> OnAuthenticationFailed { get; set; }
 
         /// <summary>
         /// A delegate assigned to this property will be invoked before a challenge is sent back to the caller when handling unauthorized response.
@@ -46,7 +46,7 @@ namespace AspNetCore.Authentication.ApiKey
         /// changing the 401 result to 302 of a login page or external sign-in location.)
         /// Call context.Handled() at the end so that any default logic for this challenge will be skipped.
         /// </remarks>
-        public Func<ApiKeyHandleChallengeContext, Task> OnHandleChallenge { get; set; } 
+        public Func<ApiKeyHandleChallengeContext, Task> OnHandleChallenge { get; set; }
 
         /// <summary>
         /// A delegate assigned to this property will be invoked if Authorization fails and results in a Forbidden response.
@@ -56,7 +56,7 @@ namespace AspNetCore.Authentication.ApiKey
         /// Set the delegate to handle Forbid.
         /// Call context.Handled() at the end so that any default logic will be skipped.
         /// </remarks>
-        public Func<ApiKeyHandleForbiddenContext, Task> OnHandleForbidden { get; set; } 
+        public Func<ApiKeyHandleForbiddenContext, Task> OnHandleForbidden { get; set; }
 
 
 

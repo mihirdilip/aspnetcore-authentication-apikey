@@ -8,11 +8,11 @@ using System.Security.Claims;
 
 namespace AspNetCore.Authentication.ApiKey
 {
-    /// <summary>
-    /// Utility class.
-    /// </summary>
-    internal static class ApiKeyUtils
-    {
+	/// <summary>
+	/// Utility class.
+	/// </summary>
+	internal static class ApiKeyUtils
+	{
 		/// <summary>
 		/// Builds Claims Principal from the provided information. 
 		/// If the <paramref name="claims"/> does not have claim of type <see cref="ClaimTypes.NameIdentifier"/> then <paramref name="ownerName"/> will be added as claim of type <see cref="ClaimTypes.NameIdentifier"/>.

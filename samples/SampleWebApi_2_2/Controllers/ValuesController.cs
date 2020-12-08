@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SampleWebApi_2_2.Controllers
 {
-    [Route("api/[controller]")]
+	[Route("api/[controller]")]
 	[ApiController]
 	public class ValuesController : ControllerBase
 	{

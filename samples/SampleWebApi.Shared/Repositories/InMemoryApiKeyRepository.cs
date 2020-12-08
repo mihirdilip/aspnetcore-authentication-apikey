@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace SampleWebApi.Repositories
 {
-    /// <summary>
-    /// NOTE: DO NOT USE THIS IMPLEMENTATION. THIS IS FOR DEMO PURPOSE ONLY
-    /// </summary>
-    public class InMemoryApiKeyRepository : IApiKeyRepository
+	/// <summary>
+	/// NOTE: DO NOT USE THIS IMPLEMENTATION. THIS IS FOR DEMO PURPOSE ONLY
+	/// </summary>
+	public class InMemoryApiKeyRepository : IApiKeyRepository
 	{
 		private List<IApiKey> _cache = new List<IApiKey>
 		{

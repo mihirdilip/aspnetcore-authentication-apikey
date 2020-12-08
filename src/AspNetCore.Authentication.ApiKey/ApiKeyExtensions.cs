@@ -9,10 +9,10 @@ using System;
 
 namespace AspNetCore.Authentication.ApiKey
 {
-    /// <summary>
-    /// Extension methods for api key authentication.
-    /// </summary>
-    public static class ApiKeyExtensions
+	/// <summary>
+	/// Extension methods for api key authentication.
+	/// </summary>
+	public static class ApiKeyExtensions
 	{
 		#region API Key - In Header
 
@@ -419,7 +419,7 @@ namespace AspNetCore.Authentication.ApiKey
 		public static AuthenticationBuilder AddApiKeyInHeaderOrQueryParams(this AuthenticationBuilder builder, string authenticationScheme, string displayName, Action<ApiKeyOptions> configureOptions)
 			=> builder.AddApiKey<ApiKeyInHeaderOrQueryParamsHandler>(authenticationScheme, displayName, configureOptions);
 
-		
+
 
 
 

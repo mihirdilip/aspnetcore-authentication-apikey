@@ -13,12 +13,12 @@ using System.Threading.Tasks;
 
 namespace AspNetCore.Authentication.ApiKey
 {
-    /// <summary>
-    /// Inherited from <see cref="AuthenticationHandler{TOptions}"/> for api key authentication.
-    /// </summary>
-    internal abstract class ApiKeyHandlerBase : AuthenticationHandler<ApiKeyOptions>
+	/// <summary>
+	/// Inherited from <see cref="AuthenticationHandler{TOptions}"/> for api key authentication.
+	/// </summary>
+	internal abstract class ApiKeyHandlerBase : AuthenticationHandler<ApiKeyOptions>
 	{
-		protected ApiKeyHandlerBase(IOptionsMonitor<ApiKeyOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock) 
+		protected ApiKeyHandlerBase(IOptionsMonitor<ApiKeyOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock)
 			: base(options, logger, encoder, clock)
 		{
 		}
@@ -41,7 +41,7 @@ namespace AspNetCore.Authentication.ApiKey
 		protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
 		{
 			if (IgnoreAuthenticationIfAllowAnonymous())
-            {
+			{
 				Logger.LogInformation("AllowAnonymous found on the endpoint so request was not authenticated.");
 				return AuthenticateResult.NoResult();
 			}
@@ -58,10 +58,10 @@ namespace AspNetCore.Authentication.ApiKey
 			}
 
 			if (string.IsNullOrWhiteSpace(apiKey))
-            {
+			{
 				Logger.LogInformation("No Api Key found in the request.");
 				return AuthenticateResult.NoResult();
-            }
+			}
 
 			try
 			{
@@ -187,7 +187,7 @@ namespace AspNetCore.Authentication.ApiKey
 		{
 			IApiKeyProvider apiKeyProvider = null;
 			if (Options.ApiKeyProviderType != null)
-            {
+			{
 				apiKeyProvider = ActivatorUtilities.GetServiceOrCreateInstance(Context.RequestServices, Options.ApiKeyProviderType) as IApiKeyProvider;
 			}
 
@@ -196,17 +196,17 @@ namespace AspNetCore.Authentication.ApiKey
 				throw new InvalidOperationException($"Either {nameof(Options.Events.OnValidateKey)} delegate on configure options {nameof(Options.Events)} should be set or use an extention method with type parameter of type {nameof(IApiKeyProvider)}.");
 			}
 
-            try
-            {
+			try
+			{
 				return await apiKeyProvider.ProvideAsync(apiKey).ConfigureAwait(false);
 			}
-            finally
-            {
+			finally
+			{
 				if (apiKeyProvider is IDisposable disposableApiKeyProvider)
-                {
+				{
 					disposableApiKeyProvider.Dispose();
-                }
-            }
+				}
+			}
 		}
 
 		private bool IgnoreAuthenticationIfAllowAnonymous()

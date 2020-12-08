@@ -10,7 +10,7 @@ namespace AspNetCore.Authentication.ApiKey
     /// Inherited from <see cref="AuthenticationSchemeOptions"/> to allow extra option properties for 'ApiKey' authentication.
     /// </summary>
     public class ApiKeyOptions : AuthenticationSchemeOptions
-	{
+    {
         /// <summary>
         /// This is required property. It is the name of the header or query parameter of the API Key.
         /// </summary>

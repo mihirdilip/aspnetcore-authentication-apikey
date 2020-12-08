@@ -184,7 +184,7 @@ namespace SampleWebApi_3_1
 
             app.UseHttpsRedirection();
             app.UseRouting();
-            
+
             app.UseAuthentication();    // NOTE: DEFAULT TEMPLATE DOES NOT HAVE THIS, THIS LINE IS REQUIRED AND HAS TO BE ADDED!!!
 
             app.UseAuthorization();

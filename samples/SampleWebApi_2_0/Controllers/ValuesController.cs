@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SampleWebApi_2_2.Controllers
 {
-    [Route("api/[controller]")]
+	[Route("api/[controller]")]
 	public class ValuesController : ControllerBase
 	{
 		// GET api/values
@@ -16,14 +16,14 @@ namespace SampleWebApi_2_2.Controllers
 
 		[HttpGet("claims")]
 		public string Claims()
-        {
+		{
 			var sb = new StringBuilder();
-            foreach (var claim in User.Claims)
-            {
+			foreach (var claim in User.Claims)
+			{
 				sb.AppendLine($"{claim.Type}: {claim.Value}");
-            }
+			}
 			return sb.ToString();
-        }
+		}
 
 		[HttpGet("forbid")]
 		public new IActionResult Forbid()

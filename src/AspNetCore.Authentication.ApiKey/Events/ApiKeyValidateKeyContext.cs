@@ -21,7 +21,7 @@ namespace AspNetCore.Authentication.ApiKey
         /// <param name="scheme"></param>
         /// <param name="options"></param>
         /// <param name="apiKey"></param>
-        public ApiKeyValidateKeyContext(HttpContext context, AuthenticationScheme scheme, ApiKeyOptions options, string apiKey) 
+        public ApiKeyValidateKeyContext(HttpContext context, AuthenticationScheme scheme, ApiKeyOptions options, string apiKey)
             : base(context, scheme, options)
         {
             ApiKey = apiKey;
@@ -61,7 +61,7 @@ namespace AspNetCore.Authentication.ApiKey
         /// otherwise, <see cref="ResultContext{TOptions}.Fail(string)"/> method will be called.
         /// </summary>
         /// <param name="failureMessage">(Optional) The failure message.</param>
-        public void ValidationFailed(string failureMessage = null) 
+        public void ValidationFailed(string failureMessage = null)
         {
             if (string.IsNullOrWhiteSpace(failureMessage))
             {

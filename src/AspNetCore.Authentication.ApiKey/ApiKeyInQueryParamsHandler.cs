@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace AspNetCore.Authentication.ApiKey
 {
-    internal class ApiKeyInQueryParamsHandler : ApiKeyHandlerBase
+	internal class ApiKeyInQueryParamsHandler : ApiKeyHandlerBase
 	{
 		public ApiKeyInQueryParamsHandler(IOptionsMonitor<ApiKeyOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock)
 			: base(options, logger, encoder, clock)
@@ -18,7 +18,7 @@ namespace AspNetCore.Authentication.ApiKey
 		}
 
 		protected override Task<string> ParseApiKeyAsync()
-        {
+		{
 			if (Request.Query.TryGetValue(Options.KeyName, out var value))
 			{
 				return Task.FromResult(value.FirstOrDefault());
@@ -27,5 +27,5 @@ namespace AspNetCore.Authentication.ApiKey
 			// No ApiKey query parameter found
 			return Task.FromResult(string.Empty);
 		}
-    }
+	}
 }
