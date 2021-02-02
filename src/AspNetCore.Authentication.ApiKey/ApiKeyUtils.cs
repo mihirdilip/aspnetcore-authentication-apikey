@@ -25,8 +25,9 @@ namespace AspNetCore.Authentication.ApiKey
 		/// <returns></returns>
 		internal static ClaimsPrincipal BuildClaimsPrincipal(string ownerName, string schemeName, string claimsIssuer, IEnumerable<Claim> claims = null)
 		{
-			var claimsList = new List<Claim>();
+			if (string.IsNullOrWhiteSpace(schemeName)) throw new ArgumentNullException(nameof(schemeName));
 
+			var claimsList = new List<Claim>();
 			if (claims != null) claimsList.AddRange(claims);
 
 			if (!string.IsNullOrWhiteSpace(ownerName))
