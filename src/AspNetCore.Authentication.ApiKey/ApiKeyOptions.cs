@@ -11,6 +11,11 @@ namespace AspNetCore.Authentication.ApiKey
     /// </summary>
     public class ApiKeyOptions : AuthenticationSchemeOptions
     {
+        public ApiKeyOptions()
+        {
+            Events = new ApiKeyEvents();
+        }
+
         /// <summary>
         /// This is required property. It is the name of the header or query parameter of the API Key.
         /// </summary>
