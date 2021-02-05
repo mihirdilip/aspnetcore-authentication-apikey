@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿// Copyright (c) Mihir Dilip. All rights reserved.
+// Licensed under the MIT License. See LICENSE file in the project root for license information.
+
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
