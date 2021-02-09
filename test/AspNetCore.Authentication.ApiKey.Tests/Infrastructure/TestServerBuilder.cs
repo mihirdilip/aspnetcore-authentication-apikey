@@ -16,6 +16,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Infrastructure
     partial class TestServerBuilder
     {
         internal static string BaseUrl = "http://localhost/";
+        internal static string AnonymousUrl = "http://localhost/anonymous";
         internal static string Realm = "ApiKeyTests";
 
         internal static TestServer BuildInAuthorizationHeaderServer(Action<ApiKeyOptions> configureOptions = null)
@@ -147,12 +148,17 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Infrastructure
                                 {
                                     await context.Response.WriteAsync("Hello World!");
                                 }).RequireAuthorization();
+
+                                endpoints.MapGet("/anonymous", async context =>
+                                {
+                                    await context.Response.WriteAsync("Hello Anonymous World!");
+                                }).WithMetadata(new Microsoft.AspNetCore.Authorization.AllowAnonymousAttribute());
                             });
                         }
 
 #else
 
-					    app.UseAuthentication();
+                        app.UseAuthentication();
 
                         if (configure != null)
                         {
@@ -165,6 +171,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Infrastructure
                                 if (!context.User.Identity.IsAuthenticated)
                                 {
                                     await context.ChallengeAsync();
+                                    return;
                                 }
                                 await context.Response.WriteAsync("Hello World!");
                             });

@@ -50,10 +50,13 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 			Assert.NotNull(scheme);
 			Assert.Equal(typeof(ApiKeyInQueryParamsHandler), scheme.HandlerType);
 
-            var apiKeyOptions = services.GetService<IOptionsSnapshot<ApiKeyOptions>>();
-            Assert.NotNull(apiKeyOptions.Get(scheme.Name)?.Events?.OnValidateKey);
+			var apiKeyOptionsSnapshot = services.GetService<IOptionsSnapshot<ApiKeyOptions>>();
+			var apiKeyOptions = apiKeyOptionsSnapshot.Get(scheme.Name);
+			Assert.NotNull(apiKeyOptions);
+			Assert.NotNull(apiKeyOptions.Events?.OnValidateKey);
+			Assert.Null(apiKeyOptions.ApiKeyProviderType);
 
-            var apiKeyProvider = services.GetService<IApiKeyProvider>();
+			var apiKeyProvider = services.GetService<IApiKeyProvider>();
 			Assert.Null(apiKeyProvider);
 		}
 
@@ -68,11 +71,16 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 			Assert.NotNull(scheme);
 			Assert.Equal(typeof(ApiKeyInQueryParamsHandler), scheme.HandlerType);
 
-            var apiKeyOptions = services.GetService<IOptionsSnapshot<ApiKeyOptions>>();
-            Assert.Null(apiKeyOptions.Get(scheme.Name)?.Events?.OnValidateKey);
+			var apiKeyOptionsSnapshot = services.GetService<IOptionsSnapshot<ApiKeyOptions>>();
+			var apiKeyOptions = apiKeyOptionsSnapshot.Get(scheme.Name);
+			Assert.NotNull(apiKeyOptions);
+			Assert.Null(apiKeyOptions.Events?.OnValidateKey);
+			Assert.NotNull(apiKeyOptions.ApiKeyProviderType);
+			Assert.Equal(typeof(FakeApiKeyProvider), apiKeyOptions.ApiKeyProviderType);
 
-            var apiKeyProvider = services.GetService<IApiKeyProvider>();
+			var apiKeyProvider = services.GetService<IApiKeyProvider>();
 			Assert.NotNull(apiKeyProvider);
+			Assert.Equal(typeof(FakeApiKeyProvider), apiKeyProvider.GetType());
 		}
 
 		[Fact]

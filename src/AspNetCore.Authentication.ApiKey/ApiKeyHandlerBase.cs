@@ -23,7 +23,7 @@ namespace AspNetCore.Authentication.ApiKey
 		{
 		}
 
-		private string Challenge => $"{Options.KeyName} realm=\"{Options.Realm}\", charset=\"UTF-8\"";
+		private string Challenge => $"{Scheme.Name} realm=\"{Options.Realm}\", charset=\"UTF-8\"";
 
 		/// <summary>
 		/// Get or set <see cref="ApiKeyEvents"/>.
