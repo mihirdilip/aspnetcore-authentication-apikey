@@ -1,9 +1,7 @@
 ﻿// Copyright (c) Mihir Dilip. All rights reserved.
 // Licensed under the MIT License. See LICENSE file in the project root for license information.
 
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.TestHost;
+using AspNetCore.Authentication.ApiKey.Tests.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
@@ -13,19 +11,21 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 {
     public class ApiKeyPostConfigureOptionsTests
     {
+		static string KeyName = "X-API-KEY";
+
 		[Fact]
 		public async Task PostConfigure_no_option_set_throws_exception()
 		{
-			await Assert.ThrowsAsync<InvalidOperationException>(() => RunTestServerAsync(_ => { }));
+			await Assert.ThrowsAsync<InvalidOperationException>(() => RunAuthInitAsync(_ => { }));
 		}
 
 		[Fact]
 		public async Task PostConfigure_Realm_or_SuppressWWWAuthenticateHeader_not_set_throws_exception()
 		{
 			var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
-				RunTestServerWithApiKeyProviderAsync(options =>
+				RunAuthInitWithProviderAsync(options =>
 				{
-					options.KeyName = "X-API-KEY";
+					options.KeyName = KeyName;
 				})
 			);
 
@@ -35,20 +35,20 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 		[Fact]
 		public async Task PostConfigure_Realm_not_set_but_SuppressWWWAuthenticateHeader_set_no_exception_thrown()
 		{
-			await RunTestServerWithApiKeyProviderAsync(options =>
+			await RunAuthInitWithProviderAsync(options =>
 			{
 				options.SuppressWWWAuthenticateHeader = true;
-				options.KeyName = "X-API-KEY";
+				options.KeyName = KeyName;
 			});
 		}
 
 		[Fact]
 		public async Task PostConfigure_Realm_set_but_SuppressWWWAuthenticateHeader_not_set_no_exception_thrown()
 		{
-			await RunTestServerWithApiKeyProviderAsync(options =>
+			await RunAuthInitWithProviderAsync(options =>
 			{
 				options.Realm = "Test";
-				options.KeyName = "X-API-KEY";
+				options.KeyName = KeyName;
 			});
 		}
 
@@ -56,7 +56,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 		public async Task PostConfigure_KeyName_not_set_throws_exception()
 		{
 			var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
-				RunTestServerWithApiKeyProviderAsync(options =>
+				RunAuthInitWithProviderAsync(options =>
 				{
 					options.SuppressWWWAuthenticateHeader = true;
 				})
@@ -68,10 +68,10 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 		[Fact]
 		public async Task PostConfigure_KeyName_set_no_exception_thrown()
 		{
-			await RunTestServerWithApiKeyProviderAsync(options =>
+			await RunAuthInitWithProviderAsync(options =>
 			{
 				options.SuppressWWWAuthenticateHeader = true;
-				options.KeyName = "X-API-KEY";
+				options.KeyName = KeyName;
 			});
 		}
 
@@ -79,10 +79,10 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 		public async Task PostConfigure_Events_OnValidateKey_or_IApiKeyProvider_not_set_throws_exception()
 		{
 			var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
-				RunTestServerAsync(options =>
+				RunAuthInitAsync(options =>
 				{
 					options.SuppressWWWAuthenticateHeader = true;
-					options.KeyName = "X-API-KEY";
+					options.KeyName = KeyName;
 				})
 			);
 
@@ -92,67 +92,35 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 		[Fact]
 		public async Task PostConfigure_Events_OnValidateKey_set_but_IApiKeyProvider_not_set_no_exception_thrown()
 		{
-			await RunTestServerAsync(options =>
+			await RunAuthInitAsync(options =>
 			{
 				options.Events.OnValidateKey = _ => Task.CompletedTask;
 				options.SuppressWWWAuthenticateHeader = true;
-				options.KeyName = "X-API-KEY";
+				options.KeyName = KeyName;
 			});
 		}
 
 		[Fact]
 		public async Task PostConfigure_Events_OnValidateKey_not_set_but_IApiKeyProvider_set_no_exception_thrown()
 		{
-			await RunTestServerWithApiKeyProviderAsync(options =>
+			await RunAuthInitWithProviderAsync(options =>
 			{
 				options.SuppressWWWAuthenticateHeader = true;
-				options.KeyName = "X-API-KEY";
+				options.KeyName = KeyName;
 			});
 		}
 
 
-
-
-		private async Task RunTestServerWithApiKeyProviderAsync(Action<ApiKeyOptions> configureOptions)
+		private async Task RunAuthInitAsync(Action<ApiKeyOptions> configureOptions)
 		{
-			var server = new TestServer(
-				new WebHostBuilder()
-					.ConfigureServices(services =>
-					{
-						services.AddAuthentication(ApiKeyDefaults.AuthenticationScheme)
-							.AddApiKeyInHeaderOrQueryParams<MockApiKeyProvider>(configureOptions);
-					})
-					.Configure(app =>
-					{
-						app.UseAuthentication();
-					})
-			);
-			await server.CreateClient().GetAsync("http://localhost/");
+			var server = TestServerBuilder.BuildInHeaderOrQueryParamsServer(configureOptions);
+			await server.CreateClient().GetAsync(TestServerBuilder.BaseUrl);
 		}
 
-		private async Task RunTestServerAsync(Action<ApiKeyOptions> configureOptions)
+		private async Task RunAuthInitWithProviderAsync(Action<ApiKeyOptions> configureOptions)
 		{
-			var server = new TestServer(
-				new WebHostBuilder()
-					.ConfigureServices(services =>
-					{
-						services.AddAuthentication(ApiKeyDefaults.AuthenticationScheme)
-							.AddApiKeyInHeaderOrQueryParams(configureOptions);
-					})
-					.Configure(app =>
-					{
-						app.UseAuthentication();
-					})
-			);
-			await server.CreateClient().GetAsync("http://localhost/");
-		}
-
-		private class MockApiKeyProvider : IApiKeyProvider
-		{
-			public Task<IApiKey> ProvideAsync(string key)
-			{
-				throw new System.NotImplementedException();
-			}
+			var server = TestServerBuilder.BuildInHeaderOrQueryParamsServerWithProvider(configureOptions);
+			await server.CreateClient().GetAsync(TestServerBuilder.BaseUrl);
 		}
 	}
 }

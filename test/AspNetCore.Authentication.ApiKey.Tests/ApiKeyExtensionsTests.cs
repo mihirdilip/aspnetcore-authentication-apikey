@@ -1205,7 +1205,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
         {
             public Task<IApiKey> ProvideAsync(string key)
             {
-                throw new System.NotImplementedException();
+                throw new NotImplementedException();
             }
         }
 
@@ -1213,7 +1213,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
         {
             public Task<IApiKey> ProvideAsync(string key)
             {
-                throw new System.NotImplementedException();
+                throw new NotImplementedException();
             }
         }
     }
