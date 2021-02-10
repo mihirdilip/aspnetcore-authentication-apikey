@@ -23,7 +23,7 @@ namespace AspNetCore.Authentication.ApiKey
 		{
 		}
 
-		private string Challenge => $"{Scheme.Name} realm=\"{Options.Realm}\", charset=\"UTF-8\"";
+		private string Challenge => $"{Scheme.Name} realm=\"{Options.Realm}\", charset=\"UTF-8\", in=\"{GetWwwAuthenticateInParameter()}\", key_name=\"{Options.KeyName}\"";
 
 		/// <summary>
 		/// Get or set <see cref="ApiKeyEvents"/>.
@@ -207,6 +207,22 @@ namespace AspNetCore.Authentication.ApiKey
 					disposableApiKeyProvider.Dispose();
 				}
 			}
+		}
+
+		private string GetWwwAuthenticateInParameter()
+        {
+			var handlerType = this.GetType();
+
+			if (handlerType == typeof(ApiKeyInAuthorizationHeaderHandler))
+				return "authorization_header";
+			if (handlerType == typeof(ApiKeyInHeaderHandler))
+				return "header";
+			if (handlerType == typeof(ApiKeyInQueryParamsHandler))
+				return "query_params";
+			if (handlerType == typeof(ApiKeyInHeaderOrQueryParamsHandler))
+				return "header_or_query_params";
+
+			throw new NotImplementedException($"No parameter name defined for {handlerType.FullName}.");
 		}
 
 		private bool IgnoreAuthenticationIfAllowAnonymous()

@@ -50,7 +50,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             var wwwAuthenticateHeaderToMatch = Assert.Single(wwwAuthenticateHeader);
             Assert.NotNull(wwwAuthenticateHeaderToMatch);
             Assert.Equal(ApiKeyDefaults.AuthenticationScheme, wwwAuthenticateHeaderToMatch.Scheme);
-            Assert.Equal($"realm=\"{realm}\", charset=\"UTF-8\"", wwwAuthenticateHeaderToMatch.Parameter);
+            Assert.Equal($"realm=\"{realm}\", charset=\"UTF-8\", in=\"header_or_query_params\", key_name=\"{FakeApiKeys.KeyName}\"", wwwAuthenticateHeaderToMatch.Parameter);
         }
 
         [Fact]

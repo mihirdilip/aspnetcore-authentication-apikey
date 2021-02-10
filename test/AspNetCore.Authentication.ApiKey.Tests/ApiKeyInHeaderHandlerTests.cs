@@ -84,6 +84,21 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 		}
 
 		[Fact]
+		public async Task Verify_challenge_www_authenticate_header()
+		{
+			using var response = await _client.GetAsync(TestServerBuilder.BaseUrl);
+			Assert.False(response.IsSuccessStatusCode);
+
+			var wwwAuthenticateHeader = response.Headers.WwwAuthenticate;
+			Assert.NotEmpty(wwwAuthenticateHeader);
+
+			var wwwAuthenticateHeaderToMatch = Assert.Single(wwwAuthenticateHeader);
+			Assert.NotNull(wwwAuthenticateHeaderToMatch);
+			Assert.Equal(ApiKeyDefaults.AuthenticationScheme, wwwAuthenticateHeaderToMatch.Scheme);
+			Assert.Equal($"realm=\"{TestServerBuilder.Realm}\", charset=\"UTF-8\", in=\"header\", key_name=\"{FakeApiKeys.KeyName}\"", wwwAuthenticateHeaderToMatch.Parameter);
+		}
+
+		[Fact]
         public async Task Unauthorized()
         {
 			using var request = new HttpRequestMessage(HttpMethod.Get, TestServerBuilder.BaseUrl);
