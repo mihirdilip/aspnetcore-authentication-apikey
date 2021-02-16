@@ -31,7 +31,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
         [Fact]
         public async Task SuppressWWWAuthenticateHeader_verify_false()
         {
-            var realm = "Test-Realm";
+            var realm = TestServerBuilder.Realm;
             using var server = TestServerBuilder.BuildInHeaderOrQueryParamsServerWithProvider(options =>
             {
                 options.KeyName = FakeApiKeys.KeyName;
@@ -56,7 +56,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
         [Fact]
         public async Task SuppressWWWAuthenticateHeader_verify_true()
         {
-            var realm = "Test-Realm";
+            var realm = TestServerBuilder.Realm;
             using var server = TestServerBuilder.BuildInHeaderOrQueryParamsServerWithProvider(options =>
             {
                 options.KeyName = FakeApiKeys.KeyName;
@@ -81,7 +81,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
         [Fact]
         public async Task ForLegacyIgnoreExtraValidatedApiKeyCheck_verify_false()
         {
-            var realm = "Test-Realm";
+            var realm = TestServerBuilder.Realm;
             using var server = TestServerBuilder.BuildInHeaderOrQueryParamsServerWithProvider(options =>
             {
                 options.KeyName = FakeApiKeys.KeyName;
@@ -101,7 +101,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
         [Fact]
         public async Task ForLegacyIgnoreExtraValidatedApiKeyCheck_verify_true()
         {
-            var realm = "Test-Realm";
+            var realm = TestServerBuilder.Realm;
             using var server = TestServerBuilder.BuildInHeaderOrQueryParamsServerWithProvider(options =>
             {
                 options.KeyName = FakeApiKeys.KeyName;
@@ -169,7 +169,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
         [Fact]
         public async Task IgnoreAuthenticationIfAllowAnonymous_verify_false()
         {
-            var realm = "Test-Realm";
+            var realm = TestServerBuilder.Realm;
             using var server = TestServerBuilder.BuildInHeaderOrQueryParamsServerWithProvider(options =>
             {
                 options.KeyName = FakeApiKeys.KeyName;
@@ -189,7 +189,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
         [Fact]
         public async Task IgnoreAuthenticationIfAllowAnonymous_verify_true()
         {
-            var realm = "Test-Realm";
+            var realm = TestServerBuilder.Realm;
             using var server = TestServerBuilder.BuildInHeaderOrQueryParamsServerWithProvider(options =>
             {
                 options.KeyName = FakeApiKeys.KeyName;

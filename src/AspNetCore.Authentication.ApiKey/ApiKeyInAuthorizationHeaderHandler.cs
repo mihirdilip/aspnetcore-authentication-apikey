@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace AspNetCore.Authentication.ApiKey
 {
-	internal class ApiKeyInAuthorizationHeaderHandler : ApiKeyHandlerBase
+    internal class ApiKeyInAuthorizationHeaderHandler : ApiKeyHandlerBase
 	{
 		public ApiKeyInAuthorizationHeaderHandler(IOptionsMonitor<ApiKeyOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock)
 			: base(options, logger, encoder, clock)
@@ -23,7 +23,9 @@ namespace AspNetCore.Authentication.ApiKey
 		{
 			if (Request.Headers.ContainsKey(HeaderNames.Authorization)
 					&& AuthenticationHeaderValue.TryParse(Request.Headers[HeaderNames.Authorization], out var headerValue)
-					&& headerValue.Scheme.Equals(Options.KeyName, StringComparison.OrdinalIgnoreCase)
+					&& (headerValue.Scheme.Equals(Scheme.Name, StringComparison.OrdinalIgnoreCase) 
+						|| headerValue.Scheme.Equals(Options.KeyName, StringComparison.OrdinalIgnoreCase)
+					)
 			)
 			{
 				return Task.FromResult(headerValue.Parameter);

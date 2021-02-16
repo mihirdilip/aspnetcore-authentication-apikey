@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace AspNetCore.Authentication.ApiKey.Tests.Infrastructure
@@ -16,7 +17,8 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Infrastructure
     partial class TestServerBuilder
     {
         internal static string BaseUrl = "http://localhost/";
-        internal static string AnonymousUrl = "http://localhost/anonymous";
+        internal static string AnonymousUrl = $"{BaseUrl}anonymous";
+        internal static string UserClaimsUrl = $"{BaseUrl}user-claims";
         internal static string Realm = "ApiKeyTests";
 
         internal static TestServer BuildInAuthorizationHeaderServer(Action<ApiKeyOptions> configureOptions = null)
@@ -149,6 +151,12 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Infrastructure
                                     await context.Response.WriteAsync("Hello World!");
                                 }).RequireAuthorization();
 
+                                endpoints.MapGet("/user-claims", async context =>
+                                {
+                                    context.Response.ContentType = "application/json";
+                                    await context.Response.WriteAsync(JsonSerializer.Serialize(context.User.Claims.Select(c => new ClaimDto(c))));
+                                }).RequireAuthorization();
+
                                 endpoints.MapGet("/anonymous", async context =>
                                 {
                                     await context.Response.WriteAsync("Hello Anonymous World!");
@@ -173,6 +181,14 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Infrastructure
                                     await context.ChallengeAsync();
                                     return;
                                 }
+
+                                if (context.Request.Path == "/user-claims")
+                                {
+                                    context.Response.ContentType = "application/json";
+                                    await context.Response.WriteAsync(JsonSerializer.Serialize(context.User.Claims.Select(c => new ClaimDto(c))));
+                                    return;
+                                }
+
                                 await context.Response.WriteAsync("Hello World!");
                             });
                         }

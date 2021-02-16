@@ -112,6 +112,16 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 		public async Task Success()
 		{
 			using var request = new HttpRequestMessage(HttpMethod.Get, TestServerBuilder.BaseUrl);
+			request.Headers.Authorization = new AuthenticationHeaderValue(ApiKeyDefaults.AuthenticationScheme, FakeApiKeys.FakeKey);
+			using var response = await _client.SendAsync(request);
+			Assert.True(response.IsSuccessStatusCode);
+			Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+		}
+
+		[Fact]
+		public async Task Success_with_key_name()
+		{
+			using var request = new HttpRequestMessage(HttpMethod.Get, TestServerBuilder.BaseUrl);
 			request.Headers.Authorization = new AuthenticationHeaderValue(FakeApiKeys.KeyName, FakeApiKeys.FakeKey);
 			using var response = await _client.SendAsync(request);
 			Assert.True(response.IsSuccessStatusCode);
@@ -119,7 +129,27 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 		}
 
 		[Fact]
+		public async Task Invalid_scheme_unauthorized()
+		{
+			using var request = new HttpRequestMessage(HttpMethod.Get, TestServerBuilder.BaseUrl);
+			request.Headers.Authorization = new AuthenticationHeaderValue("INVALID", FakeApiKeys.FakeKey);
+			using var response = await _client.SendAsync(request);
+			Assert.False(response.IsSuccessStatusCode);
+			Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+		}
+
+		[Fact]
 		public async Task Invalid_key_unauthorized()
+		{
+			using var request = new HttpRequestMessage(HttpMethod.Get, TestServerBuilder.BaseUrl);
+			request.Headers.Authorization = new AuthenticationHeaderValue(ApiKeyDefaults.AuthenticationScheme, FakeApiKeys.FakeInvalidKey);
+			using var response = await _client.SendAsync(request);
+			Assert.False(response.IsSuccessStatusCode);
+			Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+		}
+
+		[Fact]
+		public async Task Invalid_key_unauthorized_with_key_name()
 		{
 			using var request = new HttpRequestMessage(HttpMethod.Get, TestServerBuilder.BaseUrl);
 			request.Headers.Authorization = new AuthenticationHeaderValue(FakeApiKeys.KeyName, FakeApiKeys.FakeInvalidKey);
@@ -143,6 +173,16 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 		public async Task TApiKeyProvider_success()
 		{
 			using var request = new HttpRequestMessage(HttpMethod.Get, TestServerBuilder.BaseUrl);
+			request.Headers.Authorization = new AuthenticationHeaderValue(ApiKeyDefaults.AuthenticationScheme, FakeApiKeys.FakeKey);
+			using var response = await _clientWithProvider.SendAsync(request);
+			Assert.True(response.IsSuccessStatusCode);
+			Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+		}
+
+		[Fact]
+		public async Task TApiKeyProvider_success_with_key_name()
+		{
+			using var request = new HttpRequestMessage(HttpMethod.Get, TestServerBuilder.BaseUrl);
 			request.Headers.Authorization = new AuthenticationHeaderValue(FakeApiKeys.KeyName, FakeApiKeys.FakeKey);
 			using var response = await _clientWithProvider.SendAsync(request);
 			Assert.True(response.IsSuccessStatusCode);
@@ -150,7 +190,27 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 		}
 
 		[Fact]
+		public async Task TApiKeyProvider_invalid_scheme_unauthorized()
+		{
+			using var request = new HttpRequestMessage(HttpMethod.Get, TestServerBuilder.BaseUrl);
+			request.Headers.Authorization = new AuthenticationHeaderValue("INVALID", FakeApiKeys.FakeKey);
+			using var response = await _clientWithProvider.SendAsync(request);
+			Assert.False(response.IsSuccessStatusCode);
+			Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+		}
+
+		[Fact]
 		public async Task TApiKeyProvider_invalid_key_unauthotized()
+		{
+			using var request = new HttpRequestMessage(HttpMethod.Get, TestServerBuilder.BaseUrl);
+			request.Headers.Authorization = new AuthenticationHeaderValue(ApiKeyDefaults.AuthenticationScheme, FakeApiKeys.FakeInvalidKey);
+			using var response = await _clientWithProvider.SendAsync(request);
+			Assert.False(response.IsSuccessStatusCode);
+			Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+		}
+
+		[Fact]
+		public async Task TApiKeyProvider_invalid_key_unauthotized_with_key_name()
 		{
 			using var request = new HttpRequestMessage(HttpMethod.Get, TestServerBuilder.BaseUrl);
 			request.Headers.Authorization = new AuthenticationHeaderValue(FakeApiKeys.KeyName, FakeApiKeys.FakeInvalidKey);
