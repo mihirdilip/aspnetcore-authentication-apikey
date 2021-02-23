@@ -18,7 +18,8 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Infrastructure
     {
         internal static string BaseUrl = "http://localhost/";
         internal static string AnonymousUrl = $"{BaseUrl}anonymous";
-        internal static string UserClaimsUrl = $"{BaseUrl}user-claims";
+        internal static string ForbiddenUrl = $"{BaseUrl}forbidden";
+        internal static string ClaimsPrincipalUrl = $"{BaseUrl}claims-principal";
         internal static string Realm = "ApiKeyTests";
 
         internal static TestServer BuildInAuthorizationHeaderServer(Action<ApiKeyOptions> configureOptions = null)
@@ -151,10 +152,15 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Infrastructure
                                     await context.Response.WriteAsync("Hello World!");
                                 }).RequireAuthorization();
 
-                                endpoints.MapGet("/user-claims", async context =>
+                                endpoints.MapGet("/claims-principal", async context =>
                                 {
                                     context.Response.ContentType = "application/json";
-                                    await context.Response.WriteAsync(JsonSerializer.Serialize(context.User.Claims.Select(c => new ClaimDto(c))));
+                                    await context.Response.WriteAsync(JsonSerializer.Serialize(new ClaimsPrincipalDto(context.User)));
+                                }).RequireAuthorization();
+
+                                endpoints.MapGet("/forbidden", async context =>
+                                {
+                                    await context.ForbidAsync();
                                 }).RequireAuthorization();
 
                                 endpoints.MapGet("/anonymous", async context =>
@@ -182,11 +188,16 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Infrastructure
                                     return;
                                 }
 
-                                if (context.Request.Path == "/user-claims")
+                                if (context.Request.Path == "/claims-principal")
                                 {
                                     context.Response.ContentType = "application/json";
-                                    await context.Response.WriteAsync(JsonSerializer.Serialize(context.User.Claims.Select(c => new ClaimDto(c))));
+                                    await context.Response.WriteAsync(JsonSerializer.Serialize(new ClaimsPrincipalDto(context.User)));
                                     return;
+                                }
+
+                                if (context.Request.Path == "/forbidden")
+                                {
+                                    await context.ForbidAsync();
                                 }
 
                                 await context.Response.WriteAsync("Hello World!");
@@ -194,7 +205,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Infrastructure
                         }
 
 #endif
-                        
+
                     })
             );
         }
