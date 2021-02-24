@@ -23,7 +23,7 @@ namespace AspNetCore.Authentication.ApiKey
 		{
 		}
 
-		private string Challenge => $"{Scheme.Name} realm=\"{Options.Realm}\", charset=\"UTF-8\", in=\"{GetWwwAuthenticateInParameter()}\", key_name=\"{Options.KeyName}\"";
+		private string Challenge => $"{GetWwwAuthenticateSchemeName()} realm=\"{Options.Realm}\", charset=\"UTF-8\", in=\"{GetWwwAuthenticateInParameter()}\", key_name=\"{Options.KeyName}\"";
 
 		/// <summary>
 		/// Get or set <see cref="ApiKeyEvents"/>.
@@ -208,6 +208,13 @@ namespace AspNetCore.Authentication.ApiKey
 				}
 			}
 		}
+
+		private string GetWwwAuthenticateSchemeName()
+        {
+			return Options.ForLegacyUseKeyNameAsSchemeNameOnWWWAuthenticateHeader
+				? Options.KeyName
+				: Scheme.Name;
+        }
 
 		private string GetWwwAuthenticateInParameter()
         {

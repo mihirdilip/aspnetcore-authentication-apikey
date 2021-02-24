@@ -192,6 +192,11 @@ Default value is false.
 If set to true, IApiKey.Key property returned from IApiKeyProvider.ProvideAsync(string) method is not compared with the key parsed from the request.
 This extra check did not existed in the previous version. So you if want to revert back to old version validation, please set this to true.
 
+#### ForLegacyUseKeyNameAsSchemeNameOnWWWAuthenticateHeader
+Default value is false. 
+If set to true then value of KeyName property is used as scheme name on the WWW-Authenticate response header when challenging un-authenticated requests.
+else, the authentication scheme name (set when adding this authentication to the authentication builder) is used as scheme name on the WWW-Authenticate response header when challenging un-authenticated requests.
+
 #### Events
 The object provided by the application to process events raised by the api key authentication middleware.  
 The application may implement the interface fully, or it may create an instance of ApiKeyEvents and assign delegates only to the events it wants to process.

@@ -119,6 +119,69 @@ namespace AspNetCore.Authentication.ApiKey.Tests
         }
 
         [Fact]
+        public void ForLegacyUseKeyNameAsSchemeNameOnWWWAuthenticateHeader_default_false()
+        {
+            var options = new ApiKeyOptions();
+            Assert.False(options.ForLegacyUseKeyNameAsSchemeNameOnWWWAuthenticateHeader);
+        }
+
+        [Fact]
+        public async Task ForLegacyUseKeyNameAsSchemeNameOnWWWAuthenticateHeader_verify_false()
+        {
+            var realm = TestServerBuilder.Realm;
+            using var server = TestServerBuilder.BuildInHeaderOrQueryParamsServerWithProvider(options =>
+            {
+                options.KeyName = FakeApiKeys.KeyName;
+                options.Realm = realm;
+                options.ForLegacyUseKeyNameAsSchemeNameOnWWWAuthenticateHeader = false;
+            });
+
+            using var client = server.CreateClient();
+            using var request = new HttpRequestMessage(HttpMethod.Get, TestServerBuilder.BaseUrl);
+            using var response = await client.SendAsync(request);
+
+            Assert.False(response.IsSuccessStatusCode);
+            Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+
+            var wwwAuthenticateHeader = response.Headers.WwwAuthenticate;
+            Assert.NotEmpty(wwwAuthenticateHeader);
+
+            var wwwAuthenticateHeaderToMatch = Assert.Single(wwwAuthenticateHeader);
+            Assert.NotNull(wwwAuthenticateHeaderToMatch);
+            Assert.Equal(ApiKeyDefaults.AuthenticationScheme, wwwAuthenticateHeaderToMatch.Scheme);
+            Assert.NotEqual(FakeApiKeys.KeyName, wwwAuthenticateHeaderToMatch.Scheme);
+            Assert.Equal($"realm=\"{realm}\", charset=\"UTF-8\", in=\"header_or_query_params\", key_name=\"{FakeApiKeys.KeyName}\"", wwwAuthenticateHeaderToMatch.Parameter);
+        }
+
+        [Fact]
+        public async Task ForLegacyUseKeyNameAsSchemeNameOnWWWAuthenticateHeader_verify_true()
+        {
+            var realm = TestServerBuilder.Realm;
+            using var server = TestServerBuilder.BuildInHeaderOrQueryParamsServerWithProvider(options =>
+            {
+                options.KeyName = FakeApiKeys.KeyName;
+                options.Realm = realm;
+                options.ForLegacyUseKeyNameAsSchemeNameOnWWWAuthenticateHeader = true;
+            });
+
+            using var client = server.CreateClient();
+            using var request = new HttpRequestMessage(HttpMethod.Get, TestServerBuilder.BaseUrl);
+            using var response = await client.SendAsync(request);
+
+            Assert.False(response.IsSuccessStatusCode);
+            Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+
+            var wwwAuthenticateHeader = response.Headers.WwwAuthenticate;
+            Assert.NotEmpty(wwwAuthenticateHeader);
+
+            var wwwAuthenticateHeaderToMatch = Assert.Single(wwwAuthenticateHeader);
+            Assert.NotNull(wwwAuthenticateHeaderToMatch);
+            Assert.NotEqual(ApiKeyDefaults.AuthenticationScheme, wwwAuthenticateHeaderToMatch.Scheme);
+            Assert.Equal(FakeApiKeys.KeyName, wwwAuthenticateHeaderToMatch.Scheme);
+            Assert.Equal($"realm=\"{realm}\", charset=\"UTF-8\", in=\"header_or_query_params\", key_name=\"{FakeApiKeys.KeyName}\"", wwwAuthenticateHeaderToMatch.Parameter);
+        }
+
+        [Fact]
         public void ApiKeyProviderType_default_null()
         {
             var options = new ApiKeyOptions();
