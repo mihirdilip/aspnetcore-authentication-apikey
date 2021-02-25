@@ -30,7 +30,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Events
                 {
                     Assert.False(context.IsHandled);
 
-                    context.Response.StatusCode = StatusCodes.Status403Forbidden;
+                    context.Response.StatusCode = StatusCodes.Status400BadRequest;
                     context.Handled();
 
                     Assert.True(context.IsHandled);
@@ -42,6 +42,29 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Events
             using var request = new HttpRequestMessage(HttpMethod.Get, TestServerBuilder.ForbiddenUrl);
             request.Headers.Add(FakeApiKeys.KeyName, FakeApiKeys.FakeKey);
             using var response = await client.SendAsync(request);
+            
+            Assert.False(response.IsSuccessStatusCode);
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task Handled_not_called()
+        {
+            using var client = BuildClient(
+                context =>
+                {
+                    Assert.False(context.IsHandled);
+
+                    context.Response.StatusCode = StatusCodes.Status400BadRequest;
+
+                    return Task.CompletedTask;
+                }
+            );
+
+            using var request = new HttpRequestMessage(HttpMethod.Get, TestServerBuilder.ForbiddenUrl);
+            request.Headers.Add(FakeApiKeys.KeyName, FakeApiKeys.FakeKey);
+            using var response = await client.SendAsync(request);
+
             Assert.False(response.IsSuccessStatusCode);
             Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
         }

@@ -165,7 +165,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Infrastructure
 
                                 endpoints.MapGet("/anonymous", async context =>
                                 {
-                                    await context.Response.WriteAsync("Hello Anonymous World!");
+                                    await context.Response.WriteAsync(JsonSerializer.Serialize(new ClaimsPrincipalDto(context.User)));
                                 }).WithMetadata(new Microsoft.AspNetCore.Authorization.AllowAnonymousAttribute());
                             });
                         }

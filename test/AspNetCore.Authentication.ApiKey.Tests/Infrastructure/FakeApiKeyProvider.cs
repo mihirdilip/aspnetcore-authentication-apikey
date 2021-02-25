@@ -21,6 +21,10 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Infrastructure
                     // replace the key
                     apiKey = new FakeApiKey(FakeApiKeys.FakeKey, apiKey.OwnerName, apiKey.Claims);
                 }
+                else if (apiKey.Key == FakeApiKeys.FakeKeyThrowsNotImplemented)
+                {
+                    throw new NotImplementedException();
+                }
 #if !(NET461 || NETSTANDARD2_0 || NETCOREAPP2_1)
                 else if (apiKey.Key == FakeApiKeys.FakeKeyIgnoreAuthenticationIfAllowAnonymous)
                 {
@@ -54,6 +58,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Infrastructure
 
         internal static string FakeInvalidKey = "<invalid-key>";
         internal static string FakeKey = "myrandomfakekey";
+        internal static string FakeKeyThrowsNotImplemented = "myrandomfakekey-not-implemented";
         internal static string FakeKeyForLegacyIgnoreExtraValidatedApiKeyCheck = "ForLegacyIgnoreExtraValidatedApiKeyCheck";
         internal static string FakeKeyIgnoreAuthenticationIfAllowAnonymous = "IgnoreAuthenticationIfAllowAnonymous";
         internal static string FakeKeyOwner = "Fake Key";
@@ -64,6 +69,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Infrastructure
         internal static List<IApiKey> Keys => new List<IApiKey>
         {
             new FakeApiKey(FakeKey, FakeKeyOwner, new List<Claim> { FakeNameClaim, FakeNameIdentifierClaim, FakeRoleClaim }),
+            new FakeApiKey(FakeKeyThrowsNotImplemented, FakeKeyOwner, new List<Claim> { FakeNameClaim, FakeNameIdentifierClaim, FakeRoleClaim }),
             new FakeApiKey(FakeKeyForLegacyIgnoreExtraValidatedApiKeyCheck, FakeKeyOwner, new List<Claim> { FakeNameClaim, FakeNameIdentifierClaim, FakeRoleClaim }),
             new FakeApiKey(FakeKeyIgnoreAuthenticationIfAllowAnonymous, FakeKeyOwner, new List<Claim> { FakeNameClaim, FakeNameIdentifierClaim, FakeRoleClaim })
         };
