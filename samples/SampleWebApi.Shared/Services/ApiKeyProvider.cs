@@ -16,11 +16,11 @@ namespace SampleWebApi.Services
 			_apiKeyRepository = apiKeyRepository;
 		}
 
-		public Task<IApiKey> ProvideAsync(string key)
+		public async Task<IApiKey> ProvideAsync(string key)
 		{
 			try
 			{
-				return _apiKeyRepository.GetApiKeyAsync(key);
+				return await _apiKeyRepository.GetApiKeyAsync(key);
 			}
 			catch (System.Exception exception)
 			{
