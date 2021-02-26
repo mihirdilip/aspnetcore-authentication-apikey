@@ -2,17 +2,23 @@
 
   <PropertyGroup>
     <TargetFrameworks>net5.0;netcoreapp3.1;netcoreapp3.0;netstandard2.0;net461</TargetFrameworks>
-    <Version>5.0.0</Version>
+    <Version>5.1.0</Version>
     <RepositoryUrl>https://github.com/mihirdilip/aspnetcore-authentication-apiKey/tree/$(Version)</RepositoryUrl>
     <PackageProjectUrl>https://github.com/mihirdilip/aspnetcore-authentication-apiKey/tree/$(Version)</PackageProjectUrl>
     <PackageTags>aspnetcore, security, authentication, microsoft, microsoft.aspnetcore.authentication, microsoft-aspnetcore-authentication, microsoft.aspnetcore.authentication.apikey, microsoft-aspnetcore-authentication-apikey, asp-net-core, netstandard, netstandard20, apikey-authentication, api-key-authentication, apikeyauthentication, dotnetcore, dotnetcore3.1, net5, asp-net-core-apikey-authentication, aspnetcore-apikey-authentication, net5-apikey-authentication, asp-net-core-authentication, aspnetcore-authentication, net5-authentication, asp, aspnet, apikey, api-key, authentication-scheme</PackageTags>
-    <PackageReleaseNotes>- Net 5.0 target framework added
-- IgnoreAuthenticationIfAllowAnonymous added to the ApiKeyOptions from netcoreapp3.0 onwards
+    <PackageReleaseNotes>- WWW-Authenticate challenge header now returns SchemeName as scheme part instead of ApiKeyOptions.KeyName
+- WWW-Authenticate challenge header now has 2 new parameters 'in' and 'key_name' in value part  
+- ForLegacyUseKeyNameAsSchemeNameOnWWWAuthenticateHeader added to the ApiKeyOptions
+- In Authorization Header now able to use either SchemeName or ApiKeyOptions.KeyName when matching AuthorizationHeader Scheme
+- Visibility of all the handlers changed to public
+- Tests added
+- Readme updated
+- Copyright year updated on License
     </PackageReleaseNotes>
     <Description>Easy to use and very light weight Microsoft style API Key Authentication Implementation for ASP.NET Core. It can be setup so that it can accept API Key either in Header, Authorization Header, QueryParams or HeaderOrQueryParams.</Description>
     <Authors>Mihir Dilip</Authors>
     <Company>Mihir Dilip</Company>
-    <Copyright>Copyright (c) 2020 Mihir Dilip</Copyright>
+    <Copyright>Copyright (c) 2021 Mihir Dilip</Copyright>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Title>$(AssemblyName)</Title>
     <RepositoryType>git</RepositoryType>
@@ -43,7 +49,14 @@
     <!-- Source Link - https://github.com/dotnet/sourcelink -->
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
-  
+
+  <ItemGroup>
+    <!-- Unit Testing - To make internal visible to tests -->
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>$(MSBuildProjectName).Tests, PublicKey=0024000004800000940000000602000000240000525341310004000001000100ad90edc665c218d12c5d8294e875121644d4c45d37b7cb813aba8d82c560e5bfd5ce8ab3acde2de78c3a2c4ea7e7ecfdd5819820d7c39c280701d629b9da2238a695cc17d51daf616c5c0dcac5d3a2981908a00db4ada980628671782d9776b2d01e9785d5760e169d31f507e178b333bd7b3b197d58fea9795c38774e4380c1</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>bin\Release\$(TargetFramework)\AspNetCore.Authentication.ApiKey.xml</DocumentationFile>
   </PropertyGroup>

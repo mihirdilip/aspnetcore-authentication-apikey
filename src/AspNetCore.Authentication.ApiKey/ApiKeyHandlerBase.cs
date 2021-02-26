@@ -16,14 +16,14 @@ namespace AspNetCore.Authentication.ApiKey
 	/// <summary>
 	/// Inherited from <see cref="AuthenticationHandler{TOptions}"/> for api key authentication.
 	/// </summary>
-	internal abstract class ApiKeyHandlerBase : AuthenticationHandler<ApiKeyOptions>
+	public abstract class ApiKeyHandlerBase : AuthenticationHandler<ApiKeyOptions>
 	{
 		protected ApiKeyHandlerBase(IOptionsMonitor<ApiKeyOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock)
 			: base(options, logger, encoder, clock)
 		{
 		}
 
-		private string Challenge => $"{Options.KeyName} realm=\"{Options.Realm}\", charset=\"UTF-8\"";
+		private string Challenge => $"{GetWwwAuthenticateSchemeName()} realm=\"{Options.Realm}\", charset=\"UTF-8\", in=\"{GetWwwAuthenticateInParameter()}\", key_name=\"{Options.KeyName}\"";
 
 		/// <summary>
 		/// Get or set <see cref="ApiKeyEvents"/>.
@@ -207,6 +207,29 @@ namespace AspNetCore.Authentication.ApiKey
 					disposableApiKeyProvider.Dispose();
 				}
 			}
+		}
+
+		private string GetWwwAuthenticateSchemeName()
+        {
+			return Options.ForLegacyUseKeyNameAsSchemeNameOnWWWAuthenticateHeader
+				? Options.KeyName
+				: Scheme.Name;
+        }
+
+		private string GetWwwAuthenticateInParameter()
+        {
+			var handlerType = this.GetType();
+
+			if (handlerType == typeof(ApiKeyInAuthorizationHeaderHandler))
+				return "authorization_header";
+			if (handlerType == typeof(ApiKeyInHeaderHandler))
+				return "header";
+			if (handlerType == typeof(ApiKeyInQueryParamsHandler))
+				return "query_params";
+			if (handlerType == typeof(ApiKeyInHeaderOrQueryParamsHandler))
+				return "header_or_query_params";
+
+			throw new NotImplementedException($"No parameter name defined for {handlerType.FullName}.");
 		}
 
 		private bool IgnoreAuthenticationIfAllowAnonymous()

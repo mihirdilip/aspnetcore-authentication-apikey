@@ -11,6 +11,11 @@ namespace AspNetCore.Authentication.ApiKey
     /// </summary>
     public class ApiKeyOptions : AuthenticationSchemeOptions
     {
+        public ApiKeyOptions()
+        {
+            Events = new ApiKeyEvents();
+        }
+
         /// <summary>
         /// This is required property. It is the name of the header or query parameter of the API Key.
         /// </summary>
@@ -49,6 +54,13 @@ namespace AspNetCore.Authentication.ApiKey
         /// This extra check did not existed in the previous version. So you if want to revert back to old version validation, please set this to true.
         /// </summary>
         public bool ForLegacyIgnoreExtraValidatedApiKeyCheck { get; set; }
+
+        /// <summary>
+        /// Default value is false. 
+        /// If set to true then value of <see cref="KeyName"/> property is used as scheme name on the WWW-Authenticate response header when challenging un-authenticated requests.
+        /// else, the authentication scheme name (set when adding this authentication to the authentication builder) is used as scheme name on the WWW-Authenticate response header when challenging un-authenticated requests.
+        /// </summary>
+        public bool ForLegacyUseKeyNameAsSchemeNameOnWWWAuthenticateHeader { get; set; }
 
 #if !(NET461 || NETSTANDARD2_0)
         /// <summary>
