@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace AspNetCore.Authentication.ApiKey
 {
-	internal class ApiKeyInHeaderHandler : ApiKeyHandlerBase
+	public class ApiKeyInHeaderHandler : ApiKeyHandlerBase
 	{
 		public ApiKeyInHeaderHandler(IOptionsMonitor<ApiKeyOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock)
 			: base(options, logger, encoder, clock)

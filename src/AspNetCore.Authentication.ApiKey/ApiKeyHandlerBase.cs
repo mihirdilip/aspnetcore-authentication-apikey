@@ -16,7 +16,7 @@ namespace AspNetCore.Authentication.ApiKey
 	/// <summary>
 	/// Inherited from <see cref="AuthenticationHandler{TOptions}"/> for api key authentication.
 	/// </summary>
-	internal abstract class ApiKeyHandlerBase : AuthenticationHandler<ApiKeyOptions>
+	public abstract class ApiKeyHandlerBase : AuthenticationHandler<ApiKeyOptions>
 	{
 		protected ApiKeyHandlerBase(IOptionsMonitor<ApiKeyOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock)
 			: base(options, logger, encoder, clock)
