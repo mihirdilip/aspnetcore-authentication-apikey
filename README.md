@@ -236,15 +236,19 @@ Many overloads for each of the below are available to follow the same convension
 
 ### AddApiKeyInHeader  
 Adds ApiKey authentication which can handle the api key in the Header.  
+WWW-Authenticate challenge header will contain parameter in="header".  
 
 ### AddApiKeyInAuthorizationHeader  
 Adds ApiKey authentication which can handle the api key in the Authorization Header.  
+WWW-Authenticate challenge header will contain parameter in="authorization_header".  
 
 ### AddApiKeyInQueryParams  
 Adds ApiKey authentication which can handle the api key in the url query paramter.  
+WWW-Authenticate challenge header will contain parameter in="query_params".  
 
 ### AddApiKeyInHeaderOrQueryParams  
 Adds ApiKey authentication which can handle the api key in the either Header, Authorization Header or Query Parameter.  
+WWW-Authenticate challenge header will contain parameter in="header_or_query_params".  
 
 
 ## Additional Notes
