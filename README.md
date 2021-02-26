@@ -291,43 +291,43 @@ Please note that scheme name parameter can be any string you want.
 ```C#
 public void ConfigureServices(IServiceCollection services)
 {
-    services.AddTransient<IApiKeyRepository, InMemoryApiKeyRepository>();
+	services.AddTransient<IApiKeyRepository, InMemoryApiKeyRepository>();
 
-    services.AddAuthentication("InHeader")
-                
-        .AddApiKeyInHeader<ApiKeyProvider>("InHeader", options =>
-        {
-            options.Realm = "Sample Web API";
-            options.KeyName = "X-API-KEY";
-        })
+	services.AddAuthentication("InHeader")
+				
+		.AddApiKeyInHeader<ApiKeyProvider>("InHeader", options =>
+		{
+			options.Realm = "Sample Web API";
+			options.KeyName = "X-API-KEY";
+		})
 
-        .AddApiKeyInQueryParams<ApiKeyProvider_2>("InQueryParams", options =>
-        {
-            options.Realm = "Sample Web API";
-            options.KeyName = "key";
-        })
+		.AddApiKeyInQueryParams<ApiKeyProvider_2>("InQueryParams", options =>
+		{
+			options.Realm = "Sample Web API";
+			options.KeyName = "key";
+		})
 
-        .AddApiKeyInAuthorizationHeader("XYZ", options =>
-        {
-            options.Realm = "Sample Web API";
-            options.KeyName = "APIKEY";
-            options.Events = new ApiKeyEvents
-            {
-                OnValidateKey = async context =>
-                {
-                    var apiKeyRepository = context.HttpContext.RequestServices.GetRequiredService<IApiKeyRepository>();
-                    var apiKeyObj = await apiKeyRepository.GetApiKeyAsync(context.ApiKey);
-                    if (apiKeyObj != null)
-                    {
-                        context.ValidationSucceeded(apiKeyObj.Claims);
-                    }
-                    else
-                    {
-                        context.ValidationFailed();
-                    }
-                }
-            };
-        });
+		.AddApiKeyInAuthorizationHeader("XYZ", options =>
+		{
+			options.Realm = "Sample Web API";
+			options.KeyName = "APIKEY";
+			options.Events = new ApiKeyEvents
+			{
+				OnValidateKey = async context =>
+				{
+					var apiKeyRepository = context.HttpContext.RequestServices.GetRequiredService<IApiKeyRepository>();
+					var apiKeyObj = await apiKeyRepository.GetApiKeyAsync(context.ApiKey);
+					if (apiKeyObj != null)
+					{
+						context.ValidationSucceeded(apiKeyObj.Claims);
+					}
+					else
+					{
+						context.ValidationFailed();
+					}
+				}
+			};
+		});
 
 	services.AddAuthorization(options =>
 	{
