@@ -330,11 +330,11 @@ public void ConfigureServices(IServiceCollection services)
         });
 
 	services.AddAuthorization(options =>
-    {
-        options.FallbackPolicy = new AuthorizationPolicyBuilder("InHeader", "InQueryParams","XYZ")
-            .RequireAuthenticatedUser()
-            .Build();
-    });
+	{
+		options.FallbackPolicy = new AuthorizationPolicyBuilder("InHeader", "InQueryParams","XYZ")
+			.RequireAuthenticatedUser()
+			.Build();
+	});
 }
 ```
 
