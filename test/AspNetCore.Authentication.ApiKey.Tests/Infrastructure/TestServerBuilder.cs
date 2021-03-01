@@ -2,11 +2,15 @@
 // Licensed under the MIT License. See LICENSE file in the project root for license information.
 
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Primitives;
 using System;
 using System.Linq;
 using System.Text.Json;
@@ -122,7 +126,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Infrastructure
 
 #if !(NET461 || NETSTANDARD2_0 || NETCOREAPP2_1)
                         services.AddRouting();
-                        services.AddAuthorization();
+                        services.AddAuthorization(options => options.FallbackPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build());
 #endif
 
                         configureServices(services);
@@ -150,18 +154,18 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Infrastructure
                                 endpoints.MapGet("/", async context =>
                                 {
                                     await context.Response.WriteAsync("Hello World!");
-                                }).RequireAuthorization();
+                                });
 
                                 endpoints.MapGet("/claims-principal", async context =>
                                 {
                                     context.Response.ContentType = "application/json";
                                     await context.Response.WriteAsync(JsonSerializer.Serialize(new ClaimsPrincipalDto(context.User)));
-                                }).RequireAuthorization();
+                                });
 
                                 endpoints.MapGet("/forbidden", async context =>
                                 {
                                     await context.ForbidAsync();
-                                }).RequireAuthorization();
+                                });
 
                                 endpoints.MapGet("/anonymous", async context =>
                                 {
@@ -184,9 +188,30 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Infrastructure
                             {
                                 if (!context.User.Identity.IsAuthenticated)
                                 {
-                                    await context.ChallengeAsync();
-                                    return;
+                                    var scheme = StringValues.Empty;
+                                    context.Request.Query.TryGetValue("scheme", out scheme);
+
+                                    if (scheme.Any())
+                                    {
+                                        var result = await context.AuthenticateAsync(scheme);
+                                        if (result?.Principal != null)
+                                        {
+                                            context.User = result.Principal;
+                                        }
+                                        else
+                                        {
+                                            await context.ChallengeAsync(scheme);
+                                            return;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        await context.ChallengeAsync();
+                                        return;
+                                    }
                                 }
+
+
 
                                 if (context.Request.Path == "/claims-principal")
                                 {

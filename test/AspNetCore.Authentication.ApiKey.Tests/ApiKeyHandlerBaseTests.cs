@@ -2,9 +2,15 @@
 // Licensed under the MIT License. See LICENSE file in the project root for license information.
 
 using AspNetCore.Authentication.ApiKey.Tests.Infrastructure;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Security.Claims;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Xunit;
@@ -389,11 +395,127 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 			Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
 		}
 
-		#endregion // HandleAuthenticate
+        #endregion // HandleAuthenticate
 
-		private async Task<ClaimsPrincipalDto> DeserializeClaimsPrincipalAsync(HttpResponseMessage response)
+        #region Multi-Scheme
+
+        [Fact]
+        public async Task MultiScheme()
+        {
+            var keyName1 = "Key1";
+            var keyName2 = "Key2";
+            var keyName3 = "Key3";
+            var keyName4 = "Key4";
+            var claimProvider1 = new ClaimDto { Type = "Provider", Value = "1" };
+            var claimProvider2 = new ClaimDto { Type = "Provider", Value = "2" };
+            var claimRole = new ClaimDto(FakeApiKeys.FakeRoleClaim);
+			var schemes = new List<string> { "InHeader", "InHeaderWithProvider", "InAuthorizationHeader", "InQueryParams" };
+
+			using var server = TestServerBuilder.BuildTestServer(services =>
+            {
+                services.AddAuthentication("InHeader")
+                    .AddApiKeyInHeader("InHeader", options =>
+                    {
+                        options.Realm = TestServerBuilder.Realm;
+                        options.KeyName = keyName1;
+                        options.Events.OnValidateKey = context =>
+                        {
+                            context.Response.Headers.Add("X-Custom", "InHeader Scheme");
+                            context.ValidationSucceeded();
+                            return Task.CompletedTask;
+                        };
+                    })
+                    .AddApiKeyInHeader<FakeApiKeyProviderLocal_1>("InHeaderWithProvider", options =>
+                    {
+                        options.Realm = TestServerBuilder.Realm;
+                        options.KeyName = keyName2;
+                    })
+                    .AddApiKeyInAuthorizationHeader<FakeApiKeyProviderLocal_2>("InAuthorizationHeader", options =>
+                    {
+                        options.Realm = TestServerBuilder.Realm;
+                        options.KeyName = keyName3;
+                    })
+                    .AddApiKeyInQueryParams<FakeApiKeyProvider>("InQueryParams", options =>
+                    {
+                        options.Realm = TestServerBuilder.Realm;
+                        options.KeyName = keyName4;
+                    });
+
+#if !(NET461 || NETSTANDARD2_0 || NETCOREAPP2_1)
+				services.Configure<AuthorizationOptions>(options => options.FallbackPolicy = new AuthorizationPolicyBuilder(schemes.ToArray()).RequireAuthenticatedUser().Build());
+#endif
+			});
+
+            using var client = server.CreateClient();
+
+            using var request1 = new HttpRequestMessage(HttpMethod.Get, TestServerBuilder.ClaimsPrincipalUrl + "?scheme=" + schemes[0]);
+            request1.Headers.Add(keyName1, FakeApiKeys.FakeKey);
+            using var response1 = await client.SendAsync(request1);
+            Assert.True(response1.IsSuccessStatusCode);
+            Assert.Equal(HttpStatusCode.OK, response1.StatusCode);
+            var response1Principal = await DeserializeClaimsPrincipalAsync(response1);
+            Assert.Contains(response1.Headers, r => r.Key == "X-Custom" && r.Value.Any(v => v == "InHeader Scheme"));
+            Assert.DoesNotContain(response1Principal.Claims, c => c.Type == claimProvider1.Type && c.Value == claimProvider1.Value);
+            Assert.DoesNotContain(response1Principal.Claims, c => c.Type == claimProvider2.Type && c.Value == claimProvider2.Value);
+            Assert.DoesNotContain(response1Principal.Claims, c => c.Type == claimRole.Type && c.Value == claimRole.Value);
+
+
+            using var request2 = new HttpRequestMessage(HttpMethod.Get, TestServerBuilder.ClaimsPrincipalUrl + "?scheme=" + schemes[1]);
+            request2.Headers.Add(keyName2, FakeApiKeys.FakeKey);
+            using var response2 = await client.SendAsync(request2);
+            Assert.True(response2.IsSuccessStatusCode);
+            Assert.Equal(HttpStatusCode.OK, response2.StatusCode);
+            var response2Principal = await DeserializeClaimsPrincipalAsync(response2);
+            Assert.DoesNotContain(response2.Headers, r => r.Key == "X-Custom" && r.Value.Any(v => v == "InHeader Scheme"));
+            Assert.Contains(response2Principal.Claims, c => c.Type == claimProvider1.Type && c.Value == claimProvider1.Value);
+            Assert.DoesNotContain(response2Principal.Claims, c => c.Type == claimProvider2.Type && c.Value == claimProvider2.Value);
+            Assert.DoesNotContain(response2Principal.Claims, c => c.Type == claimRole.Type && c.Value == claimRole.Value);
+
+
+            using var request3 = new HttpRequestMessage(HttpMethod.Get, TestServerBuilder.ClaimsPrincipalUrl + "?scheme=" + schemes[2]);
+            request3.Headers.Authorization = new AuthenticationHeaderValue(keyName3, FakeApiKeys.FakeKey);
+            using var response3 = await client.SendAsync(request3);
+            Assert.True(response3.IsSuccessStatusCode);
+            Assert.Equal(HttpStatusCode.OK, response3.StatusCode);
+            var response3Principal = await DeserializeClaimsPrincipalAsync(response3);
+            Assert.DoesNotContain(response3.Headers, r => r.Key == "X-Custom" && r.Value.Any(v => v == "InHeader Scheme"));
+            Assert.DoesNotContain(response3Principal.Claims, c => c.Type == claimProvider1.Type && c.Value == claimProvider1.Value);
+            Assert.Contains(response3Principal.Claims, c => c.Type == claimProvider2.Type && c.Value == claimProvider2.Value);
+            Assert.DoesNotContain(response3Principal.Claims, c => c.Type == claimRole.Type && c.Value == claimRole.Value);
+
+
+            using var request4 = new HttpRequestMessage(HttpMethod.Get, $"{TestServerBuilder.ClaimsPrincipalUrl}?scheme={schemes[3]}&{keyName4}={FakeApiKeys.FakeKey}");
+            using var response4 = await client.SendAsync(request4);
+            Assert.True(response4.IsSuccessStatusCode);
+            Assert.Equal(HttpStatusCode.OK, response3.StatusCode);
+            var response4Principal = await DeserializeClaimsPrincipalAsync(response4);
+            Assert.DoesNotContain(response4.Headers, r => r.Key == "X-Custom" && r.Value.Any(v => v == "InHeader Scheme"));
+            Assert.DoesNotContain(response4Principal.Claims, c => c.Type == claimProvider1.Type && c.Value == claimProvider1.Value);
+            Assert.DoesNotContain(response4Principal.Claims, c => c.Type == claimProvider2.Type && c.Value == claimProvider2.Value);
+            Assert.Contains(response4Principal.Claims, c => c.Type == claimRole.Type && c.Value == claimRole.Value);
+        }
+
+        #endregion // Multi-Scheme
+
+        private async Task<ClaimsPrincipalDto> DeserializeClaimsPrincipalAsync(HttpResponseMessage response)
         {
 			return JsonSerializer.Deserialize<ClaimsPrincipalDto>(await response.Content.ReadAsStringAsync());
+		}
+
+        private class FakeApiKeyProviderLocal_1 : IApiKeyProvider
+        {
+            public Task<IApiKey> ProvideAsync(string key)
+            {
+				return Task.FromResult((IApiKey)new FakeApiKey(key, "Test", new List<Claim> { new Claim("Provider", "1") }));
+            }
+        }
+
+		private class FakeApiKeyProviderLocal_2 : IApiKeyProvider
+		{
+			public Task<IApiKey> ProvideAsync(string key)
+			{
+				return Task.FromResult((IApiKey)new FakeApiKey(key, "Test", new List<Claim> { new Claim("Provider", "2") }));
+			}
 		}
 	}
 }
