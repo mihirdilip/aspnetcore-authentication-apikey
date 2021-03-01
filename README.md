@@ -3,9 +3,13 @@ Easy to use and very light weight Microsoft style API Key Authentication Impleme
 
 [View On GitHub](https://github.com/mihirdilip/aspnetcore-authentication-apikey)
 
+<br/>
+
 ## .NET (Core) Frameworks Supported  
 .NET Framework 4.6.1 and/or NetStandard 2.0 onwards  
 Multi targeted: net5.0; netcoreapp3.1; netcoreapp3.0; netstandard2.0; net461
+
+<br/> 
 
 ## Installing
 This library is published on NuGet. So the NuGet package can be installed directly to your project if you wish to use it without making any custom changes to the code.
@@ -17,6 +21,8 @@ Or by running the below command on your project.
 ```
 PM> Install-Package AspNetCore.Authentication.ApiKey
 ```
+
+<br/>
 
 ## Example Usage
 
@@ -178,7 +184,11 @@ class ApiKey : IApiKey
 }
 ```
 
+<br/>
+<br/>
+
 ## Configuration (ApiKeyOptions)
+
 ### KeyName
 Required to be set. It is the name of the header if it is setup as in header or the name of the query parameter if set as in query_params.
 
@@ -231,6 +241,9 @@ The application may implement the interface fully, or it may create an instance 
 	Set the delegate to handle Forbid.  
 	Call context.Handled() at the end so that any default logic will be skipped.
 
+<br/>
+<br/>
+
 ## Extension Methods  
 Many overloads for each of the below are available to follow the same convension as Microsoft follows.  
 
@@ -250,6 +263,25 @@ WWW-Authenticate challenge header will contain parameter `in="query_params"`.
 Adds ApiKey authentication which can handle the api key in the either Header, Authorization Header or Query Parameter.  
 WWW-Authenticate challenge header will contain parameter `in="header_or_query_params"`.  
 
+<br/>
+<br/>
+
+## WWW-Authenticate Header
+The WWW-Authenticate header returned for unauthorized requests.  
+
+	WWW-Authenticate: <SCHEME_NAME> realm="<REALM>", charset="UTF-8", in="<IN_PARAMERTER>", key_name="<KEY_NAME>"  
+
+where,  
+- <SCHEME_NAME> == The authentication scheme name. But, if *ApiKeyOptions.ForLegacyUseKeyNameAsSchemeNameOnWWWAuthenticateHeader* is set to true then it will be *ApiKeyOptions.KeyName*  
+
+- &lt;REALM&gt; == *ApiKeyOptions.Realm*  
+
+- <IN_PARAMERTER> == Depending on the [extension method](#extension-methods) used, it could be either of *header*, *authorization_header*, *query_params*, *header_or_query_params*  
+
+- <KEY_NAME> == *ApiKeyOptions.KeyName*  
+
+<br/>
+<br/>
 
 ## Additional Notes
 
@@ -342,16 +374,20 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
-
+<br/>
+<br/>
 
 ## Release Notes
 | Version | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Notes |
 |---------|-------|
-|5.1.0    | <ul><li>WWW-Authenticate challenge header now returns SchemeName as scheme part instead of ApiKeyOptions.KeyName</li><li>WWW-Authenticate challenge header now has 2 new parameters 'in' and 'key_name' in value part</li><li>ForLegacyUseKeyNameAsSchemeNameOnWWWAuthenticateHeader added to the ApiKeyOptions</li><li>In Authorization Header now able to use either SchemeName or ApiKeyOptions.KeyName when matching AuthorizationHeader Scheme</li><li>Visibility of all the handlers changed to public</li><li>Tests added</li><li>Readme updated</li><li>Copyright year updated on License</li></ul> |
-|5.0.0    | <ul><li>Net 5.0 target framework added</li><li>IgnoreAuthenticationIfAllowAnonymous added to the ApiKeyOptions from netcoreapp3.0 onwards</li></ul> |
-|3.1.1    | <ul><li>Ability to have ApiKey in Authorization header added</li><li>Fixed extensions methods to use correct handler</li><li>Fixed issue with resolving of IApiKeyProvider implementation when using multiple schemes</li></ul> |
+|5.1.0    | <ul><li>WWW-Authenticate challenge header now returns SchemeName as scheme part instead of ApiKeyOptions.KeyName</li><li>WWW-Authenticate challenge header now has 2 new parameters 'in' and 'key_name' in value part</li><li>ForLegacyUseKeyNameAsSchemeNameOnWWWAuthenticateHeader added to the ApiKeyOptions</li><li>In Authorization Header now able to use either SchemeName or ApiKeyOptions.KeyName when matching AuthorizationHeader Scheme</li><li>Visibility of all the handlers changed to public [#21](https://github.com/mihirdilip/aspnetcore-authentication-apikey/issues/21)</li><li>Tests added</li><li>Readme updated</li><li>Copyright year updated on License</li></ul> |
+|5.0.0    | <ul><li>Net 5.0 target framework added</li><li>IgnoreAuthenticationIfAllowAnonymous added to the ApiKeyOptions from netcoreapp3.0 onwards [#15](https://github.com/mihirdilip/aspnetcore-authentication-apikey/issues/15)</li></ul> |
+|3.1.1    | <ul><li>Ability to have ApiKey in Authorization header added</li><li>Fixed extensions methods to use correct handler [#13](https://github.com/mihirdilip/aspnetcore-authentication-apikey/issues/13)</li><li>Fixed issue with resolving of IApiKeyProvider implementation when using multiple schemes [#12](https://github.com/mihirdilip/aspnetcore-authentication-apikey/issues/12)</li></ul> |
 |3.1.0    | <ul><li>Multitarget framework support added</li><li>Strong Name Key support added</li><li>Source Link support added</li><li>SuppressWWWAuthenticateHeader added to configure options</li><li>ForLegacyIgnoreExtraValidatedApiKeyCheck added to configure options</li><li>Events added to configure options</li></ul> |
 |2.2.0    | <ul><li>API Key Authentication Implementation for ASP.NET Core. It can be setup so that it can accept API Key in Header, QueryParams or HeaderOrQueryParams.</li></ul> |
+
+<br/>
+<br/>
 
 ## License
 [MIT License](https://github.com/mihirdilip/aspnetcore-authentication-apikey/blob/master/LICENSE)
