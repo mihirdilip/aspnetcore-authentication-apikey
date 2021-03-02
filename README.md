@@ -389,5 +389,9 @@ public void ConfigureServices(IServiceCollection services)
 <br/>
 <br/>
 
+## References
+- [ASP.NET Core Security documentation](https://docs.microsoft.com/en-us/aspnet/core/security)
+- [aspnet/Security](https://github.com/dotnet/aspnetcore/tree/master/src/Security)
+
 ## License
 [MIT License](https://github.com/mihirdilip/aspnetcore-authentication-apikey/blob/master/LICENSE)
