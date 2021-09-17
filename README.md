@@ -153,7 +153,7 @@ public class ApiKeyProvider : IApiKeyProvider
 	{
 		try
 		{
-			// write your validation implementation here and return an instance of a valid ApiKey or return an task with a null result for an invalid key.
+			// write your validation implementation here and return an instance of a valid ApiKey or return a task with a null result for an invalid key.
 			// return await _apiKeyRepository.GetApiKeyAsync(key);
 			return Task.FromResult<IApiKey>(null);
 		}
