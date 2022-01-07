@@ -7,7 +7,7 @@ Easy to use and very light weight Microsoft style API Key Authentication Impleme
 
 ## .NET (Core) Frameworks Supported  
 .NET Framework 4.6.1 and/or NetStandard 2.0 onwards  
-Multi targeted: net5.0; netcoreapp3.1; netcoreapp3.0; netstandard2.0; net461
+Multi targeted: net6.0; net5.0; netcoreapp3.1; netcoreapp3.0; netstandard2.0; net461
 
 <br/> 
 
@@ -380,6 +380,7 @@ public void ConfigureServices(IServiceCollection services)
 ## Release Notes
 | Version | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Notes |
 |---------|-------|
+|6.0.1    | <ul><li>net6.0 support added</li><li>Information log on handler is changed to Debug log when IgnoreAuthenticationIfAllowAnonymous is enabled</li><li>Sample project added</li><li>Readme updated</li><li>Copyright year updated on License</li></ul> |
 |5.1.0    | <ul><li>WWW-Authenticate challenge header now returns SchemeName as scheme part instead of ApiKeyOptions.KeyName</li><li>WWW-Authenticate challenge header now has 2 new parameters 'in' and 'key_name' in value part</li><li>ForLegacyUseKeyNameAsSchemeNameOnWWWAuthenticateHeader added to the ApiKeyOptions</li><li>In Authorization Header now able to use either SchemeName or ApiKeyOptions.KeyName when matching AuthorizationHeader Scheme</li><li>Visibility of all the handlers changed to public [#21](https://github.com/mihirdilip/aspnetcore-authentication-apikey/issues/21)</li><li>Tests added</li><li>Readme updated</li><li>Copyright year updated on License</li></ul> |
 |5.0.0    | <ul><li>Net 5.0 target framework added</li><li>IgnoreAuthenticationIfAllowAnonymous added to the ApiKeyOptions from netcoreapp3.0 onwards [#15](https://github.com/mihirdilip/aspnetcore-authentication-apikey/issues/15)</li></ul> |
 |3.1.1    | <ul><li>Ability to have ApiKey in Authorization header added</li><li>Fixed extensions methods to use correct handler [#13](https://github.com/mihirdilip/aspnetcore-authentication-apikey/issues/13)</li><li>Fixed issue with resolving of IApiKeyProvider implementation when using multiple schemes [#12](https://github.com/mihirdilip/aspnetcore-authentication-apikey/issues/12)</li></ul> |
