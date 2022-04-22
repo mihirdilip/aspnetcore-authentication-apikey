@@ -48,6 +48,18 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Infrastructure
             );
         }
 
+		internal static TestServer BuildInAuthorizationHeaderServerWithProviderFactory(Action<ApiKeyOptions> configureOptions = null)
+		{
+			return BuildTestServer(
+				services =>
+				{
+					services.AddTransient<IApiKeyProviderFactory, FakeApiKeyProviderFactory>();
+					var authBuilder = services.AddAuthentication(ApiKeyDefaults.AuthenticationScheme)
+						.AddApiKeyInAuthorizationHeader(configureOptions ?? DefaultApiKeyOptions());
+				}
+			);
+		}
+
         internal static TestServer BuildInHeaderServer(Action<ApiKeyOptions> configureOptions = null)
         {
             return BuildTestServer(
@@ -69,6 +81,18 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Infrastructure
                 }
             );
         }
+
+		internal static TestServer BuildInHeaderServerWithProviderFactory(Action<ApiKeyOptions> configureOptions = null)
+		{
+			return BuildTestServer(
+				services =>
+				{
+					services.AddTransient<IApiKeyProviderFactory, FakeApiKeyProviderFactory>();
+					var authBuilder = services.AddAuthentication(ApiKeyDefaults.AuthenticationScheme)
+						.AddApiKeyInHeader(configureOptions ?? DefaultApiKeyOptions());
+				}
+			);
+		}
 
         internal static TestServer BuildInQueryParamsServer(Action<ApiKeyOptions> configureOptions = null)
         {
@@ -92,6 +116,18 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Infrastructure
             );
         }
 
+		internal static TestServer BuildInQueryParamsServerWithProviderFactory(Action<ApiKeyOptions> configureOptions = null)
+		{
+			return BuildTestServer(
+				services =>
+				{
+                    services.AddTransient<IApiKeyProviderFactory, FakeApiKeyProviderFactory>();
+					var authBuilder = services.AddAuthentication(ApiKeyDefaults.AuthenticationScheme)
+						.AddApiKeyInQueryParams(configureOptions ?? DefaultApiKeyOptions());
+				}
+			);
+		}
+
         internal static TestServer BuildInHeaderOrQueryParamsServer(Action<ApiKeyOptions> configureOptions = null)
         {
             return BuildTestServer(
@@ -113,6 +149,18 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Infrastructure
                 }
             );
         }
+
+		internal static TestServer BuildInHeaderOrQueryParamsServerWithProviderFactory(Action<ApiKeyOptions> configureOptions = null)
+		{
+			return BuildTestServer(
+				services =>
+				{
+					services.AddTransient<IApiKeyProviderFactory, FakeApiKeyProviderFactory>();
+					var authBuilder = services.AddAuthentication(ApiKeyDefaults.AuthenticationScheme)
+						.AddApiKeyInHeaderOrQueryParams(configureOptions ?? DefaultApiKeyOptions());
+				}
+			);
+		}
 
         internal static TestServer BuildTestServer(Action<IServiceCollection> configureServices, Action<IApplicationBuilder> configure = null)
         {

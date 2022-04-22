@@ -29,7 +29,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 				})
 			);
 
-			Assert.Contains($"{nameof(ApiKeyOptions.Realm)} must be set in {typeof(ApiKeyOptions).Name} when setting up the authentication.", exception.Message);
+			Assert.Contains($"{nameof(ApiKeyOptions.Realm)} must be set in {nameof(ApiKeyOptions)} when setting up the authentication.", exception.Message);
 		}
 
 		[Fact]
@@ -62,7 +62,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 				})
 			);
 
-			Assert.Contains($"{nameof(ApiKeyOptions.KeyName)} must be set in {typeof(ApiKeyOptions).Name} when setting up the authentication.", exception.Message);
+			Assert.Contains($"{nameof(ApiKeyOptions.KeyName)} must be set in {nameof(ApiKeyOptions)} when setting up the authentication.", exception.Message);
 		}
 
 		[Fact]
@@ -76,7 +76,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 		}
 
 		[Fact]
-		public async Task PostConfigure_Events_OnValidateKey_or_IApiKeyProvider_not_set_throws_exception()
+		public async Task PostConfigure_Events_OnValidateKey_or_IApiKeyProvider_or_IApiKeyProviderFactory_not_set_throws_exception()
 		{
 			var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
 				RunAuthInitAsync(options =>
@@ -86,7 +86,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 				})
 			);
 
-			Assert.Contains($"Either {nameof(ApiKeyOptions.Events.OnValidateKey)} delegate on configure options {nameof(ApiKeyOptions.Events)} should be set or use an extention method with type parameter of type {nameof(IApiKeyProvider)}.", exception.Message);
+			Assert.Contains($"Either {nameof(ApiKeyOptions.Events.OnValidateKey)} delegate on configure options {nameof(ApiKeyOptions.Events)} should be set or use an extension method with type parameter of type {nameof(IApiKeyProvider)} or register an implementation of type {nameof(IApiKeyProviderFactory)} in the service collection.", exception.Message);
 		}
 
 		[Fact]
@@ -110,6 +110,15 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 			});
 		}
 
+		[Fact]
+		public async Task PostConfigure_Events_OnValidateKey_not_set_and_IApiKeyProvider_not_set_but_IApiKeyProviderFactory_registered_no_exception_thrown()
+		{
+			await RunAuthInitWithServiceFactoryAsync(options =>
+			{
+				options.SuppressWWWAuthenticateHeader = true;
+				options.KeyName = KeyName;
+			});
+		}
 
 		private async Task RunAuthInitAsync(Action<ApiKeyOptions> configureOptions)
 		{
@@ -120,6 +129,12 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 		private async Task RunAuthInitWithProviderAsync(Action<ApiKeyOptions> configureOptions)
 		{
 			var server = TestServerBuilder.BuildInHeaderOrQueryParamsServerWithProvider(configureOptions);
+			await server.CreateClient().GetAsync(TestServerBuilder.BaseUrl);
+		}
+
+		private async Task RunAuthInitWithServiceFactoryAsync(Action<ApiKeyOptions> configureOptions)
+		{
+			var server = TestServerBuilder.BuildInHeaderOrQueryParamsServerWithProviderFactory(configureOptions);
 			await server.CreateClient().GetAsync(TestServerBuilder.BaseUrl);
 		}
 	}

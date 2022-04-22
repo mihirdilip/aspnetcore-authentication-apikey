@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace SampleWebApi.Services
 {
-	class ApiKeyProvider : IApiKeyProvider
+	internal class ApiKeyProvider : IApiKeyProvider
 	{
 		private readonly ILogger<IApiKeyProvider> _logger;
 		private readonly IApiKeyRepository _apiKeyRepository;
 
-		public ApiKeyProvider(ILogger<IApiKeyProvider> logger, IApiKeyRepository apiKeyRepository)
+		public ApiKeyProvider(ILogger<ApiKeyProvider> logger, IApiKeyRepository apiKeyRepository)
 		{
 			_logger = logger;
 			_apiKeyRepository = apiKeyRepository;

@@ -74,4 +74,13 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Infrastructure
             new FakeApiKey(FakeKeyIgnoreAuthenticationIfAllowAnonymous, FakeKeyOwner, new List<Claim> { FakeNameClaim, FakeNameIdentifierClaim, FakeRoleClaim })
         };
     }
+
+	class FakeApiKeyProviderFactory : IApiKeyProviderFactory
+	{
+		/// <inheritdoc />
+		public IApiKeyProvider CreateApiKeyProvider(string authenticationSchemaName)
+		{
+			return new FakeApiKeyProvider();
+		}
+	}
 }

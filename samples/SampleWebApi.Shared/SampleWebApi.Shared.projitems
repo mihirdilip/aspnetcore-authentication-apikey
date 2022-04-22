@@ -13,5 +13,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\ApiKeyProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Repositories\InMemoryApiKeyRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Repositories\IApiKeyRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ApiKeyProviderFactory.cs" />
   </ItemGroup>
 </Project>

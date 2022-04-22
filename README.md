@@ -30,13 +30,16 @@ Samples are available under [samples directory](samples).
 
 Setting it up is quite simple. You will need basic working knowledge of ASP.NET Core 2.0 or newer to get started using this library.
 
-There are 2 different ways of using this library to do it's job. Both ways can be mixed if required.  
-1] Using the implementation of *IApiKeyProvider*  
-2] Using *ApiKeyOptions.Events* (OnValidateKey delegate) which is same approach you will find on Microsoft's authentication libraries
+There are 3 different ways of using this library to do it's job. All ways can be mixed if required.  
+1. Using the implementation of *IApiKeyProvider*  
+2. Using *ApiKeyOptions.Events* (OnValidateKey delegate) which is same approach you will find on Microsoft's authentication libraries
+3. Using an implementation of *IApiKeyProviderFactory* that is registered in the *IServiceCollection*
 
 Notes:
 - It requires Realm to be set in the options if SuppressWWWAuthenticateHeader is not set.
 - If an implementation of IApiKeyProvider interface is used as well as options.Events.OnValidateKey delegate is also set then this delegate will be used first.
+- If an implementation of IApiKeyProviderFactory interface is registered in the IServiceCollection the IApiKeyProvider instances are tried to be created using the factory, 
+  but if no instance is returned by the factory the fallback is to use the configured IApiKeyProvider implementation type.
 
 **Always use HTTPS (SSL Certificate) protocol in production when using API Key authentication.**
 

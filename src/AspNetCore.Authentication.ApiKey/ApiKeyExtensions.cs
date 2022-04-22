@@ -486,6 +486,11 @@ namespace AspNetCore.Authentication.ApiKey
 		private static AuthenticationBuilder AddApiKey<TApiKeyHandler>(this AuthenticationBuilder builder, string authenticationScheme, string displayName, Action<ApiKeyOptions> configureOptions)
 			where TApiKeyHandler : AuthenticationHandler<ApiKeyOptions>
 		{
+			// Add the authentication scheme name for the specific options.
+			builder.Services.Configure<ApiKeyOptions>(
+				authenticationScheme,
+				o => o.AuthenticationSchemeName = authenticationScheme);
+
 			// Adds post configure options to the pipeline.
 			builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<IPostConfigureOptions<ApiKeyOptions>, ApiKeyPostConfigureOptions>());
 
@@ -499,10 +504,15 @@ namespace AspNetCore.Authentication.ApiKey
 		{
 			// Adds implementation of IApiKeyProvider to the dependency container.
 			builder.Services.AddTransient<IApiKeyProvider, TApiKeyProvider>();
+
+			// Add the authentication scheme name for the specific options.
 			builder.Services.Configure<ApiKeyOptions>(
 				authenticationScheme,
-				o => o.ApiKeyProviderType = typeof(TApiKeyProvider)
-			);
+				o =>
+				{
+					o.AuthenticationSchemeName = authenticationScheme;
+					o.ApiKeyProviderType = typeof(TApiKeyProvider);
+				});
 
 			// Adds post configure options to the pipeline.
 			builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<IPostConfigureOptions<ApiKeyOptions>, ApiKeyPostConfigureOptions>());

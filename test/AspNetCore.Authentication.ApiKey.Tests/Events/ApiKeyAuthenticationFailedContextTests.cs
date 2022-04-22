@@ -12,7 +12,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Events
 {
     public class ApiKeyAuthenticationFailedContext
     {
-		private static readonly string ExpectedExceptionMessage = $"Either {nameof(ApiKeyEvents.OnValidateKey)} delegate on configure options {nameof(ApiKeyOptions.Events)} should be set or use an extention method with type parameter of type {nameof(IApiKeyProvider)}.";
+		private static readonly string ExpectedExceptionMessage = $"Either {nameof(ApiKeyEvents.OnValidateKey)} delegate on configure options {nameof(ApiKeyOptions.Events)} should be set or use an extension method with type parameter of type {nameof(IApiKeyProvider)} or register an implementation of type {nameof(IApiKeyProviderFactory)} in the service collection.";
 
 		[Fact]
 		public async Task Exception_result_null()

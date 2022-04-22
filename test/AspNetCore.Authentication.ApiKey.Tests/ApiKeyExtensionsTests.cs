@@ -21,7 +21,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
         {
             var scheme = await GetSchemeAsync(a => a.AddApiKeyInHeader());
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInHeaderHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInHeaderHandler), scheme.HandlerType.Name);
             Assert.Null(scheme.DisplayName);
         }
 
@@ -31,7 +31,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             var schemeName = "CustomScheme";
             var scheme = await GetSchemeAsync(a => a.AddApiKeyInHeader(schemeName), schemeName);
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInHeaderHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInHeaderHandler), scheme.HandlerType.Name);
             Assert.Null(scheme.DisplayName);
             Assert.Equal(schemeName, scheme.Name);
         }
@@ -41,7 +41,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
         {
             var scheme = await GetSchemeAsync(a => a.AddApiKeyInHeader(_ => { }));
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInHeaderHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInHeaderHandler), scheme.HandlerType.Name);
             Assert.Null(scheme.DisplayName);
         }
 
@@ -51,7 +51,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             var schemeName = "CustomScheme";
             var scheme = await GetSchemeAsync(a => a.AddApiKeyInHeader(schemeName, _ => { }), schemeName);
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInHeaderHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInHeaderHandler), scheme.HandlerType.Name);
             Assert.Null(scheme.DisplayName);
             Assert.Equal(schemeName, scheme.Name);
         }
@@ -63,7 +63,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             var displayName = "DisplayName";
             var scheme = await GetSchemeAsync(a => a.AddApiKeyInHeader(schemeName, displayName, _ => { }), schemeName);
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInHeaderHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInHeaderHandler), scheme.HandlerType.Name);
             Assert.NotNull(scheme.DisplayName);
             Assert.Equal(displayName, scheme.DisplayName);
             Assert.Equal(schemeName, scheme.Name);
@@ -75,7 +75,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
         {
             var scheme = await GetSchemeAsync(a => a.AddApiKeyInHeader<MockApiKeyProvider>(), ApiKeyDefaults.AuthenticationScheme);
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInHeaderHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInHeaderHandler), scheme.HandlerType.Name);
             Assert.Null(scheme.DisplayName);
         }
 
@@ -85,7 +85,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             var schemeName = "CustomScheme";
             var scheme = await GetSchemeAsync(a => a.AddApiKeyInHeader<MockApiKeyProvider>(schemeName), schemeName);
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInHeaderHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInHeaderHandler), scheme.HandlerType.Name);
             Assert.Null(scheme.DisplayName);
             Assert.Equal(schemeName, scheme.Name);
         }
@@ -95,7 +95,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
         {
             var scheme = await GetSchemeAsync(a => a.AddApiKeyInHeader<MockApiKeyProvider>(_ => { }));
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInHeaderHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInHeaderHandler), scheme.HandlerType.Name);
             Assert.Null(scheme.DisplayName);
         }
 
@@ -105,7 +105,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             var schemeName = "CustomScheme";
             var scheme = await GetSchemeAsync(a => a.AddApiKeyInHeader<MockApiKeyProvider>(schemeName, _ => { }), schemeName);
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInHeaderHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInHeaderHandler), scheme.HandlerType.Name);
             Assert.Null(scheme.DisplayName);
             Assert.Equal(schemeName, scheme.Name);
         }
@@ -117,7 +117,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             var displayName = "DisplayName";
             var scheme = await GetSchemeAsync(a => a.AddApiKeyInHeader<MockApiKeyProvider>(schemeName, displayName, _ => { }), schemeName);
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInHeaderHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInHeaderHandler), scheme.HandlerType.Name);
             Assert.NotNull(scheme.DisplayName);
             Assert.Equal(displayName, scheme.DisplayName);
             Assert.Equal(schemeName, scheme.Name);
@@ -144,12 +144,12 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             var scheme = await schemeProvider.GetSchemeAsync(schemeName);
 
             Assert.NotNull(defaultScheme);
-            Assert.Equal(typeof(ApiKeyInHeaderHandler).Name, defaultScheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInHeaderHandler), defaultScheme.HandlerType.Name);
             Assert.Null(defaultScheme.DisplayName);
             Assert.Equal(ApiKeyDefaults.AuthenticationScheme, defaultScheme.Name);
 
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInHeaderHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInHeaderHandler), scheme.HandlerType.Name);
             Assert.NotNull(scheme.DisplayName);
             Assert.Equal(displayName, scheme.DisplayName);
             Assert.Equal(schemeName, scheme.Name);
@@ -172,12 +172,12 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             var scheme = await schemeProvider.GetSchemeAsync(schemeName);
 
             Assert.NotNull(defaultScheme);
-            Assert.Equal(typeof(ApiKeyInHeaderHandler).Name, defaultScheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInHeaderHandler), defaultScheme.HandlerType.Name);
             Assert.Null(defaultScheme.DisplayName);
             Assert.Equal(ApiKeyDefaults.AuthenticationScheme, defaultScheme.Name);
 
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInHeaderHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInHeaderHandler), scheme.HandlerType.Name);
             Assert.NotNull(scheme.DisplayName);
             Assert.Equal(displayName, scheme.DisplayName);
             Assert.Equal(schemeName, scheme.Name);
@@ -316,7 +316,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
         {
             var scheme = await GetSchemeAsync(a => a.AddApiKeyInAuthorizationHeader());
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInAuthorizationHeaderHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInAuthorizationHeaderHandler), scheme.HandlerType.Name);
             Assert.Null(scheme.DisplayName);
         }
 
@@ -326,7 +326,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             var schemeName = "CustomScheme";
             var scheme = await GetSchemeAsync(a => a.AddApiKeyInAuthorizationHeader(schemeName), schemeName);
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInAuthorizationHeaderHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInAuthorizationHeaderHandler), scheme.HandlerType.Name);
             Assert.Null(scheme.DisplayName);
             Assert.Equal(schemeName, scheme.Name);
         }
@@ -336,7 +336,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
         {
             var scheme = await GetSchemeAsync(a => a.AddApiKeyInAuthorizationHeader(_ => { }));
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInAuthorizationHeaderHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInAuthorizationHeaderHandler), scheme.HandlerType.Name);
             Assert.Null(scheme.DisplayName);
         }
 
@@ -346,7 +346,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             var schemeName = "CustomScheme";
             var scheme = await GetSchemeAsync(a => a.AddApiKeyInAuthorizationHeader(schemeName, _ => { }), schemeName);
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInAuthorizationHeaderHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInAuthorizationHeaderHandler), scheme.HandlerType.Name);
             Assert.Null(scheme.DisplayName);
             Assert.Equal(schemeName, scheme.Name);
         }
@@ -358,7 +358,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             var displayName = "DisplayName";
             var scheme = await GetSchemeAsync(a => a.AddApiKeyInAuthorizationHeader(schemeName, displayName, _ => { }), schemeName);
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInAuthorizationHeaderHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInAuthorizationHeaderHandler), scheme.HandlerType.Name);
             Assert.NotNull(scheme.DisplayName);
             Assert.Equal(displayName, scheme.DisplayName);
             Assert.Equal(schemeName, scheme.Name);
@@ -370,7 +370,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
         {
             var scheme = await GetSchemeAsync(a => a.AddApiKeyInAuthorizationHeader<MockApiKeyProvider>(), ApiKeyDefaults.AuthenticationScheme);
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInAuthorizationHeaderHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInAuthorizationHeaderHandler), scheme.HandlerType.Name);
             Assert.Null(scheme.DisplayName);
         }
 
@@ -380,7 +380,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             var schemeName = "CustomScheme";
             var scheme = await GetSchemeAsync(a => a.AddApiKeyInAuthorizationHeader<MockApiKeyProvider>(schemeName), schemeName);
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInAuthorizationHeaderHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInAuthorizationHeaderHandler), scheme.HandlerType.Name);
             Assert.Null(scheme.DisplayName);
             Assert.Equal(schemeName, scheme.Name);
         }
@@ -390,7 +390,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
         {
             var scheme = await GetSchemeAsync(a => a.AddApiKeyInAuthorizationHeader<MockApiKeyProvider>(_ => { }));
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInAuthorizationHeaderHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInAuthorizationHeaderHandler), scheme.HandlerType.Name);
             Assert.Null(scheme.DisplayName);
         }
 
@@ -400,7 +400,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             var schemeName = "CustomScheme";
             var scheme = await GetSchemeAsync(a => a.AddApiKeyInAuthorizationHeader<MockApiKeyProvider>(schemeName, _ => { }), schemeName);
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInAuthorizationHeaderHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInAuthorizationHeaderHandler), scheme.HandlerType.Name);
             Assert.Null(scheme.DisplayName);
             Assert.Equal(schemeName, scheme.Name);
         }
@@ -412,7 +412,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             var displayName = "DisplayName";
             var scheme = await GetSchemeAsync(a => a.AddApiKeyInAuthorizationHeader<MockApiKeyProvider>(schemeName, displayName, _ => { }), schemeName);
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInAuthorizationHeaderHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInAuthorizationHeaderHandler), scheme.HandlerType.Name);
             Assert.NotNull(scheme.DisplayName);
             Assert.Equal(displayName, scheme.DisplayName);
             Assert.Equal(schemeName, scheme.Name);
@@ -439,12 +439,12 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             var scheme = await schemeProvider.GetSchemeAsync(schemeName);
 
             Assert.NotNull(defaultScheme);
-            Assert.Equal(typeof(ApiKeyInAuthorizationHeaderHandler).Name, defaultScheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInAuthorizationHeaderHandler), defaultScheme.HandlerType.Name);
             Assert.Null(defaultScheme.DisplayName);
             Assert.Equal(ApiKeyDefaults.AuthenticationScheme, defaultScheme.Name);
 
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInAuthorizationHeaderHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInAuthorizationHeaderHandler), scheme.HandlerType.Name);
             Assert.NotNull(scheme.DisplayName);
             Assert.Equal(displayName, scheme.DisplayName);
             Assert.Equal(schemeName, scheme.Name);
@@ -467,12 +467,12 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             var scheme = await schemeProvider.GetSchemeAsync(schemeName);
 
             Assert.NotNull(defaultScheme);
-            Assert.Equal(typeof(ApiKeyInAuthorizationHeaderHandler).Name, defaultScheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInAuthorizationHeaderHandler), defaultScheme.HandlerType.Name);
             Assert.Null(defaultScheme.DisplayName);
             Assert.Equal(ApiKeyDefaults.AuthenticationScheme, defaultScheme.Name);
 
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInAuthorizationHeaderHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInAuthorizationHeaderHandler), scheme.HandlerType.Name);
             Assert.NotNull(scheme.DisplayName);
             Assert.Equal(displayName, scheme.DisplayName);
             Assert.Equal(schemeName, scheme.Name);
@@ -611,7 +611,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
         {
             var scheme = await GetSchemeAsync(a => a.AddApiKeyInQueryParams());
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInQueryParamsHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInQueryParamsHandler), scheme.HandlerType.Name);
             Assert.Null(scheme.DisplayName);
         }
 
@@ -621,7 +621,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             var schemeName = "CustomScheme";
             var scheme = await GetSchemeAsync(a => a.AddApiKeyInQueryParams(schemeName), schemeName);
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInQueryParamsHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInQueryParamsHandler), scheme.HandlerType.Name);
             Assert.Null(scheme.DisplayName);
             Assert.Equal(schemeName, scheme.Name);
         }
@@ -631,7 +631,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
         {
             var scheme = await GetSchemeAsync(a => a.AddApiKeyInQueryParams(_ => { }));
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInQueryParamsHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInQueryParamsHandler), scheme.HandlerType.Name);
             Assert.Null(scheme.DisplayName);
         }
 
@@ -641,7 +641,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             var schemeName = "CustomScheme";
             var scheme = await GetSchemeAsync(a => a.AddApiKeyInQueryParams(schemeName, _ => { }), schemeName);
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInQueryParamsHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInQueryParamsHandler), scheme.HandlerType.Name);
             Assert.Null(scheme.DisplayName);
             Assert.Equal(schemeName, scheme.Name);
         }
@@ -653,7 +653,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             var displayName = "DisplayName";
             var scheme = await GetSchemeAsync(a => a.AddApiKeyInQueryParams(schemeName, displayName, _ => { }), schemeName);
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInQueryParamsHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInQueryParamsHandler), scheme.HandlerType.Name);
             Assert.NotNull(scheme.DisplayName);
             Assert.Equal(displayName, scheme.DisplayName);
             Assert.Equal(schemeName, scheme.Name);
@@ -665,7 +665,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
         {
             var scheme = await GetSchemeAsync(a => a.AddApiKeyInQueryParams<MockApiKeyProvider>(), ApiKeyDefaults.AuthenticationScheme);
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInQueryParamsHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInQueryParamsHandler), scheme.HandlerType.Name);
             Assert.Null(scheme.DisplayName);
         }
 
@@ -675,7 +675,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             var schemeName = "CustomScheme";
             var scheme = await GetSchemeAsync(a => a.AddApiKeyInQueryParams<MockApiKeyProvider>(schemeName), schemeName);
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInQueryParamsHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInQueryParamsHandler), scheme.HandlerType.Name);
             Assert.Null(scheme.DisplayName);
             Assert.Equal(schemeName, scheme.Name);
         }
@@ -685,7 +685,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
         {
             var scheme = await GetSchemeAsync(a => a.AddApiKeyInQueryParams<MockApiKeyProvider>(_ => { }));
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInQueryParamsHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInQueryParamsHandler), scheme.HandlerType.Name);
             Assert.Null(scheme.DisplayName);
         }
 
@@ -695,7 +695,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             var schemeName = "CustomScheme";
             var scheme = await GetSchemeAsync(a => a.AddApiKeyInQueryParams<MockApiKeyProvider>(schemeName, _ => { }), schemeName);
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInQueryParamsHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInQueryParamsHandler), scheme.HandlerType.Name);
             Assert.Null(scheme.DisplayName);
             Assert.Equal(schemeName, scheme.Name);
         }
@@ -707,7 +707,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             var displayName = "DisplayName";
             var scheme = await GetSchemeAsync(a => a.AddApiKeyInQueryParams<MockApiKeyProvider>(schemeName, displayName, _ => { }), schemeName);
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInQueryParamsHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInQueryParamsHandler), scheme.HandlerType.Name);
             Assert.NotNull(scheme.DisplayName);
             Assert.Equal(displayName, scheme.DisplayName);
             Assert.Equal(schemeName, scheme.Name);
@@ -734,12 +734,12 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             var scheme = await schemeProvider.GetSchemeAsync(schemeName);
 
             Assert.NotNull(defaultScheme);
-            Assert.Equal(typeof(ApiKeyInQueryParamsHandler).Name, defaultScheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInQueryParamsHandler), defaultScheme.HandlerType.Name);
             Assert.Null(defaultScheme.DisplayName);
             Assert.Equal(ApiKeyDefaults.AuthenticationScheme, defaultScheme.Name);
 
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInQueryParamsHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInQueryParamsHandler), scheme.HandlerType.Name);
             Assert.NotNull(scheme.DisplayName);
             Assert.Equal(displayName, scheme.DisplayName);
             Assert.Equal(schemeName, scheme.Name);
@@ -762,12 +762,12 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             var scheme = await schemeProvider.GetSchemeAsync(schemeName);
 
             Assert.NotNull(defaultScheme);
-            Assert.Equal(typeof(ApiKeyInQueryParamsHandler).Name, defaultScheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInQueryParamsHandler), defaultScheme.HandlerType.Name);
             Assert.Null(defaultScheme.DisplayName);
             Assert.Equal(ApiKeyDefaults.AuthenticationScheme, defaultScheme.Name);
 
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInQueryParamsHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInQueryParamsHandler), scheme.HandlerType.Name);
             Assert.NotNull(scheme.DisplayName);
             Assert.Equal(displayName, scheme.DisplayName);
             Assert.Equal(schemeName, scheme.Name);
@@ -906,7 +906,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
         {
             var scheme = await GetSchemeAsync(a => a.AddApiKeyInHeaderOrQueryParams());
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInHeaderOrQueryParamsHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInHeaderOrQueryParamsHandler), scheme.HandlerType.Name);
             Assert.Null(scheme.DisplayName);
         }
 
@@ -916,7 +916,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             var schemeName = "CustomScheme";
             var scheme = await GetSchemeAsync(a => a.AddApiKeyInHeaderOrQueryParams(schemeName), schemeName);
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInHeaderOrQueryParamsHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInHeaderOrQueryParamsHandler), scheme.HandlerType.Name);
             Assert.Null(scheme.DisplayName);
             Assert.Equal(schemeName, scheme.Name);
         }
@@ -926,7 +926,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
         {
             var scheme = await GetSchemeAsync(a => a.AddApiKeyInHeaderOrQueryParams(_ => { }));
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInHeaderOrQueryParamsHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInHeaderOrQueryParamsHandler), scheme.HandlerType.Name);
             Assert.Null(scheme.DisplayName);
         }
 
@@ -936,7 +936,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             var schemeName = "CustomScheme";
             var scheme = await GetSchemeAsync(a => a.AddApiKeyInHeaderOrQueryParams(schemeName, _ => { }), schemeName);
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInHeaderOrQueryParamsHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInHeaderOrQueryParamsHandler), scheme.HandlerType.Name);
             Assert.Null(scheme.DisplayName);
             Assert.Equal(schemeName, scheme.Name);
         }
@@ -948,7 +948,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             var displayName = "DisplayName";
             var scheme = await GetSchemeAsync(a => a.AddApiKeyInHeaderOrQueryParams(schemeName, displayName, _ => { }), schemeName);
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInHeaderOrQueryParamsHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInHeaderOrQueryParamsHandler), scheme.HandlerType.Name);
             Assert.NotNull(scheme.DisplayName);
             Assert.Equal(displayName, scheme.DisplayName);
             Assert.Equal(schemeName, scheme.Name);
@@ -960,7 +960,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
         {
             var scheme = await GetSchemeAsync(a => a.AddApiKeyInHeaderOrQueryParams<MockApiKeyProvider>(), ApiKeyDefaults.AuthenticationScheme);
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInHeaderOrQueryParamsHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInHeaderOrQueryParamsHandler), scheme.HandlerType.Name);
             Assert.Null(scheme.DisplayName);
         }
 
@@ -970,7 +970,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             var schemeName = "CustomScheme";
             var scheme = await GetSchemeAsync(a => a.AddApiKeyInHeaderOrQueryParams<MockApiKeyProvider>(schemeName), schemeName);
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInHeaderOrQueryParamsHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInHeaderOrQueryParamsHandler), scheme.HandlerType.Name);
             Assert.Null(scheme.DisplayName);
             Assert.Equal(schemeName, scheme.Name);
         }
@@ -980,7 +980,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
         {
             var scheme = await GetSchemeAsync(a => a.AddApiKeyInHeaderOrQueryParams<MockApiKeyProvider>(_ => { }));
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInHeaderOrQueryParamsHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInHeaderOrQueryParamsHandler), scheme.HandlerType.Name);
             Assert.Null(scheme.DisplayName);
         }
 
@@ -990,7 +990,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             var schemeName = "CustomScheme";
             var scheme = await GetSchemeAsync(a => a.AddApiKeyInHeaderOrQueryParams<MockApiKeyProvider>(schemeName, _ => { }), schemeName);
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInHeaderOrQueryParamsHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInHeaderOrQueryParamsHandler), scheme.HandlerType.Name);
             Assert.Null(scheme.DisplayName);
             Assert.Equal(schemeName, scheme.Name);
         }
@@ -1002,7 +1002,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             var displayName = "DisplayName";
             var scheme = await GetSchemeAsync(a => a.AddApiKeyInHeaderOrQueryParams<MockApiKeyProvider>(schemeName, displayName, _ => { }), schemeName);
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInHeaderOrQueryParamsHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInHeaderOrQueryParamsHandler), scheme.HandlerType.Name);
             Assert.NotNull(scheme.DisplayName);
             Assert.Equal(displayName, scheme.DisplayName);
             Assert.Equal(schemeName, scheme.Name);
@@ -1029,12 +1029,12 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             var scheme = await schemeProvider.GetSchemeAsync(schemeName);
 
             Assert.NotNull(defaultScheme);
-            Assert.Equal(typeof(ApiKeyInHeaderOrQueryParamsHandler).Name, defaultScheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInHeaderOrQueryParamsHandler), defaultScheme.HandlerType.Name);
             Assert.Null(defaultScheme.DisplayName);
             Assert.Equal(ApiKeyDefaults.AuthenticationScheme, defaultScheme.Name);
 
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInHeaderOrQueryParamsHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInHeaderOrQueryParamsHandler), scheme.HandlerType.Name);
             Assert.NotNull(scheme.DisplayName);
             Assert.Equal(displayName, scheme.DisplayName);
             Assert.Equal(schemeName, scheme.Name);
@@ -1057,12 +1057,12 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             var scheme = await schemeProvider.GetSchemeAsync(schemeName);
 
             Assert.NotNull(defaultScheme);
-            Assert.Equal(typeof(ApiKeyInHeaderOrQueryParamsHandler).Name, defaultScheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInHeaderOrQueryParamsHandler), defaultScheme.HandlerType.Name);
             Assert.Null(defaultScheme.DisplayName);
             Assert.Equal(ApiKeyDefaults.AuthenticationScheme, defaultScheme.Name);
 
             Assert.NotNull(scheme);
-            Assert.Equal(typeof(ApiKeyInHeaderOrQueryParamsHandler).Name, scheme.HandlerType.Name);
+            Assert.Equal(nameof(ApiKeyInHeaderOrQueryParamsHandler), scheme.HandlerType.Name);
             Assert.NotNull(scheme.DisplayName);
             Assert.Equal(displayName, scheme.DisplayName);
             Assert.Equal(schemeName, scheme.Name);

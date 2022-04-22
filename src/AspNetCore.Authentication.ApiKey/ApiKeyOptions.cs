@@ -71,5 +71,7 @@ namespace AspNetCore.Authentication.ApiKey
 #endif
 
         internal Type ApiKeyProviderType { get; set; } = null;
-    }
+
+		internal string AuthenticationSchemeName { get; set; }
+	}
 }

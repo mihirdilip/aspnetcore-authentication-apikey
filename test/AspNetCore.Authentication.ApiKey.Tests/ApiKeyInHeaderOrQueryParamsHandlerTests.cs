@@ -21,6 +21,8 @@ namespace AspNetCore.Authentication.ApiKey.Tests
         private readonly HttpClient _client;
         private readonly TestServer _serverWithProvider;
         private readonly HttpClient _clientWithProvider;
+		private readonly TestServer _serverWithProviderFactory;
+		private readonly HttpClient _clientWithProviderFactory;
 
         public ApiKeyInHeaderOrQueryParamsHandlerTests()
         {
@@ -29,6 +31,9 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 
 			_serverWithProvider = TestServerBuilder.BuildInHeaderOrQueryParamsServerWithProvider();
 			_clientWithProvider = _serverWithProvider.CreateClient();
+
+			_serverWithProviderFactory = TestServerBuilder.BuildInHeaderOrQueryParamsServerWithProviderFactory();
+			_clientWithProviderFactory = _serverWithProvider.CreateClient();
 		}
 
 		public void Dispose()
@@ -38,6 +43,9 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 
 			_clientWithProvider?.Dispose();
 			_serverWithProvider?.Dispose();
+
+			_serverWithProviderFactory?.Dispose();
+			_clientWithProviderFactory?.Dispose();
 		}
 
 		[Fact]
@@ -82,6 +90,31 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 			var apiKeyProvider = services.GetService<IApiKeyProvider>();
 			Assert.NotNull(apiKeyProvider);
 			Assert.Equal(typeof(FakeApiKeyProvider), apiKeyProvider.GetType());
+		}
+
+		[Fact]
+		public async Task TApiKeyProvider_Via_Factory_Verify_Handler()
+		{
+			var services = _serverWithProviderFactory.Host.Services;
+			var schemeProvider = services.GetRequiredService<IAuthenticationSchemeProvider>();
+			Assert.NotNull(schemeProvider);
+
+			var scheme = await schemeProvider.GetDefaultAuthenticateSchemeAsync();
+			Assert.NotNull(scheme);
+			Assert.Equal(typeof(ApiKeyInHeaderOrQueryParamsHandler), scheme.HandlerType);
+
+			var apiKeyOptionsSnapshot = services.GetService<IOptionsSnapshot<ApiKeyOptions>>();
+			var apiKeyOptions = apiKeyOptionsSnapshot.Get(scheme.Name);
+			Assert.NotNull(apiKeyOptions);
+			Assert.Null(apiKeyOptions.Events?.OnValidateKey);
+			Assert.Null(apiKeyOptions.ApiKeyProviderType);
+
+			var apiKeyProvider = services.GetService<IApiKeyProvider>();
+			Assert.Null(apiKeyProvider);
+
+			var apiKeyProviderFactory = services.GetService<IApiKeyProviderFactory>();
+			Assert.NotNull(apiKeyProviderFactory);
+			Assert.Equal(typeof(FakeApiKeyProviderFactory), apiKeyProviderFactory.GetType());
 		}
 
 		[Fact]
@@ -171,7 +204,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 
 
 		[Fact]
-		public async Task TApiKeyProvider_Unauthorized()
+		public async Task TApiKeyProvider_unauthorized()
 		{
 			using var request = new HttpRequestMessage(HttpMethod.Get, TestServerBuilder.BaseUrl);
 			using var response = await _clientWithProvider.SendAsync(request);
@@ -190,7 +223,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 		}
 
 		[Fact]
-		public async Task TApiKeyProvider_InHeader_invalid_key_unauthotized()
+		public async Task TApiKeyProvider_InHeader_invalid_key_unauthorized()
 		{
 			using var request = new HttpRequestMessage(HttpMethod.Get, TestServerBuilder.BaseUrl);
 			request.Headers.Add(FakeApiKeys.KeyName, FakeApiKeys.FakeInvalidKey);
@@ -210,7 +243,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 		}
 
 		[Fact]
-		public async Task TApiKeyProvider_InAuthorizationHeader_invalid_key_unauthotized()
+		public async Task TApiKeyProvider_InAuthorizationHeader_invalid_key_unauthorized()
 		{
 			using var request = new HttpRequestMessage(HttpMethod.Get, TestServerBuilder.BaseUrl);
 			request.Headers.Authorization = new AuthenticationHeaderValue(FakeApiKeys.KeyName, FakeApiKeys.FakeInvalidKey);
@@ -230,11 +263,81 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 		}
 
 		[Fact]
-		public async Task TApiKeyProvider_InQueryParams_invalid_key_unauthotized()
+		public async Task TApiKeyProvider_InQueryParams_invalid_key_unauthorized()
 		{
 			var uri = $"{TestServerBuilder.BaseUrl}?{FakeApiKeys.KeyName}={FakeApiKeys.FakeInvalidKey}";
 			using var request = new HttpRequestMessage(HttpMethod.Get, uri);
 			using var response = await _clientWithProvider.SendAsync(request);
+			Assert.False(response.IsSuccessStatusCode);
+			Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+		}
+
+
+		[Fact]
+		public async Task TApiKeyProvider_Via_Factory_unauthorized()
+		{
+			using var request = new HttpRequestMessage(HttpMethod.Get, TestServerBuilder.BaseUrl);
+			using var response = await _clientWithProviderFactory.SendAsync(request);
+			Assert.False(response.IsSuccessStatusCode);
+			Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+		}
+
+		[Fact]
+		public async Task TApiKeyProvider_Via_Factory_InHeader_success()
+		{
+			using var request = new HttpRequestMessage(HttpMethod.Get, TestServerBuilder.BaseUrl);
+			request.Headers.Add(FakeApiKeys.KeyName, FakeApiKeys.FakeKey);
+			using var response = await _clientWithProviderFactory.SendAsync(request);
+			Assert.True(response.IsSuccessStatusCode);
+			Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+		}
+
+		[Fact]
+		public async Task TApiKeyProvider_Via_Factory_InHeader_invalid_key_unauthorized()
+		{
+			using var request = new HttpRequestMessage(HttpMethod.Get, TestServerBuilder.BaseUrl);
+			request.Headers.Add(FakeApiKeys.KeyName, FakeApiKeys.FakeInvalidKey);
+			using var response = await _clientWithProviderFactory.SendAsync(request);
+			Assert.False(response.IsSuccessStatusCode);
+			Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+		}
+
+		[Fact]
+		public async Task TApiKeyProvider_Via_Factory_InAuthorizationHeader_success()
+		{
+			using var request = new HttpRequestMessage(HttpMethod.Get, TestServerBuilder.BaseUrl);
+			request.Headers.Authorization = new AuthenticationHeaderValue(FakeApiKeys.KeyName, FakeApiKeys.FakeKey);
+			using var response = await _clientWithProviderFactory.SendAsync(request);
+			Assert.True(response.IsSuccessStatusCode);
+			Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+		}
+
+		[Fact]
+		public async Task TApiKeyProvider_Via_Factory_InAuthorizationHeader_invalid_key_unauthorized()
+		{
+			using var request = new HttpRequestMessage(HttpMethod.Get, TestServerBuilder.BaseUrl);
+			request.Headers.Authorization = new AuthenticationHeaderValue(FakeApiKeys.KeyName, FakeApiKeys.FakeInvalidKey);
+			using var response = await _clientWithProviderFactory.SendAsync(request);
+			Assert.False(response.IsSuccessStatusCode);
+			Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+		}
+
+		[Fact]
+		public async Task TApiKeyProvider_Via_Factory_InQueryParams_success()
+		{
+			var uri = $"{TestServerBuilder.BaseUrl}?{FakeApiKeys.KeyName}={FakeApiKeys.FakeKey}";
+			using var request = new HttpRequestMessage(HttpMethod.Get, uri);
+			using var response = await _clientWithProviderFactory.SendAsync(request);
+			Assert.True(response.IsSuccessStatusCode);
+			Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+		}
+
+		[Fact]
+		public async Task TApiKeyProvider_Via_Factory_InQueryParams_invalid_key_unauthorized()
+		{
+			var uri = $"{TestServerBuilder.BaseUrl}?{FakeApiKeys.KeyName}={FakeApiKeys.FakeInvalidKey}";
+			using var request = new HttpRequestMessage(HttpMethod.Get, uri);
+			using var response = await _clientWithProviderFactory.SendAsync(request);
 			Assert.False(response.IsSuccessStatusCode);
 			Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
 		}

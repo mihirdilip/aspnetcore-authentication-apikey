@@ -179,21 +179,28 @@ namespace AspNetCore.Authentication.ApiKey
 				return authenticationSucceededContext.Result;
 			}
 
-			Logger.LogError("No authenticated prinicipal set.");
-			return AuthenticateResult.Fail("No authenticated prinicipal set.");
+			Logger.LogError("No authenticated principal set.");
+			return AuthenticateResult.Fail("No authenticated principal set.");
 		}
 
 		private async Task<IApiKey> ValidateUsingApiKeyProviderAsync(string apiKey)
 		{
 			IApiKeyProvider apiKeyProvider = null;
-			if (Options.ApiKeyProviderType != null)
+
+			// Try to get an instance of the IBasicUserValidationServiceFactory.
+			var apiKeyProviderFactory = this.Context.RequestServices.GetService<IApiKeyProviderFactory>();
+
+			// Try to get a IApiKeyProvider instance from the factory.
+			apiKeyProvider = apiKeyProviderFactory?.CreateApiKeyProvider(Options.AuthenticationSchemeName);
+
+			if (apiKeyProvider == null && Options.ApiKeyProviderType != null)
 			{
 				apiKeyProvider = ActivatorUtilities.GetServiceOrCreateInstance(Context.RequestServices, Options.ApiKeyProviderType) as IApiKeyProvider;
 			}
 
 			if (apiKeyProvider == null)
 			{
-				throw new InvalidOperationException($"Either {nameof(Options.Events.OnValidateKey)} delegate on configure options {nameof(Options.Events)} should be set or use an extention method with type parameter of type {nameof(IApiKeyProvider)}.");
+				throw new InvalidOperationException($"Either {nameof(Options.Events.OnValidateKey)} delegate on configure options {nameof(Options.Events)} should be set or use an extension method with type parameter of type {nameof(IApiKeyProvider)} or register an implementation of type {nameof(IApiKeyProviderFactory)} in the service collection.");
 			}
 
 			try
