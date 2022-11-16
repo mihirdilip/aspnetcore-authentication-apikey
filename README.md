@@ -7,7 +7,7 @@ Easy to use and very light weight Microsoft style API Key Authentication Impleme
 
 ## .NET (Core) Frameworks Supported  
 .NET Framework 4.6.1 and/or NetStandard 2.0 onwards  
-Multi targeted: net6.0; net5.0; netcoreapp3.1; netcoreapp3.0; netstandard2.0; net461
+Multi targeted: net7.0; net6.0; net5.0; netcoreapp3.1; netcoreapp3.0; netstandard2.0; net461
 
 <br/> 
 
