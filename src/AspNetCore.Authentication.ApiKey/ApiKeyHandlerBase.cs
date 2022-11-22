@@ -59,7 +59,7 @@ namespace AspNetCore.Authentication.ApiKey
 
 			if (string.IsNullOrWhiteSpace(apiKey))
 			{
-				Logger.LogInformation("No Api Key found in the request.");
+				Logger.LogDebug("No Api Key found in the request.");
 				return AuthenticateResult.NoResult();
 			}
 

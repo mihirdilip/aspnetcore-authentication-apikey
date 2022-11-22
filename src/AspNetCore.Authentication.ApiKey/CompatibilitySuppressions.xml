@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Suppressions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:AspNetCore.Authentication.ApiKey.ApiKeyOptions.get_IgnoreAuthenticationIfAllowAnonymous</Target>
+    <Left>lib/netstandard2.0/AspNetCore.Authentication.ApiKey.dll</Left>
+    <Right>lib/netcoreapp3.0/AspNetCore.Authentication.ApiKey.dll</Right>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:AspNetCore.Authentication.ApiKey.ApiKeyOptions.set_IgnoreAuthenticationIfAllowAnonymous(System.Boolean)</Target>
+    <Left>lib/netstandard2.0/AspNetCore.Authentication.ApiKey.dll</Left>
+    <Right>lib/netcoreapp3.0/AspNetCore.Authentication.ApiKey.dll</Right>
+  </Suppression>
+</Suppressions>
