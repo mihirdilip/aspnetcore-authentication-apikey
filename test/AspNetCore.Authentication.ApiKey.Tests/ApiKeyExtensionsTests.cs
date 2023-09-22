@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -1203,7 +1204,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 
         private class MockApiKeyProvider : IApiKeyProvider
         {
-            public Task<IApiKey> ProvideAsync(string key)
+            public Task<IApiKey> ProvideAsync(string key, CancellationToken cancellationToken)
             {
                 throw new NotImplementedException();
             }
@@ -1211,7 +1212,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 
         private class MockApiKeyProvider2 : IApiKeyProvider
         {
-            public Task<IApiKey> ProvideAsync(string key)
+            public Task<IApiKey> ProvideAsync(string key, CancellationToken cancellationToken)
             {
                 throw new NotImplementedException();
             }

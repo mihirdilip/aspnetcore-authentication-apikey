@@ -12,6 +12,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -504,7 +505,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 
         private class FakeApiKeyProviderLocal_1 : IApiKeyProvider
         {
-            public Task<IApiKey> ProvideAsync(string key)
+            public Task<IApiKey> ProvideAsync(string key, CancellationToken cancellationToken)
             {
 				return Task.FromResult((IApiKey)new FakeApiKey(key, "Test", new List<Claim> { new Claim("Provider", "1") }));
             }
@@ -512,7 +513,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 
 		private class FakeApiKeyProviderLocal_2 : IApiKeyProvider
 		{
-			public Task<IApiKey> ProvideAsync(string key)
+			public Task<IApiKey> ProvideAsync(string key, CancellationToken cancellationToken)
 			{
 				return Task.FromResult((IApiKey)new FakeApiKey(key, "Test", new List<Claim> { new Claim("Provider", "2") }));
 			}

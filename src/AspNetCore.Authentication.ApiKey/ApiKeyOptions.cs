@@ -50,7 +50,7 @@ namespace AspNetCore.Authentication.ApiKey
 
         /// <summary>
         /// Default value is false. 
-        /// If set to true, <see cref="IApiKey.Key"/> property returned from <see cref="IApiKeyProvider.ProvideAsync(string)"/> method is not compared with the key parsed from the request.
+        /// If set to true, <see cref="IApiKey.Key"/> property returned from <see cref="IApiKeyProvider.ProvideAsync(string, CancellationToken)"/> method is not compared with the key parsed from the request.
         /// This extra check did not existed in the previous version. So you if want to revert back to old version validation, please set this to true.
         /// </summary>
         public bool ForLegacyIgnoreExtraValidatedApiKeyCheck { get; set; }

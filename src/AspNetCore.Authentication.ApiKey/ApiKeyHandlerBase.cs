@@ -9,6 +9,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 using System;
 using System.Text.Encodings.Web;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AspNetCore.Authentication.ApiKey
@@ -73,7 +74,8 @@ namespace AspNetCore.Authentication.ApiKey
 				}
 
 				// Validate using the implementation of IApiKeyProvider.
-				var validatedApiKey = await ValidateUsingApiKeyProviderAsync(apiKey).ConfigureAwait(false);
+				var cancellationToken = Context.RequestAborted;
+                var validatedApiKey = await ValidateUsingApiKeyProviderAsync(apiKey, cancellationToken).ConfigureAwait(false);
 				if (validatedApiKey == null
 					|| (!Options.ForLegacyIgnoreExtraValidatedApiKeyCheck && !string.Equals(validatedApiKey.Key, apiKey, StringComparison.OrdinalIgnoreCase))
 				)
@@ -183,7 +185,7 @@ namespace AspNetCore.Authentication.ApiKey
 			return AuthenticateResult.Fail("No authenticated prinicipal set.");
 		}
 
-		private async Task<IApiKey> ValidateUsingApiKeyProviderAsync(string apiKey)
+		private async Task<IApiKey> ValidateUsingApiKeyProviderAsync(string apiKey, CancellationToken cancellationToken)
 		{
 			IApiKeyProvider apiKeyProvider = null;
 			if (Options.ApiKeyProviderType != null)
@@ -198,7 +200,7 @@ namespace AspNetCore.Authentication.ApiKey
 
 			try
 			{
-				return await apiKeyProvider.ProvideAsync(apiKey).ConfigureAwait(false);
+				return await apiKeyProvider.ProvideAsync(apiKey, cancellationToken).ConfigureAwait(false);
 			}
 			finally
 			{

@@ -5,13 +5,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AspNetCore.Authentication.ApiKey.Tests.Infrastructure
 {
     class FakeApiKeyProvider : IApiKeyProvider
     {
-        public Task<IApiKey> ProvideAsync(string key)
+        public Task<IApiKey> ProvideAsync(string key, CancellationToken cancellationToken)
         {
             var apiKey = FakeApiKeys.Keys.FirstOrDefault(k => k.Key.Equals(key, StringComparison.OrdinalIgnoreCase));
             if (apiKey != null)
