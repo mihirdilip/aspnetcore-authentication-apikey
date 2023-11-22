@@ -15,7 +15,15 @@ namespace AspNetCore.Authentication.ApiKey
 {
 	public class ApiKeyInHeaderOrQueryParamsHandler : ApiKeyHandlerBase
 	{
-		public ApiKeyInHeaderOrQueryParamsHandler(IOptionsMonitor<ApiKeyOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock)
+#if NET8_0_OR_GREATER
+        protected ApiKeyInHeaderOrQueryParamsHandler(IOptionsMonitor<ApiKeyOptions> options, ILoggerFactory logger, UrlEncoder encoder)
+            : base(options, logger, encoder)
+        {
+        }
+
+        [Obsolete("ISystemClock is obsolete, use TimeProvider on AuthenticationSchemeOptions instead.")]
+#endif
+        public ApiKeyInHeaderOrQueryParamsHandler(IOptionsMonitor<ApiKeyOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock)
 			: base(options, logger, encoder, clock)
 		{
 		}
@@ -35,8 +43,8 @@ namespace AspNetCore.Authentication.ApiKey
 			}
 
 			// No ApiKey query parameter or header found then try Authorization header
-			if (Request.Headers.ContainsKey(HeaderNames.Authorization)
-					&& AuthenticationHeaderValue.TryParse(Request.Headers[HeaderNames.Authorization], out var authHeaderValue)
+			if (Request.Headers.TryGetValue(HeaderNames.Authorization, out Microsoft.Extensions.Primitives.StringValues authHeaderStringValue) 
+					&& AuthenticationHeaderValue.TryParse(authHeaderStringValue, out var authHeaderValue)
 					&& authHeaderValue.Scheme.Equals(Options.KeyName, StringComparison.OrdinalIgnoreCase)
 			)
 			{
