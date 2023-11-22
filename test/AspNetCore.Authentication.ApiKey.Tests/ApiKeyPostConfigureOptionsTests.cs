@@ -11,7 +11,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 {
     public class ApiKeyPostConfigureOptionsTests
     {
-		static string KeyName = "X-API-KEY";
+		static readonly string KeyName = "X-API-KEY";
 
 		[Fact]
 		public async Task PostConfigure_no_option_set_throws_exception()
@@ -111,13 +111,13 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 		}
 
 
-		private async Task RunAuthInitAsync(Action<ApiKeyOptions> configureOptions)
+		private static async Task RunAuthInitAsync(Action<ApiKeyOptions> configureOptions)
 		{
 			var server = TestServerBuilder.BuildInHeaderOrQueryParamsServer(configureOptions);
 			await server.CreateClient().GetAsync(TestServerBuilder.BaseUrl);
 		}
 
-		private async Task RunAuthInitWithProviderAsync(Action<ApiKeyOptions> configureOptions)
+		private static async Task RunAuthInitWithProviderAsync(Action<ApiKeyOptions> configureOptions)
 		{
 			var server = TestServerBuilder.BuildInHeaderOrQueryParamsServerWithProvider(configureOptions);
 			await server.CreateClient().GetAsync(TestServerBuilder.BaseUrl);

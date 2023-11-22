@@ -14,6 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{3C777BBB-7464-43FB-A046-EA465791AB0C}"
 	ProjectSection(SolutionItems) = preProject
+		..\samples\ApiKeySamplesClient.http = ..\samples\ApiKeySamplesClient.http
 		..\samples\ApiKeySamplesClient.postman_collection.json = ..\samples\ApiKeySamplesClient.postman_collection.json
 	EndProjectSection
 EndProject
@@ -33,7 +34,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{A15FB7AB-5
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleWebApi_6_0", "..\samples\SampleWebApi_6_0\SampleWebApi_6_0.csproj", "{D1056CEF-550A-4EEB-B12B-1093DD3125AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleWebApi_7_0", "..\samples\SampleWebApi_7_0\SampleWebApi_7_0.csproj", "{BE461B80-9EB5-41AF-9C18-39740A7BD057}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleWebApi_7_0", "..\samples\SampleWebApi_7_0\SampleWebApi_7_0.csproj", "{BE461B80-9EB5-41AF-9C18-39740A7BD057}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleWebApi_8_0", "..\samples\SampleWebApi_8_0\SampleWebApi_8_0.csproj", "{5F0968BA-062C-4C7F-B40C-B1E1641FCEF6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,6 +76,10 @@ Global
 		{BE461B80-9EB5-41AF-9C18-39740A7BD057}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE461B80-9EB5-41AF-9C18-39740A7BD057}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE461B80-9EB5-41AF-9C18-39740A7BD057}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F0968BA-062C-4C7F-B40C-B1E1641FCEF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F0968BA-062C-4C7F-B40C-B1E1641FCEF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F0968BA-062C-4C7F-B40C-B1E1641FCEF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F0968BA-062C-4C7F-B40C-B1E1641FCEF6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -86,12 +93,14 @@ Global
 		{EA2A367F-2D2D-4C20-8C32-C19F67E73187} = {A15FB7AB-5B7A-4428-BEBA-32DEE3C88C39}
 		{D1056CEF-550A-4EEB-B12B-1093DD3125AC} = {3C777BBB-7464-43FB-A046-EA465791AB0C}
 		{BE461B80-9EB5-41AF-9C18-39740A7BD057} = {3C777BBB-7464-43FB-A046-EA465791AB0C}
+		{5F0968BA-062C-4C7F-B40C-B1E1641FCEF6} = {3C777BBB-7464-43FB-A046-EA465791AB0C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {70815049-1680-480A-BF5A-00536D6C9C20}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		..\samples\SampleWebApi.Shared\SampleWebApi.Shared.projitems*{1e1e202b-efb2-40fd-8271-659f36084916}*SharedItemsImports = 5
+		..\samples\SampleWebApi.Shared\SampleWebApi.Shared.projitems*{5f0968ba-062c-4c7f-b40c-b1e1641fcef6}*SharedItemsImports = 5
 		..\samples\SampleWebApi.Shared\SampleWebApi.Shared.projitems*{be461b80-9eb5-41af-9c18-39740a7bd057}*SharedItemsImports = 5
 		..\samples\SampleWebApi.Shared\SampleWebApi.Shared.projitems*{cabeeeae-3974-4cc4-97f1-18c8d2188daf}*SharedItemsImports = 5
 		..\samples\SampleWebApi.Shared\SampleWebApi.Shared.projitems*{d1056cef-550a-4eeb-b12b-1093dd3125ac}*SharedItemsImports = 5

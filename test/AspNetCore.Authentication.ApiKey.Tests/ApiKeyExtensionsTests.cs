@@ -1192,7 +1192,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 
         #endregion // API Key - In Header Or Query Parameters
 
-        private Task<AuthenticationScheme> GetSchemeAsync(Action<AuthenticationBuilder> authenticationBuilderAction, string schemeName = ApiKeyDefaults.AuthenticationScheme)
+        private static Task<AuthenticationScheme?> GetSchemeAsync(Action<AuthenticationBuilder> authenticationBuilderAction, string schemeName = ApiKeyDefaults.AuthenticationScheme)
         {
             var services = new ServiceCollection();
             authenticationBuilderAction(services.AddAuthentication());

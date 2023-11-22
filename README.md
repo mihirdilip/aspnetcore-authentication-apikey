@@ -7,7 +7,7 @@ Easy to use and very light weight Microsoft style API Key Authentication Impleme
 
 ## .NET (Core) Frameworks Supported  
 .NET Framework 4.6.1 and/or NetStandard 2.0 onwards  
-Multi targeted: net7.0; net6.0; net5.0; netcoreapp3.1; netcoreapp3.0; netstandard2.0; net461
+Multi targeted: net8.0; net7.0; net6.0; net5.0; netcoreapp3.1; netcoreapp3.0; netstandard2.0; net461
 
 <br/> 
 
@@ -380,6 +380,7 @@ public void ConfigureServices(IServiceCollection services)
 ## Release Notes
 | Version | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Notes |
 |---------|-------|
+|8.0.0    | <ul><li>net8.0 support added</li><li>Sample project for net8.0 added</li><li>ApiKeySamplesClient.http file added for testing sample projects</li><li>Readme updated</li></ul> |
 |7.0.0    | <ul><li>net7.0 support added</li><li>Information log on handler is changed to Debug log when API Key is not found on the request</li><li>Added package validations</li><li>Sample project for net7.0 added</li><li>Readme updated</li><li>Readme added to package</li></ul> |
 |6.0.1    | <ul><li>net6.0 support added</li><li>Information log on handler is changed to Debug log when IgnoreAuthenticationIfAllowAnonymous is enabled</li><li>Sample project added</li><li>Readme updated</li><li>Copyright year updated on License</li></ul> |
 |5.1.0    | <ul><li>WWW-Authenticate challenge header now returns SchemeName as scheme part instead of ApiKeyOptions.KeyName</li><li>WWW-Authenticate challenge header now has 2 new parameters 'in' and 'key_name' in value part</li><li>ForLegacyUseKeyNameAsSchemeNameOnWWWAuthenticateHeader added to the ApiKeyOptions</li><li>In Authorization Header now able to use either SchemeName or ApiKeyOptions.KeyName when matching AuthorizationHeader Scheme</li><li>Visibility of all the handlers changed to public [#21](https://github.com/mihirdilip/aspnetcore-authentication-apikey/issues/21)</li><li>Tests added</li><li>Readme updated</li><li>Copyright year updated on License</li></ul> |

@@ -57,8 +57,8 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             var schemeName = "Test";
             var claims = new List<Claim> 
             { 
-                new Claim(ClaimTypes.Email, "abc@xyz.com") ,
-                new Claim(ClaimTypes.Role, "admin")
+                new(ClaimTypes.Email, "abc@xyz.com") ,
+                new(ClaimTypes.Role, "admin")
             };
             var claimsPrincipal = ApiKeyUtils.BuildClaimsPrincipal(null, schemeName, null, claims);
             Assert.NotNull(claimsPrincipal);
@@ -89,8 +89,8 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             var schemeName = "Test";
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Email, "abc@xyz.com") ,
-                new Claim(ClaimTypes.Role, "admin")
+                new(ClaimTypes.Email, "abc@xyz.com") ,
+                new(ClaimTypes.Role, "admin")
             };
             var claimsPrincipal = ApiKeyUtils.BuildClaimsPrincipal(ownerName, schemeName, null, claims);
             Assert.NotNull(claimsPrincipal);
@@ -108,8 +108,8 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             var schemeName = "Test";
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, "Admin"),
-                new Claim(ClaimTypes.Role, "admin")
+                new(ClaimTypes.Name, "Admin"),
+                new(ClaimTypes.Role, "admin")
             };
             var claimsPrincipal = ApiKeyUtils.BuildClaimsPrincipal(ownerName, schemeName, null, claims);
             Assert.NotNull(claimsPrincipal);

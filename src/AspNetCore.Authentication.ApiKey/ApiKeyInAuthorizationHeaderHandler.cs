@@ -4,6 +4,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 using System;
 using System.Net.Http.Headers;
@@ -14,15 +15,23 @@ namespace AspNetCore.Authentication.ApiKey
 {
     public class ApiKeyInAuthorizationHeaderHandler : ApiKeyHandlerBase
 	{
-		public ApiKeyInAuthorizationHeaderHandler(IOptionsMonitor<ApiKeyOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock)
+#if NET8_0_OR_GREATER
+        protected ApiKeyInAuthorizationHeaderHandler(IOptionsMonitor<ApiKeyOptions> options, ILoggerFactory logger, UrlEncoder encoder)
+            : base(options, logger, encoder)
+        {
+        }
+
+        [Obsolete("ISystemClock is obsolete, use TimeProvider on AuthenticationSchemeOptions instead.")]
+#endif
+        public ApiKeyInAuthorizationHeaderHandler(IOptionsMonitor<ApiKeyOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock)
 			: base(options, logger, encoder, clock)
 		{
 		}
 
 		protected override Task<string> ParseApiKeyAsync()
 		{
-			if (Request.Headers.ContainsKey(HeaderNames.Authorization)
-					&& AuthenticationHeaderValue.TryParse(Request.Headers[HeaderNames.Authorization], out var headerValue)
+			if (Request.Headers.TryGetValue(HeaderNames.Authorization, out StringValues value) 
+					&& AuthenticationHeaderValue.TryParse(value, out var headerValue)
 					&& (headerValue.Scheme.Equals(Scheme.Name, StringComparison.OrdinalIgnoreCase) 
 						|| headerValue.Scheme.Equals(Options.KeyName, StringComparison.OrdinalIgnoreCase)
 					)

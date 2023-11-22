@@ -15,12 +15,8 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Events
 {
     public class ApiKeyHandleChallengeContextTests : IDisposable
     {
-        private readonly List<TestServer> _serversToDispose = new List<TestServer>();
-
-        public void Dispose()
-        {
-            _serversToDispose.ForEach(s => s.Dispose());
-        }
+        private readonly List<TestServer> _serversToDispose = [];
+        private bool _disposedValue;
 
         [Fact]
         public async Task Handled()
@@ -78,6 +74,37 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Events
 
             _serversToDispose.Add(server);
             return server.CreateClient();
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: dispose managed state (managed objects)
+
+                    _serversToDispose.ForEach(s => s.Dispose());
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override finalizer
+                // TODO: set large fields to null
+                _disposedValue = true;
+            }
+        }
+
+        // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
+        // ~ApiKeyHandleChallengeContextTests()
+        // {
+        //     // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+        //     Dispose(disposing: false);
+        // }
+
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 }

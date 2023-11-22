@@ -195,7 +195,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             var services = server.Host.Services;
             
             var apiKeyOptionsSnapshot = services.GetService<IOptionsSnapshot<ApiKeyOptions>>();
-            var apiKeyOptions = apiKeyOptionsSnapshot.Get(ApiKeyDefaults.AuthenticationScheme);
+            var apiKeyOptions = apiKeyOptionsSnapshot?.Get(ApiKeyDefaults.AuthenticationScheme);
             Assert.NotNull(apiKeyOptions);
             Assert.Null(apiKeyOptions.ApiKeyProviderType);
 
@@ -210,7 +210,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             var services = server.Host.Services;
 
             var apiKeyOptionsSnapshot = services.GetService<IOptionsSnapshot<ApiKeyOptions>>();
-            var apiKeyOptions = apiKeyOptionsSnapshot.Get(ApiKeyDefaults.AuthenticationScheme);
+            var apiKeyOptions = apiKeyOptionsSnapshot?.Get(ApiKeyDefaults.AuthenticationScheme);
             Assert.NotNull(apiKeyOptions);
             Assert.NotNull(apiKeyOptions.ApiKeyProviderType);
             Assert.Equal(typeof(FakeApiKeyProvider), apiKeyOptions.ApiKeyProviderType);

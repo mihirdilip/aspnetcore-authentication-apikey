@@ -1,0 +1,27 @@
+@HostAddress = https://localhost:44304
+@ApiKey = Key1
+
+# Get Values No Auth
+GET {{HostAddress}}/api/values
+Accept: application/json
+
+###
+
+# Get Values
+GET {{HostAddress}}/api/values
+Accept: application/json
+X-API-Key: {{ApiKey}}
+
+###
+
+# Claims
+GET {{HostAddress}}/api/values/claims
+Accept: application/json
+X-API-Key: {{ApiKey}}
+
+###
+
+# Forbid
+GET {{HostAddress}}/api/values/forbid
+Accept: application/json
+X-API-Key: {{ApiKey}}

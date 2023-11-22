@@ -3,25 +3,18 @@
 
 using AspNetCore.Authentication.ApiKey.Tests.Infrastructure;
 using Microsoft.AspNetCore.TestHost;
-using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Text.Json;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace AspNetCore.Authentication.ApiKey.Tests.Events
 {
     public class ApiKeyAuthenticationSucceededContextTests : IDisposable
     {
-        private readonly List<TestServer> _serversToDispose = new List<TestServer>();
-
-        public void Dispose()
-        {
-            _serversToDispose.ForEach(s => s.Dispose());
-        }
+        private readonly List<TestServer> _serversToDispose = [];
+        private bool _disposedValue;
 
         [Fact]
         public async Task Principal_not_null()
@@ -35,7 +28,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Events
                 }
             );
 
-            var principal = await RunSuccessTests(client);
+            var principal = await ApiKeyAuthenticationSucceededContextTests.RunSuccessTests(client);
             Assert.True(principal.Identity.IsAuthenticated);
         }
 
@@ -50,7 +43,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Events
                 }
             );
 
-            await RunSuccessTests(client);
+            await ApiKeyAuthenticationSucceededContextTests.RunSuccessTests(client);
         }
 
         [Fact]
@@ -69,7 +62,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Events
                 }
             );
 
-            await RunUnauthorizedTests(client);
+            await ApiKeyAuthenticationSucceededContextTests.RunUnauthorizedTests(client);
         }
 
         [Fact]
@@ -86,7 +79,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Events
                 }
             );
 
-            await RunUnauthorizedTests(client);
+            await ApiKeyAuthenticationSucceededContextTests.RunUnauthorizedTests(client);
         }
 
         [Fact]
@@ -105,7 +98,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Events
                 }
             );
 
-            var principal = await RunSuccessTests(client);
+            var principal = await ApiKeyAuthenticationSucceededContextTests.RunSuccessTests(client);
             Assert.Contains(new ClaimDto(claim), principal.Claims);
         }
 
@@ -113,8 +106,8 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Events
         public async Task AddClaims()
         {
             var claims = new List<Claim>{
-                new Claim(ClaimTypes.Actor, "Actor"),
-                new Claim(ClaimTypes.Country, "Country")
+                new(ClaimTypes.Actor, "Actor"),
+                new(ClaimTypes.Country, "Country")
             };
 
             using var client = BuildClient(
@@ -129,7 +122,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Events
                 }
             );
 
-            var principal = await RunSuccessTests(client);
+            var principal = await ApiKeyAuthenticationSucceededContextTests.RunSuccessTests(client);
             Assert.Contains(new ClaimDto(claims[0]), principal.Claims);
             Assert.Contains(new ClaimDto(claims[1]), principal.Claims);
         }
@@ -149,7 +142,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Events
             return server.CreateClient();
         }
 
-        private async Task RunUnauthorizedTests(HttpClient client)
+        private static async Task RunUnauthorizedTests(HttpClient client)
         {
             using var request = new HttpRequestMessage(HttpMethod.Get, TestServerBuilder.ClaimsPrincipalUrl);
             request.Headers.Add(FakeApiKeys.KeyName, FakeApiKeys.FakeKey);
@@ -158,7 +151,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Events
             Assert.Equal(HttpStatusCode.Unauthorized, response_unauthorized.StatusCode);
         }
 
-        private async Task<ClaimsPrincipalDto> RunSuccessTests(HttpClient client)
+        private static async Task<ClaimsPrincipalDto> RunSuccessTests(HttpClient client)
         {
             using var request = new HttpRequestMessage(HttpMethod.Get, TestServerBuilder.ClaimsPrincipalUrl);
             request.Headers.Add(FakeApiKeys.KeyName, FakeApiKeys.FakeKey);
@@ -169,6 +162,37 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Events
             var content = await response_ok.Content.ReadAsStringAsync();
             Assert.False(string.IsNullOrWhiteSpace(content));
             return JsonSerializer.Deserialize<ClaimsPrincipalDto>(content);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: dispose managed state (managed objects)
+
+                    _serversToDispose.ForEach(s => s.Dispose());
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override finalizer
+                // TODO: set large fields to null
+                _disposedValue = true;
+            }
+        }
+
+        // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
+        // ~ApiKeyAuthenticationSucceededContextTests()
+        // {
+        //     // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+        //     Dispose(disposing: false);
+        // }
+
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 }

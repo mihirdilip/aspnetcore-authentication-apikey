@@ -47,7 +47,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 				options.KeyName = FakeApiKeys.KeyName;
 				options.Events.OnHandleForbidden = context =>
 				{
-					context.HttpContext.Response.Headers.Add(HeaderFromEventsKey, HeaderFromEventsValue);
+					context.HttpContext.Response.Headers[HeaderFromEventsKey] = HeaderFromEventsValue;
 					return Task.CompletedTask;
 				};
 			});
@@ -87,8 +87,8 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 				options.KeyName = FakeApiKeys.KeyName;
 				options.Events.OnHandleChallenge = context =>
 				{
-					context.HttpContext.Response.Headers.Add(HeaderFromEventsKey, HeaderFromEventsValue);
-					return Task.CompletedTask;
+					context.HttpContext.Response.Headers[HeaderFromEventsKey] = HeaderFromEventsValue;
+                    return Task.CompletedTask;
 				};
 			});
 			using var client = server.CreateClient();
@@ -128,7 +128,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 				options.SuppressWWWAuthenticateHeader = true;
 				options.Events.OnHandleChallenge = context =>
 				{
-					context.HttpContext.Response.Headers.Add(HeaderFromEventsKey, HeaderFromEventsValue);
+					context.HttpContext.Response.Headers[HeaderFromEventsKey] = HeaderFromEventsValue;
 					return Task.CompletedTask;
 				};
 			});
@@ -420,7 +420,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
                         options.KeyName = keyName1;
                         options.Events.OnValidateKey = context =>
                         {
-                            context.Response.Headers.Add("X-Custom", "InHeader Scheme");
+                            context.Response.Headers["X-Custom"] = "InHeader Scheme";
                             context.ValidationSucceeded();
                             return Task.CompletedTask;
                         };
@@ -497,7 +497,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 
         #endregion // Multi-Scheme
 
-        private async Task<ClaimsPrincipalDto> DeserializeClaimsPrincipalAsync(HttpResponseMessage response)
+        private static async Task<ClaimsPrincipalDto> DeserializeClaimsPrincipalAsync(HttpResponseMessage response)
         {
 			return JsonSerializer.Deserialize<ClaimsPrincipalDto>(await response.Content.ReadAsStringAsync());
 		}
@@ -506,7 +506,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
         {
             public Task<IApiKey> ProvideAsync(string key)
             {
-				return Task.FromResult((IApiKey)new FakeApiKey(key, "Test", new List<Claim> { new Claim("Provider", "1") }));
+				return Task.FromResult((IApiKey)new FakeApiKey(key, "Test", new List<Claim> { new("Provider", "1") }));
             }
         }
 
@@ -514,7 +514,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 		{
 			public Task<IApiKey> ProvideAsync(string key)
 			{
-				return Task.FromResult((IApiKey)new FakeApiKey(key, "Test", new List<Claim> { new Claim("Provider", "2") }));
+                return Task.FromResult((IApiKey)new FakeApiKey(key, "Test", new List<Claim> { new("Provider", "2") }));
 			}
 		}
 	}
