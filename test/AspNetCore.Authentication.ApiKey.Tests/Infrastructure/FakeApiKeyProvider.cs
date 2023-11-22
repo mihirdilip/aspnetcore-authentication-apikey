@@ -11,7 +11,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Infrastructure
 {
     class FakeApiKeyProvider : IApiKeyProvider
     {
-        public Task<IApiKey> ProvideAsync(string key)
+        public Task<IApiKey?> ProvideAsync(string key)
         {
             var apiKey = FakeApiKeys.Keys.FirstOrDefault(k => k.Key.Equals(key, StringComparison.OrdinalIgnoreCase));
             if (apiKey != null)
@@ -38,11 +38,11 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Infrastructure
 
     class FakeApiKey : IApiKey
     {
-        public FakeApiKey(string key, string ownerName, IReadOnlyCollection<Claim> claims = null)
+        public FakeApiKey(string key, string ownerName, IReadOnlyCollection<Claim>? claims = null)
         {
             Key = key;
             OwnerName = ownerName;
-            Claims = claims;
+            Claims = claims ?? new List<Claim>();
         }
 
         public string Key { get; }
@@ -62,11 +62,11 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Infrastructure
         internal static string FakeKeyForLegacyIgnoreExtraValidatedApiKeyCheck = "ForLegacyIgnoreExtraValidatedApiKeyCheck";
         internal static string FakeKeyIgnoreAuthenticationIfAllowAnonymous = "IgnoreAuthenticationIfAllowAnonymous";
         internal static string FakeKeyOwner = "Fake Key";
-        internal static Claim FakeNameClaim = new Claim(ClaimTypes.Name, "FakeNameClaim", ClaimValueTypes.String);
-        internal static Claim FakeNameIdentifierClaim = new Claim(ClaimTypes.NameIdentifier, "FakeNameIdentifierClaim", ClaimValueTypes.String);
-        internal static Claim FakeRoleClaim = new Claim(ClaimTypes.Role, "FakeRoleClaim", ClaimValueTypes.String);
+        internal static Claim FakeNameClaim = new(ClaimTypes.Name, "FakeNameClaim", ClaimValueTypes.String);
+        internal static Claim FakeNameIdentifierClaim = new(ClaimTypes.NameIdentifier, "FakeNameIdentifierClaim", ClaimValueTypes.String);
+        internal static Claim FakeRoleClaim = new(ClaimTypes.Role, "FakeRoleClaim", ClaimValueTypes.String);
 
-        internal static List<IApiKey> Keys => new List<IApiKey>
+        internal static List<IApiKey> Keys => new()
         {
             new FakeApiKey(FakeKey, FakeKeyOwner, new List<Claim> { FakeNameClaim, FakeNameIdentifierClaim, FakeRoleClaim }),
             new FakeApiKey(FakeKeyThrowsNotImplemented, FakeKeyOwner, new List<Claim> { FakeNameClaim, FakeNameIdentifierClaim, FakeRoleClaim }),

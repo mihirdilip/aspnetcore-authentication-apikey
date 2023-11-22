@@ -26,7 +26,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Infrastructure
         internal static string ClaimsPrincipalUrl = $"{BaseUrl}claims-principal";
         internal static string Realm = "ApiKeyTests";
 
-        internal static TestServer BuildInAuthorizationHeaderServer(Action<ApiKeyOptions> configureOptions = null)
+        internal static TestServer BuildInAuthorizationHeaderServer(Action<ApiKeyOptions>? configureOptions = null)
         {
             return BuildTestServer(
                 services =>
@@ -37,7 +37,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Infrastructure
             );
         }
 
-        internal static TestServer BuildInAuthorizationHeaderServerWithProvider(Action<ApiKeyOptions> configureOptions = null)
+        internal static TestServer BuildInAuthorizationHeaderServerWithProvider(Action<ApiKeyOptions>? configureOptions = null)
         {
             return BuildTestServer(
                 services =>
@@ -48,7 +48,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Infrastructure
             );
         }
 
-        internal static TestServer BuildInHeaderServer(Action<ApiKeyOptions> configureOptions = null)
+        internal static TestServer BuildInHeaderServer(Action<ApiKeyOptions>? configureOptions = null)
         {
             return BuildTestServer(
                 services =>
@@ -59,7 +59,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Infrastructure
             );
         }
 
-        internal static TestServer BuildInHeaderServerWithProvider(Action<ApiKeyOptions> configureOptions = null)
+        internal static TestServer BuildInHeaderServerWithProvider(Action<ApiKeyOptions>? configureOptions = null)
         {
             return BuildTestServer(
                 services =>
@@ -70,7 +70,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Infrastructure
             );
         }
 
-        internal static TestServer BuildInQueryParamsServer(Action<ApiKeyOptions> configureOptions = null)
+        internal static TestServer BuildInQueryParamsServer(Action<ApiKeyOptions>? configureOptions = null)
         {
             return BuildTestServer(
                 services =>
@@ -81,7 +81,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Infrastructure
             );
         }
 
-        internal static TestServer BuildInQueryParamsServerWithProvider(Action<ApiKeyOptions> configureOptions = null)
+        internal static TestServer BuildInQueryParamsServerWithProvider(Action<ApiKeyOptions>? configureOptions = null)
         {
             return BuildTestServer(
                 services =>
@@ -92,7 +92,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Infrastructure
             );
         }
 
-        internal static TestServer BuildInHeaderOrQueryParamsServer(Action<ApiKeyOptions> configureOptions = null)
+        internal static TestServer BuildInHeaderOrQueryParamsServer(Action<ApiKeyOptions>? configureOptions = null)
         {
             return BuildTestServer(
                 services =>
@@ -103,7 +103,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Infrastructure
             );
         }
 
-        internal static TestServer BuildInHeaderOrQueryParamsServerWithProvider(Action<ApiKeyOptions> configureOptions = null)
+        internal static TestServer BuildInHeaderOrQueryParamsServerWithProvider(Action<ApiKeyOptions>? configureOptions = null)
         {
             return BuildTestServer(
                 services =>
@@ -114,7 +114,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Infrastructure
             );
         }
 
-        internal static TestServer BuildTestServer(Action<IServiceCollection> configureServices, Action<IApplicationBuilder> configure = null)
+        internal static TestServer BuildTestServer(Action<IServiceCollection> configureServices, Action<IApplicationBuilder>? configure = null)
         {
             if (configureServices == null) throw new ArgumentNullException(nameof(configureServices));
 

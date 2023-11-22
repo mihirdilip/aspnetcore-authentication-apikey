@@ -8,6 +8,6 @@ namespace SampleWebApi.Repositories
     /// </summary>
     public interface IApiKeyRepository
     {
-        Task<IApiKey> GetApiKeyAsync(string key);
+		Task<IApiKey> GetApiKeyAsync(string key);
     }
 }

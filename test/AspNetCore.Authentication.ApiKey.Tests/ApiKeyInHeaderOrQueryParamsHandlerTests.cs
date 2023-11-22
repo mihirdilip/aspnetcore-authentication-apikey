@@ -21,6 +21,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
         private readonly HttpClient _client;
         private readonly TestServer _serverWithProvider;
         private readonly HttpClient _clientWithProvider;
+        private bool _disposedValue;
 
         public ApiKeyInHeaderOrQueryParamsHandlerTests()
         {
@@ -29,15 +30,6 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 
 			_serverWithProvider = TestServerBuilder.BuildInHeaderOrQueryParamsServerWithProvider();
 			_clientWithProvider = _serverWithProvider.CreateClient();
-		}
-
-		public void Dispose()
-		{
-			_client?.Dispose();
-			_server?.Dispose();
-
-			_clientWithProvider?.Dispose();
-			_serverWithProvider?.Dispose();
 		}
 
 		[Fact]
@@ -52,7 +44,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 			Assert.Equal(typeof(ApiKeyInHeaderOrQueryParamsHandler), scheme.HandlerType);
 
             var apiKeyOptionsSnapshot = services.GetService<IOptionsSnapshot<ApiKeyOptions>>();
-			var apiKeyOptions = apiKeyOptionsSnapshot.Get(scheme.Name);
+			var apiKeyOptions = apiKeyOptionsSnapshot?.Get(scheme.Name);
 			Assert.NotNull(apiKeyOptions);
 			Assert.NotNull(apiKeyOptions.Events?.OnValidateKey);
 			Assert.Null(apiKeyOptions.ApiKeyProviderType);
@@ -73,7 +65,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 			Assert.Equal(typeof(ApiKeyInHeaderOrQueryParamsHandler), scheme.HandlerType);
 
 			var apiKeyOptionsSnapshot = services.GetService<IOptionsSnapshot<ApiKeyOptions>>();
-			var apiKeyOptions = apiKeyOptionsSnapshot.Get(scheme.Name);
+			var apiKeyOptions = apiKeyOptionsSnapshot?.Get(scheme.Name);
 			Assert.NotNull(apiKeyOptions);
 			Assert.Null(apiKeyOptions.Events?.OnValidateKey);
 			Assert.NotNull(apiKeyOptions.ApiKeyProviderType);
@@ -238,5 +230,40 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 			Assert.False(response.IsSuccessStatusCode);
 			Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
 		}
-	}
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: dispose managed state (managed objects)
+
+                    _client?.Dispose();
+                    _server?.Dispose();
+
+                    _clientWithProvider?.Dispose();
+                    _serverWithProvider?.Dispose();
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override finalizer
+                // TODO: set large fields to null
+                _disposedValue = true;
+            }
+        }
+
+        // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
+        // ~ApiKeyInHeaderOrQueryParamsHandlerTests()
+        // {
+        //     // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+        //     Dispose(disposing: false);
+        // }
+
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+    }
 }

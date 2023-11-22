@@ -27,16 +27,17 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Infrastructure
     [Serializable]
     struct ClaimsIdentityDto
     {
-        public ClaimsIdentityDto(IIdentity identity)
+        public ClaimsIdentityDto(IIdentity? identity)
         {
+            if (identity == null) throw new ArgumentNullException(nameof(identity));
             Name = identity.Name;
             IsAuthenticated = identity.IsAuthenticated;
             AuthenticationType = identity.AuthenticationType;
         }
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
         public bool IsAuthenticated { get; set; }
-        public string AuthenticationType { get; set; }
+        public string? AuthenticationType { get; set; }
     }
 
     [Serializable]

@@ -9,6 +9,7 @@
     <Import_RootNamespace>SampleWebApi.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)GlobalSuppressions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ApiKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ApiKeyProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Repositories\InMemoryApiKeyRepository.cs" />
