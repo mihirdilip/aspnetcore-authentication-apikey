@@ -10,7 +10,7 @@
   <Import Project="..\SampleWebApi.Shared\SampleWebApi.Shared.projitems" Label="Shared" />
 
   <ItemGroup>
-    <PackageReference Include="AspNetCore.Authentication.ApiKey" Version="8.0.0" />
+    <PackageReference Include="AspNetCore.Authentication.ApiKey" Version="8.0.1" />
   </ItemGroup>
 
   <!--<ItemGroup>
