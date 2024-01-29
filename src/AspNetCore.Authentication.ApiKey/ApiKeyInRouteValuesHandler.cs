@@ -1,39 +1,39 @@
 ﻿// Copyright (c) Mihir Dilip. All rights reserved.
 // Licensed under the MIT License. See LICENSE file in the project root for license information.
+#if NETCOREAPP3_0_OR_GREATER
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
-using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
 namespace AspNetCore.Authentication.ApiKey
 {
-	public class ApiKeyInQueryParamsHandler : ApiKeyHandlerBase
+    public class ApiKeyInRouteValuesHandler : ApiKeyHandlerBase
 	{
-        private const string WwwAuthenticateInParameter = "query_params";
+        private const string WwwAuthenticateInParameter = "route_values";
         protected override string GetWwwAuthenticateInParameter() => WwwAuthenticateInParameter;
 
 #if NET8_0_OR_GREATER
-        protected ApiKeyInQueryParamsHandler(IOptionsMonitor<ApiKeyOptions> options, ILoggerFactory logger, UrlEncoder encoder)
+        protected ApiKeyInRouteValuesHandler(IOptionsMonitor<ApiKeyOptions> options, ILoggerFactory logger, UrlEncoder encoder)
             : base(options, logger, encoder)
         {
         }
 
         [Obsolete("ISystemClock is obsolete, use TimeProvider on AuthenticationSchemeOptions instead.")]
 #endif
-        public ApiKeyInQueryParamsHandler(IOptionsMonitor<ApiKeyOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock)
+        public ApiKeyInRouteValuesHandler(IOptionsMonitor<ApiKeyOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock)
 			: base(options, logger, encoder, clock)
 		{
 		}
 
 		protected override Task<string> ParseApiKeyAsync()
 		{
-			if (Request.Query.TryGetValue(Options.KeyName, out var value))
+			if (Request.RouteValues.TryGetValue(Options.KeyName, out var value) && value != null && value.GetType() == typeof(string))
 			{
-				return Task.FromResult(value.FirstOrDefault());
+				return Task.FromResult(value.ToString());
 			}
 
 			// No ApiKey query parameter found
@@ -41,3 +41,4 @@ namespace AspNetCore.Authentication.ApiKey
 		}
 	}
 }
+#endif

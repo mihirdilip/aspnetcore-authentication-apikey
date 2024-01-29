@@ -114,6 +114,30 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Infrastructure
             );
         }
 
+#if NETCOREAPP3_0_OR_GREATER
+        internal static TestServer BuildInRouteValuesServer(Action<ApiKeyOptions>? configureOptions = null)
+        {
+            return BuildTestServer(
+                services =>
+                {
+                    var authBuilder = services.AddAuthentication(ApiKeyDefaults.AuthenticationScheme)
+                        .AddApiKeyInRouteValues(configureOptions ?? DefaultApiKeyOptionsWithOnValidateKey());
+                }
+            );
+        }
+
+        internal static TestServer BuildInRouteValuesServerWithProvider(Action<ApiKeyOptions>? configureOptions = null)
+        {
+            return BuildTestServer(
+                services =>
+                {
+                    var authBuilder = services.AddAuthentication(ApiKeyDefaults.AuthenticationScheme)
+                        .AddApiKeyInRouteValues<FakeApiKeyProvider>(configureOptions ?? DefaultApiKeyOptions());
+                }
+            );
+        }
+#endif
+
         internal static TestServer BuildTestServer(Action<IServiceCollection> configureServices, Action<IApplicationBuilder>? configure = null)
         {
             if (configureServices == null) throw new ArgumentNullException(nameof(configureServices));
@@ -152,6 +176,11 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Infrastructure
                             app.UseEndpoints(endpoints =>
                             {
                                 endpoints.MapGet("/", async context =>
+                                {
+                                    await context.Response.WriteAsync("Hello World!");
+                                });
+
+                                endpoints.MapGet($"/route/{{{FakeApiKeys.KeyName}}}", async context =>
                                 {
                                     await context.Response.WriteAsync("Hello World!");
                                 });

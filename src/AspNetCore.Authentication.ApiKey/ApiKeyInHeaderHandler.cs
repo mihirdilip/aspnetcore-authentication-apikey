@@ -13,6 +13,9 @@ namespace AspNetCore.Authentication.ApiKey
 {
     public class ApiKeyInHeaderHandler : ApiKeyHandlerBase
 	{
+        private const string WwwAuthenticateInParameter = "header";
+        protected override string GetWwwAuthenticateInParameter() => WwwAuthenticateInParameter;
+
 #if NET8_0_OR_GREATER
         protected ApiKeyInHeaderHandler(IOptionsMonitor<ApiKeyOptions> options, ILoggerFactory logger, UrlEncoder encoder)
             : base(options, logger, encoder)

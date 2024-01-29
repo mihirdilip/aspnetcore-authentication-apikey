@@ -1,5 +1,5 @@
 # AspNetCore.Authentication.ApiKey
-Easy to use and very light weight Microsoft style API Key Authentication Implementation for ASP.NET Core. It can be setup so that it can accept API Key either in Header, Authorization Header, QueryParams or HeaderOrQueryParams.
+Easy to use and very light weight Microsoft style API Key Authentication Implementation for ASP.NET Core. It can be setup so that it can accept API Key either in Header, Authorization Header, QueryParams, HeaderOrQueryParams or RouteValues.
 
 [View On GitHub](https://github.com/mihirdilip/aspnetcore-authentication-apikey)
 
@@ -190,7 +190,7 @@ class ApiKey : IApiKey
 ## Configuration (ApiKeyOptions)
 
 ### KeyName
-Required to be set. It is the name of the header if it is setup as in header or the name of the query parameter if set as in query_params.
+Required to be set. It is the name of the header if it is setup as in header or the name of the query parameter if set as in query_params or the name of the route key if set as in route_values.
 
 ### Realm
 Required to be set if SuppressWWWAuthenticateHeader is not set to true. It is used with WWW-Authenticate response header when challenging un-authenticated requests.  
@@ -263,6 +263,10 @@ WWW-Authenticate challenge header will contain parameter `in="query_params"`.
 Adds ApiKey authentication which can handle the api key in the either Header, Authorization Header or Query Parameter.  
 WWW-Authenticate challenge header will contain parameter `in="header_or_query_params"`.  
 
+### AddApiKeyInRouteValues  
+Adds ApiKey authentication which can handle the api key in the url route identified by the route pattern key.  
+WWW-Authenticate challenge header will contain parameter `in="route_values"`.  
+
 <br/>
 <br/>
 
@@ -276,7 +280,7 @@ where,
 
 - &lt;REALM&gt; == *ApiKeyOptions.Realm*  
 
-- <IN_PARAMERTER> == Depending on the [extension method](#extension-methods) used, it could be either of *header*, *authorization_header*, *query_params*, *header_or_query_params*  
+- <IN_PARAMERTER> == Depending on the [extension method](#extension-methods) used, it could be either of *header*, *authorization_header*, *query_params*, *header_or_query_params*, *route_values*  
 
 - <KEY_NAME> == *ApiKeyOptions.KeyName*  
 
@@ -380,6 +384,7 @@ public void ConfigureServices(IServiceCollection services)
 ## Release Notes
 | Version | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Notes |
 |---------|-------|
+|8.0.1    | <ul><li>Added support to have ApiKey in request route identified by route pattern key from netcoreapp3.0 onwards [#41](https://github.com/mihirdilip/aspnetcore-authentication-apikey/issues/41)</li><li>Readme updated</li></ul> |
 |8.0.0    | <ul><li>net8.0 support added</li><li>Sample project for net8.0 added</li><li>ApiKeySamplesClient.http file added for testing sample projects</li><li>Readme updated</li></ul> |
 |7.0.0    | <ul><li>net7.0 support added</li><li>Information log on handler is changed to Debug log when API Key is not found on the request</li><li>Added package validations</li><li>Sample project for net7.0 added</li><li>Readme updated</li><li>Readme added to package</li></ul> |
 |6.0.1    | <ul><li>net6.0 support added</li><li>Information log on handler is changed to Debug log when IgnoreAuthenticationIfAllowAnonymous is enabled</li><li>Sample project added</li><li>Readme updated</li><li>Copyright year updated on License</li></ul> |

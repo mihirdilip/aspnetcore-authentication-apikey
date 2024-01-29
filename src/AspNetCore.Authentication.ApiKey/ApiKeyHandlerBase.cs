@@ -225,21 +225,7 @@ namespace AspNetCore.Authentication.ApiKey
 				: Scheme.Name;
         }
 
-		private string GetWwwAuthenticateInParameter()
-        {
-			var handlerType = this.GetType();
-
-			if (handlerType == typeof(ApiKeyInAuthorizationHeaderHandler))
-				return "authorization_header";
-			if (handlerType == typeof(ApiKeyInHeaderHandler))
-				return "header";
-			if (handlerType == typeof(ApiKeyInQueryParamsHandler))
-				return "query_params";
-			if (handlerType == typeof(ApiKeyInHeaderOrQueryParamsHandler))
-				return "header_or_query_params";
-
-			throw new NotImplementedException($"No parameter name defined for {handlerType.FullName}.");
-		}
+		protected abstract string GetWwwAuthenticateInParameter();
 
 		private bool IgnoreAuthenticationIfAllowAnonymous()
 		{
