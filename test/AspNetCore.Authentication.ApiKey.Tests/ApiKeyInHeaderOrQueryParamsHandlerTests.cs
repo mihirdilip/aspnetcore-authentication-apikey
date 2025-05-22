@@ -6,25 +6,23 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using System;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace AspNetCore.Authentication.ApiKey.Tests
 {
-    public class ApiKeyInHeaderOrQueryParamsHandlerTests : IDisposable
-    {
+	public class ApiKeyInHeaderOrQueryParamsHandlerTests : IDisposable
+	{
 		private readonly TestServer _server;
-        private readonly HttpClient _client;
-        private readonly TestServer _serverWithProvider;
-        private readonly HttpClient _clientWithProvider;
-        private bool _disposedValue;
+		private readonly HttpClient _client;
+		private readonly TestServer _serverWithProvider;
+		private readonly HttpClient _clientWithProvider;
+		private bool _disposedValue;
 
-        public ApiKeyInHeaderOrQueryParamsHandlerTests()
-        {
+		public ApiKeyInHeaderOrQueryParamsHandlerTests()
+		{
 			_server = TestServerBuilder.BuildInHeaderOrQueryParamsServer();
 			_client = _server.CreateClient();
 
@@ -43,13 +41,13 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 			Assert.NotNull(scheme);
 			Assert.Equal(typeof(ApiKeyInHeaderOrQueryParamsHandler), scheme.HandlerType);
 
-            var apiKeyOptionsSnapshot = services.GetService<IOptionsSnapshot<ApiKeyOptions>>();
+			var apiKeyOptionsSnapshot = services.GetService<IOptionsSnapshot<ApiKeyOptions>>();
 			var apiKeyOptions = apiKeyOptionsSnapshot?.Get(scheme.Name);
 			Assert.NotNull(apiKeyOptions);
 			Assert.NotNull(apiKeyOptions.Events?.OnValidateKey);
 			Assert.Null(apiKeyOptions.ApiKeyProviderType);
 
-            var apiKeyProvider = services.GetService<IApiKeyProvider>();
+			var apiKeyProvider = services.GetService<IApiKeyProvider>();
 			Assert.Null(apiKeyProvider);
 		}
 
@@ -92,13 +90,13 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 		}
 
 		[Fact]
-        public async Task Unauthorized()
-        {
+		public async Task Unauthorized()
+		{
 			using var request = new HttpRequestMessage(HttpMethod.Get, TestServerBuilder.BaseUrl);
 			using var response = await _client.SendAsync(request);
 			Assert.False(response.IsSuccessStatusCode);
 			Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
-        }
+		}
 
 		[Fact]
 		public async Task InHeader_success()
@@ -231,39 +229,39 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 			Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
 		}
 
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!_disposedValue)
-            {
-                if (disposing)
-                {
-                    // TODO: dispose managed state (managed objects)
+		protected virtual void Dispose(bool disposing)
+		{
+			if (!_disposedValue)
+			{
+				if (disposing)
+				{
+					// TODO: dispose managed state (managed objects)
 
-                    _client?.Dispose();
-                    _server?.Dispose();
+					_client?.Dispose();
+					_server?.Dispose();
 
-                    _clientWithProvider?.Dispose();
-                    _serverWithProvider?.Dispose();
-                }
+					_clientWithProvider?.Dispose();
+					_serverWithProvider?.Dispose();
+				}
 
-                // TODO: free unmanaged resources (unmanaged objects) and override finalizer
-                // TODO: set large fields to null
-                _disposedValue = true;
-            }
-        }
+				// TODO: free unmanaged resources (unmanaged objects) and override finalizer
+				// TODO: set large fields to null
+				_disposedValue = true;
+			}
+		}
 
-        // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
-        // ~ApiKeyInHeaderOrQueryParamsHandlerTests()
-        // {
-        //     // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-        //     Dispose(disposing: false);
-        // }
+		// // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
+		// ~ApiKeyInHeaderOrQueryParamsHandlerTests()
+		// {
+		//     // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+		//     Dispose(disposing: false);
+		// }
 
-        public void Dispose()
-        {
-            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
-        }
-    }
+		public void Dispose()
+		{
+			// Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+			Dispose(disposing: true);
+			GC.SuppressFinalize(this);
+		}
+	}
 }

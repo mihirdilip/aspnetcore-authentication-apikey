@@ -38,7 +38,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Events
             using var client = BuildClient(
                 context =>
                 {
-                    Assert.Throws<ArgumentNullException>(() => context.ReplacePrincipal(null));
+                    Assert.Throws<ArgumentNullException>(() => context.ReplacePrincipal(null!));
                     return Task.CompletedTask;
                 }
             );
@@ -92,6 +92,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Events
                 {
                     context.AddClaim(claim);
 
+                    Assert.NotNull(context.Principal);
                     Assert.Contains(context.Principal.Claims, c => c.Type == claim.Type && c.Value == claim.Value);
 
                     return Task.CompletedTask;
@@ -115,6 +116,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Events
                 {
                     context.AddClaims(claims);
 
+                    Assert.NotNull(context.Principal);
                     Assert.Contains(context.Principal.Claims, c => c.Type == claims[0].Type && c.Value == claims[0].Value);
                     Assert.Contains(context.Principal.Claims, c => c.Type == claims[1].Type && c.Value == claims[1].Value);
 

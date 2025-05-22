@@ -5,7 +5,5 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("Style", "IDE0290:Use primary constructor", Justification = "<Pending>", Scope = "member", Target = "~M:AspNetCore.Authentication.ApiKey.Tests.Infrastructure.ClaimsPrincipalDto.#ctor(System.Security.Claims.ClaimsPrincipal)")]
-[assembly: SuppressMessage("Style", "IDE0290:Use primary constructor", Justification = "<Pending>", Scope = "member", Target = "~M:AspNetCore.Authentication.ApiKey.Tests.Infrastructure.ClaimDto.#ctor(System.Security.Claims.Claim)")]
-[assembly: SuppressMessage("Style", "IDE0290:Use primary constructor", Justification = "<Pending>", Scope = "member", Target = "~M:AspNetCore.Authentication.ApiKey.Tests.Infrastructure.FakeApiKey.#ctor(System.String,System.String,System.Collections.Generic.IReadOnlyCollection{System.Security.Claims.Claim})")]
-[assembly: SuppressMessage("Style", "IDE0305:Simplify collection initialization", Justification = "<Pending>", Scope = "member", Target = "~M:AspNetCore.Authentication.ApiKey.Tests.ApiKeyHandlerBaseTests.MultiScheme~System.Threading.Tasks.Task")]
+[assembly: SuppressMessage("Style", "IDE0290:Use primary constructor", Justification = "<Pending>")]
+[assembly: SuppressMessage("Maintainability", "CA1510:Use ArgumentNullException throw helper", Justification = "<Pending>")]

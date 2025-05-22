@@ -6,27 +6,25 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
-using System;
 using System.Net.Http.Headers;
 using System.Text.Encodings.Web;
-using System.Threading.Tasks;
 
 namespace AspNetCore.Authentication.ApiKey
 {
-    public class ApiKeyInAuthorizationHeaderHandler : ApiKeyHandlerBase
+	public class ApiKeyInAuthorizationHeaderHandler : ApiKeyHandlerBase
 	{
-        private const string WwwAuthenticateInParameter = "authorization_header";
-        protected override string GetWwwAuthenticateInParameter() => WwwAuthenticateInParameter;
+		private const string WwwAuthenticateInParameter = "authorization_header";
+		protected override string GetWwwAuthenticateInParameter() => WwwAuthenticateInParameter;
 
 #if NET8_0_OR_GREATER
-        protected ApiKeyInAuthorizationHeaderHandler(IOptionsMonitor<ApiKeyOptions> options, ILoggerFactory logger, UrlEncoder encoder)
-            : base(options, logger, encoder)
-        {
-        }
+		protected ApiKeyInAuthorizationHeaderHandler(IOptionsMonitor<ApiKeyOptions> options, ILoggerFactory logger, UrlEncoder encoder)
+			: base(options, logger, encoder)
+		{
+		}
 
-        [Obsolete("ISystemClock is obsolete, use TimeProvider on AuthenticationSchemeOptions instead.")]
+		[Obsolete("ISystemClock is obsolete, use TimeProvider on AuthenticationSchemeOptions instead.")]
 #endif
-        public ApiKeyInAuthorizationHeaderHandler(IOptionsMonitor<ApiKeyOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock)
+		public ApiKeyInAuthorizationHeaderHandler(IOptionsMonitor<ApiKeyOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock)
 			: base(options, logger, encoder, clock)
 		{
 		}
@@ -40,11 +38,11 @@ namespace AspNetCore.Authentication.ApiKey
 					)
 			)
 			{
-				return Task.FromResult(headerValue.Parameter);
+				return Task.FromResult(headerValue.Parameter ?? string.Empty);
 			}
 
 			// No ApiKey found
 			return Task.FromResult(string.Empty);
 		}
-    }
+	}
 }

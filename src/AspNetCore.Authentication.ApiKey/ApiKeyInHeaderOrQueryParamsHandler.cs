@@ -5,28 +5,25 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
-using System;
-using System.Linq;
 using System.Net.Http.Headers;
 using System.Text.Encodings.Web;
-using System.Threading.Tasks;
 
 namespace AspNetCore.Authentication.ApiKey
 {
 	public class ApiKeyInHeaderOrQueryParamsHandler : ApiKeyHandlerBase
 	{
-        private const string WwwAuthenticateInParameter = "header_or_query_params";
-        protected override string GetWwwAuthenticateInParameter() => WwwAuthenticateInParameter;
+		private const string WwwAuthenticateInParameter = "header_or_query_params";
+		protected override string GetWwwAuthenticateInParameter() => WwwAuthenticateInParameter;
 
 #if NET8_0_OR_GREATER
-        protected ApiKeyInHeaderOrQueryParamsHandler(IOptionsMonitor<ApiKeyOptions> options, ILoggerFactory logger, UrlEncoder encoder)
-            : base(options, logger, encoder)
-        {
-        }
+		protected ApiKeyInHeaderOrQueryParamsHandler(IOptionsMonitor<ApiKeyOptions> options, ILoggerFactory logger, UrlEncoder encoder)
+			: base(options, logger, encoder)
+		{
+		}
 
-        [Obsolete("ISystemClock is obsolete, use TimeProvider on AuthenticationSchemeOptions instead.")]
+		[Obsolete("ISystemClock is obsolete, use TimeProvider on AuthenticationSchemeOptions instead.")]
 #endif
-        public ApiKeyInHeaderOrQueryParamsHandler(IOptionsMonitor<ApiKeyOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock)
+		public ApiKeyInHeaderOrQueryParamsHandler(IOptionsMonitor<ApiKeyOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock)
 			: base(options, logger, encoder, clock)
 		{
 		}
@@ -36,13 +33,13 @@ namespace AspNetCore.Authentication.ApiKey
 			// Try query parameter
 			if (Request.Query.TryGetValue(Options.KeyName, out var value))
 			{
-				return Task.FromResult(value.FirstOrDefault());
+				return Task.FromResult(value.FirstOrDefault() ?? string.Empty);
 			}
 
 			// No ApiKey query parameter found try headers
 			if (Request.Headers.TryGetValue(Options.KeyName, out var headerValue))
 			{
-				return Task.FromResult(headerValue.FirstOrDefault());
+				return Task.FromResult(headerValue.FirstOrDefault() ?? string.Empty);
 			}
 
 			// No ApiKey query parameter or header found then try Authorization header
@@ -51,7 +48,7 @@ namespace AspNetCore.Authentication.ApiKey
 					&& authHeaderValue.Scheme.Equals(Options.KeyName, StringComparison.OrdinalIgnoreCase)
 			)
 			{
-				return Task.FromResult(authHeaderValue.Parameter);
+				return Task.FromResult(authHeaderValue.Parameter ?? string.Empty);
 			}
 
 			// No ApiKey found

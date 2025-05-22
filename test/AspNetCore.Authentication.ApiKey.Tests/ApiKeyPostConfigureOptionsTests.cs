@@ -2,15 +2,12 @@
 // Licensed under the MIT License. See LICENSE file in the project root for license information.
 
 using AspNetCore.Authentication.ApiKey.Tests.Infrastructure;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace AspNetCore.Authentication.ApiKey.Tests
 {
-    public class ApiKeyPostConfigureOptionsTests
-    {
+	public class ApiKeyPostConfigureOptionsTests
+	{
 		static readonly string KeyName = "X-API-KEY";
 
 		[Fact]

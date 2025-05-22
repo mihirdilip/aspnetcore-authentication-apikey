@@ -4,11 +4,8 @@
 using AspNetCore.Authentication.ApiKey.Tests.Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.TestHost;
-using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace AspNetCore.Authentication.ApiKey.Tests.Events

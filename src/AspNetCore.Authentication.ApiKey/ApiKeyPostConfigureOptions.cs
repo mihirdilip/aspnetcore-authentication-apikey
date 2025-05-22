@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Mihir Dilip. All rights reserved.
 // Licensed under the MIT License. See LICENSE file in the project root for license information.
 
-using System;
 using Microsoft.Extensions.Options;
 
 namespace AspNetCore.Authentication.ApiKey
@@ -11,7 +10,7 @@ namespace AspNetCore.Authentication.ApiKey
 	/// </summary>
 	class ApiKeyPostConfigureOptions : IPostConfigureOptions<ApiKeyOptions>
 	{
-		public void PostConfigure(string name, ApiKeyOptions options)
+		public void PostConfigure(string? name, ApiKeyOptions options)
 		{
 			if (!options.SuppressWWWAuthenticateHeader && string.IsNullOrWhiteSpace(options.Realm))
 			{

@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Mihir Dilip. All rights reserved.
 // Licensed under the MIT License. See LICENSE file in the project root for license information.
 
-using System.Threading.Tasks;
-
 namespace AspNetCore.Authentication.ApiKey
 {
 	/// <summary>
@@ -15,6 +13,6 @@ namespace AspNetCore.Authentication.ApiKey
 		/// </summary>
 		/// <param name="key"></param>
 		/// <returns></returns>
-		Task<IApiKey> ProvideAsync(string key);
+		Task<IApiKey?> ProvideAsync(string key);
 	}
 }

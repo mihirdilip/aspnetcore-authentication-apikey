@@ -3,9 +3,6 @@
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace AspNetCore.Authentication.ApiKey.Tests
@@ -194,7 +191,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             services.AddAuthentication()
                 .AddApiKeyInHeader<MockApiKeyProvider>();
 
-            var serviceDescriptor = Assert.Single(services.Where(s => s.ServiceType == typeof(IApiKeyProvider)));
+            var serviceDescriptor = Assert.Single(services, s => s.ServiceType == typeof(IApiKeyProvider));
             Assert.Equal(typeof(IApiKeyProvider), serviceDescriptor.ServiceType);
             Assert.Equal(typeof(MockApiKeyProvider), serviceDescriptor.ImplementationType);
             Assert.Equal(ServiceLifetime.Transient, serviceDescriptor.Lifetime);
@@ -217,12 +214,12 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             var serviceDescriptors = services.Where(s => s.ServiceType == typeof(IApiKeyProvider));
             Assert.Equal(2, serviceDescriptors.Count());
 
-            var serviceDescriptor = Assert.Single(serviceDescriptors.Where(s => s.ImplementationType == typeof(MockApiKeyProvider)));
+            var serviceDescriptor = Assert.Single(serviceDescriptors, s => s.ImplementationType == typeof(MockApiKeyProvider));
             Assert.Equal(typeof(IApiKeyProvider), serviceDescriptor.ServiceType);
             Assert.Equal(typeof(MockApiKeyProvider), serviceDescriptor.ImplementationType);
             Assert.Equal(ServiceLifetime.Transient, serviceDescriptor.Lifetime);
 
-            serviceDescriptor = Assert.Single(serviceDescriptors.Where(s => s.ImplementationType == typeof(MockApiKeyProvider2)));
+            serviceDescriptor = Assert.Single(serviceDescriptors, s => s.ImplementationType == typeof(MockApiKeyProvider2));
             Assert.Equal(typeof(IApiKeyProvider), serviceDescriptor.ServiceType);
             Assert.Equal(typeof(MockApiKeyProvider2), serviceDescriptor.ImplementationType);
             Assert.Equal(ServiceLifetime.Singleton, serviceDescriptor.Lifetime);
@@ -489,7 +486,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             services.AddAuthentication()
                 .AddApiKeyInAuthorizationHeader<MockApiKeyProvider>();
 
-            var serviceDescriptor = Assert.Single(services.Where(s => s.ServiceType == typeof(IApiKeyProvider)));
+            var serviceDescriptor = Assert.Single(services, s => s.ServiceType == typeof(IApiKeyProvider));
             Assert.Equal(typeof(IApiKeyProvider), serviceDescriptor.ServiceType);
             Assert.Equal(typeof(MockApiKeyProvider), serviceDescriptor.ImplementationType);
             Assert.Equal(ServiceLifetime.Transient, serviceDescriptor.Lifetime);
@@ -512,12 +509,12 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             var serviceDescriptors = services.Where(s => s.ServiceType == typeof(IApiKeyProvider));
             Assert.Equal(2, serviceDescriptors.Count());
 
-            var serviceDescriptor = Assert.Single(serviceDescriptors.Where(s => s.ImplementationType == typeof(MockApiKeyProvider)));
+            var serviceDescriptor = Assert.Single(serviceDescriptors, s => s.ImplementationType == typeof(MockApiKeyProvider));
             Assert.Equal(typeof(IApiKeyProvider), serviceDescriptor.ServiceType);
             Assert.Equal(typeof(MockApiKeyProvider), serviceDescriptor.ImplementationType);
             Assert.Equal(ServiceLifetime.Transient, serviceDescriptor.Lifetime);
 
-            serviceDescriptor = Assert.Single(serviceDescriptors.Where(s => s.ImplementationType == typeof(MockApiKeyProvider2)));
+            serviceDescriptor = Assert.Single(serviceDescriptors, s => s.ImplementationType == typeof(MockApiKeyProvider2));
             Assert.Equal(typeof(IApiKeyProvider), serviceDescriptor.ServiceType);
             Assert.Equal(typeof(MockApiKeyProvider2), serviceDescriptor.ImplementationType);
             Assert.Equal(ServiceLifetime.Singleton, serviceDescriptor.Lifetime);
@@ -784,7 +781,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             services.AddAuthentication()
                 .AddApiKeyInQueryParams<MockApiKeyProvider>();
 
-            var serviceDescriptor = Assert.Single(services.Where(s => s.ServiceType == typeof(IApiKeyProvider)));
+            var serviceDescriptor = Assert.Single(services, s => s.ServiceType == typeof(IApiKeyProvider));
             Assert.Equal(typeof(IApiKeyProvider), serviceDescriptor.ServiceType);
             Assert.Equal(typeof(MockApiKeyProvider), serviceDescriptor.ImplementationType);
             Assert.Equal(ServiceLifetime.Transient, serviceDescriptor.Lifetime);
@@ -807,12 +804,12 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             var serviceDescriptors = services.Where(s => s.ServiceType == typeof(IApiKeyProvider));
             Assert.Equal(2, serviceDescriptors.Count());
 
-            var serviceDescriptor = Assert.Single(serviceDescriptors.Where(s => s.ImplementationType == typeof(MockApiKeyProvider)));
+            var serviceDescriptor = Assert.Single(serviceDescriptors, s => s.ImplementationType == typeof(MockApiKeyProvider));
             Assert.Equal(typeof(IApiKeyProvider), serviceDescriptor.ServiceType);
             Assert.Equal(typeof(MockApiKeyProvider), serviceDescriptor.ImplementationType);
             Assert.Equal(ServiceLifetime.Transient, serviceDescriptor.Lifetime);
 
-            serviceDescriptor = Assert.Single(serviceDescriptors.Where(s => s.ImplementationType == typeof(MockApiKeyProvider2)));
+            serviceDescriptor = Assert.Single(serviceDescriptors, s => s.ImplementationType == typeof(MockApiKeyProvider2));
             Assert.Equal(typeof(IApiKeyProvider), serviceDescriptor.ServiceType);
             Assert.Equal(typeof(MockApiKeyProvider2), serviceDescriptor.ImplementationType);
             Assert.Equal(ServiceLifetime.Singleton, serviceDescriptor.Lifetime);
@@ -1079,7 +1076,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             services.AddAuthentication()
                 .AddApiKeyInHeaderOrQueryParams<MockApiKeyProvider>();
 
-            var serviceDescriptor = Assert.Single(services.Where(s => s.ServiceType == typeof(IApiKeyProvider)));
+            var serviceDescriptor = Assert.Single(services, s => s.ServiceType == typeof(IApiKeyProvider));
             Assert.Equal(typeof(IApiKeyProvider), serviceDescriptor.ServiceType);
             Assert.Equal(typeof(MockApiKeyProvider), serviceDescriptor.ImplementationType);
             Assert.Equal(ServiceLifetime.Transient, serviceDescriptor.Lifetime);
@@ -1102,12 +1099,12 @@ namespace AspNetCore.Authentication.ApiKey.Tests
             var serviceDescriptors = services.Where(s => s.ServiceType == typeof(IApiKeyProvider));
             Assert.Equal(2, serviceDescriptors.Count());
 
-            var serviceDescriptor = Assert.Single(serviceDescriptors.Where(s => s.ImplementationType == typeof(MockApiKeyProvider)));
+            var serviceDescriptor = Assert.Single(serviceDescriptors, s => s.ImplementationType == typeof(MockApiKeyProvider));
             Assert.Equal(typeof(IApiKeyProvider), serviceDescriptor.ServiceType);
             Assert.Equal(typeof(MockApiKeyProvider), serviceDescriptor.ImplementationType);
             Assert.Equal(ServiceLifetime.Transient, serviceDescriptor.Lifetime);
 
-            serviceDescriptor = Assert.Single(serviceDescriptors.Where(s => s.ImplementationType == typeof(MockApiKeyProvider2)));
+            serviceDescriptor = Assert.Single(serviceDescriptors, s => s.ImplementationType == typeof(MockApiKeyProvider2));
             Assert.Equal(typeof(IApiKeyProvider), serviceDescriptor.ServiceType);
             Assert.Equal(typeof(MockApiKeyProvider2), serviceDescriptor.ImplementationType);
             Assert.Equal(ServiceLifetime.Singleton, serviceDescriptor.Lifetime);
@@ -1203,7 +1200,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 
         private class MockApiKeyProvider : IApiKeyProvider
         {
-            public Task<IApiKey> ProvideAsync(string key)
+            public Task<IApiKey?> ProvideAsync(string key)
             {
                 throw new NotImplementedException();
             }
@@ -1211,7 +1208,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
 
         private class MockApiKeyProvider2 : IApiKeyProvider
         {
-            public Task<IApiKey> ProvideAsync(string key)
+            public Task<IApiKey?> ProvideAsync(string key)
             {
                 throw new NotImplementedException();
             }

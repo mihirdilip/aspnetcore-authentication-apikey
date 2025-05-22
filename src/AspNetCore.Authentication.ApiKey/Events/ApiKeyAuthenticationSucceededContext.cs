@@ -3,8 +3,6 @@
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
 using System.Security.Claims;
 
 namespace AspNetCore.Authentication.ApiKey
@@ -24,13 +22,13 @@ namespace AspNetCore.Authentication.ApiKey
         public ApiKeyAuthenticationSucceededContext(HttpContext context, AuthenticationScheme scheme, ApiKeyOptions options, ClaimsPrincipal principal)
             : base(context, scheme, options)
         {
-            base.Principal = principal;
+            Principal = principal;
         }
 
         /// <summary>
         /// Get the <see cref="ClaimsPrincipal"/> containing the user claims.
         /// </summary>
-        public new ClaimsPrincipal Principal => base.Principal;
+        public new ClaimsPrincipal? Principal { get => base.Principal; private set => base.Principal = value; }
 
         /// <summary>
         /// Called to replace the claims principal. The supplied principal will replace the value of the 
@@ -40,7 +38,7 @@ namespace AspNetCore.Authentication.ApiKey
         /// <exception cref="ArgumentNullException"></exception>
         public void ReplacePrincipal(ClaimsPrincipal principal)
         {
-            base.Principal = principal ?? throw new ArgumentNullException(nameof(principal));
+            Principal = principal ?? throw new ArgumentNullException(nameof(principal));
         }
 
         /// <summary>
@@ -57,7 +55,7 @@ namespace AspNetCore.Authentication.ApiKey
         public void AddClaim(Claim claim)
         {
             if (claim == null) throw new ArgumentNullException(nameof(claim));
-            (Principal?.Identity as ClaimsIdentity).AddClaim(claim);
+            (Principal?.Identity as ClaimsIdentity)?.AddClaim(claim);
         }
 
         /// <summary>
@@ -68,7 +66,7 @@ namespace AspNetCore.Authentication.ApiKey
         public void AddClaims(IEnumerable<Claim> claims)
         {
             if (claims == null) throw new ArgumentNullException(nameof(claims));
-            (Principal?.Identity as ClaimsIdentity).AddClaims(claims);
+            (Principal?.Identity as ClaimsIdentity)?.AddClaims(claims);
         }
     }
 }
