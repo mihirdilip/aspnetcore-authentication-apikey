@@ -4,6 +4,8 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <CheckEolTargetFramework>false</CheckEolTargetFramework>
     <NuGetAudit>false</NuGetAudit>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>

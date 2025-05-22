@@ -7,3 +7,5 @@ using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("Maintainability", "CA1510:Use ArgumentNullException throw helper", Justification = "<Pending>", Scope = "member", Target = "~M:AspNetCore.Authentication.ApiKey.ApiKeyAuthenticationSucceededContext.AddClaim(System.Security.Claims.Claim)")]
 [assembly: SuppressMessage("Maintainability", "CA1510:Use ArgumentNullException throw helper", Justification = "<Pending>", Scope = "member", Target = "~M:AspNetCore.Authentication.ApiKey.ApiKeyAuthenticationSucceededContext.AddClaims(System.Collections.Generic.IEnumerable{System.Security.Claims.Claim})")]
+[assembly: SuppressMessage("Style", "IDE0130:Namespace does not match folder structure", Justification = "<Pending>", Scope = "namespace", Target = "~N:AspNetCore.Authentication.ApiKey")]
+[assembly: SuppressMessage("Style", "IDE0290:Use primary constructor", Justification = "<Pending>")]

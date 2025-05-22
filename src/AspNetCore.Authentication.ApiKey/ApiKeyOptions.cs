@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See LICENSE file in the project root for license information.
 
 using Microsoft.AspNetCore.Authentication;
-using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AspNetCore.Authentication.ApiKey
 {
@@ -19,14 +19,14 @@ namespace AspNetCore.Authentication.ApiKey
         /// <summary>
         /// This is required property. It is the name of the header or query parameter of the API Key.
         /// </summary>
-        public string KeyName { get; set; }
+        public string KeyName { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the realm property. It is used with WWW-Authenticate response header when challenging un-authenticated requests.
         /// Required to be set if SuppressWWWAuthenticateHeader is not set to true.
         /// <see href="https://tools.ietf.org/html/rfc7235#section-2.2"/>
         /// </summary>
-        public string Realm { get; set; }
+        public string? Realm { get; set; }
 
         /// <summary>
         /// Default value is false.
@@ -44,7 +44,7 @@ namespace AspNetCore.Authentication.ApiKey
         /// </summary>
         public new ApiKeyEvents Events
         {
-            get => (ApiKeyEvents)base.Events;
+            get => (ApiKeyEvents)base.Events!;
             set => base.Events = value;
         }
 
@@ -70,6 +70,9 @@ namespace AspNetCore.Authentication.ApiKey
         public bool IgnoreAuthenticationIfAllowAnonymous { get; set; }
 #endif
 
-        internal Type ApiKeyProviderType { get; set; } = null;
+#if NET5_0_OR_GREATER
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)]
+#endif
+        internal Type? ApiKeyProviderType { get; set; } = null;
     }
 }

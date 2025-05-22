@@ -7,9 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
-using System;
 using System.Text.Encodings.Web;
-using System.Threading.Tasks;
 
 namespace AspNetCore.Authentication.ApiKey
 {
@@ -20,24 +18,24 @@ namespace AspNetCore.Authentication.ApiKey
 	{
 
 #if NET8_0_OR_GREATER
-        protected ApiKeyHandlerBase(IOptionsMonitor<ApiKeyOptions> options, ILoggerFactory logger, UrlEncoder encoder)
-            : base(options, logger, encoder)
-        {
-        }
+		protected ApiKeyHandlerBase(IOptionsMonitor<ApiKeyOptions> options, ILoggerFactory logger, UrlEncoder encoder)
+			: base(options, logger, encoder)
+		{
+		}
 
-        [Obsolete("ISystemClock is obsolete, use TimeProvider on AuthenticationSchemeOptions instead.")]
+		[Obsolete("ISystemClock is obsolete, use TimeProvider on AuthenticationSchemeOptions instead.")]
 #endif
-        protected ApiKeyHandlerBase(IOptionsMonitor<ApiKeyOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock)
+		protected ApiKeyHandlerBase(IOptionsMonitor<ApiKeyOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock)
 			: base(options, logger, encoder, clock)
 		{
 		}
 
-        private string Challenge => $"{GetWwwAuthenticateSchemeName()} realm=\"{Options.Realm}\", charset=\"UTF-8\", in=\"{GetWwwAuthenticateInParameter()}\", key_name=\"{Options.KeyName}\"";
+		private string Challenge => $"{GetWwwAuthenticateSchemeName()} realm=\"{Options.Realm}\", charset=\"UTF-8\", in=\"{GetWwwAuthenticateInParameter()}\", key_name=\"{Options.KeyName}\"";
 
 		/// <summary>
 		/// Get or set <see cref="ApiKeyEvents"/>.
 		/// </summary>
-		protected new ApiKeyEvents Events { get => (ApiKeyEvents)base.Events; set => base.Events = value; }
+		protected new ApiKeyEvents Events { get => (ApiKeyEvents)base.Events!; set => base.Events = value; }
 
 		/// <summary>
 		/// Create an instance of <see cref="ApiKeyEvents"/>.
@@ -147,7 +145,7 @@ namespace AspNetCore.Authentication.ApiKey
 			await base.HandleChallengeAsync(properties);
 		}
 
-		private async Task<AuthenticateResult> RaiseAndHandleEventValidateKeyAsync(string apiKey)
+		private async Task<AuthenticateResult?> RaiseAndHandleEventValidateKeyAsync(string apiKey)
 		{
 			var validateApiContext = new ApiKeyValidateKeyContext(Context, Scheme, Options, apiKey);
 			await Events.ValidateKeyAsync(validateApiContext).ConfigureAwait(false);
@@ -185,16 +183,19 @@ namespace AspNetCore.Authentication.ApiKey
 			{
 				// If claims principal is set and is authenticated then build a ticket by calling and return success.
 				authenticationSucceededContext.Success();
-				return authenticationSucceededContext.Result;
+				if (authenticationSucceededContext.Result != null)
+				{
+					return authenticationSucceededContext.Result;
+				}
 			}
 
 			Logger.LogError("No authenticated prinicipal set.");
 			return AuthenticateResult.Fail("No authenticated prinicipal set.");
 		}
 
-		private async Task<IApiKey> ValidateUsingApiKeyProviderAsync(string apiKey)
+		private async Task<IApiKey?> ValidateUsingApiKeyProviderAsync(string apiKey)
 		{
-			IApiKeyProvider apiKeyProvider = null;
+			IApiKeyProvider? apiKeyProvider = null;
 			if (Options.ApiKeyProviderType != null)
 			{
 				apiKeyProvider = ActivatorUtilities.GetServiceOrCreateInstance(Context.RequestServices, Options.ApiKeyProviderType) as IApiKeyProvider;
@@ -211,6 +212,13 @@ namespace AspNetCore.Authentication.ApiKey
 			}
 			finally
 			{
+#if NETCOREAPP3_0_OR_GREATER
+				if (apiKeyProvider is IAsyncDisposable asyncDisposableApiKeyProvider)
+				{
+					await asyncDisposableApiKeyProvider.DisposeAsync().ConfigureAwait(false);
+				}
+#endif
+
 				if (apiKeyProvider is IDisposable disposableApiKeyProvider)
 				{
 					disposableApiKeyProvider.Dispose();
@@ -219,11 +227,11 @@ namespace AspNetCore.Authentication.ApiKey
 		}
 
 		private string GetWwwAuthenticateSchemeName()
-        {
+		{
 			return Options.ForLegacyUseKeyNameAsSchemeNameOnWWWAuthenticateHeader
 				? Options.KeyName
 				: Scheme.Name;
-        }
+		}
 
 		protected abstract string GetWwwAuthenticateInParameter();
 

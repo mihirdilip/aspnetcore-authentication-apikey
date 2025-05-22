@@ -7,7 +7,7 @@ Easy to use and very light weight Microsoft style API Key Authentication Impleme
 
 ## .NET (Core) Frameworks Supported  
 .NET Framework 4.6.1 and/or NetStandard 2.0 onwards  
-Multi targeted: net8.0; net7.0; net6.0; net5.0; netcoreapp3.1; netcoreapp3.0; netstandard2.0; net461
+Multi targeted: net9.0; net8.0; net7.0; net6.0; net5.0; netcoreapp3.1; netcoreapp3.0; netstandard2.0; net461
 
 <br/> 
 
@@ -384,6 +384,7 @@ public void ConfigureServices(IServiceCollection services)
 ## Release Notes
 | Version | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Notes |
 |---------|-------|
+|9.0.0    | <ul><li>net9.0 support added</li><li>Sample project for net9.0 added</li><li>Readme updated</li><li>Nullable reference types enabled</li><li>Language version set to latest</li><li>Implicit usings enabled</li><li>AOT support added</li></ul> |
 |8.0.1    | <ul><li>Added support to have ApiKey in request route identified by route pattern key from netcoreapp3.0 onwards [#41](https://github.com/mihirdilip/aspnetcore-authentication-apikey/issues/41)</li><li>Readme updated</li></ul> |
 |8.0.0    | <ul><li>net8.0 support added</li><li>Sample project for net8.0 added</li><li>ApiKeySamplesClient.http file added for testing sample projects</li><li>Readme updated</li></ul> |
 |7.0.0    | <ul><li>net7.0 support added</li><li>Information log on handler is changed to Debug log when API Key is not found on the request</li><li>Added package validations</li><li>Sample project for net7.0 added</li><li>Readme updated</li><li>Readme added to package</li></ul> |

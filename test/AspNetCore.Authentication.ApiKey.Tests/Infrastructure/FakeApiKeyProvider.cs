@@ -1,11 +1,7 @@
 ﻿// Copyright (c) Mihir Dilip. All rights reserved.
 // Licensed under the MIT License. See LICENSE file in the project root for license information.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace AspNetCore.Authentication.ApiKey.Tests.Infrastructure
 {
@@ -42,7 +38,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Infrastructure
         {
             Key = key;
             OwnerName = ownerName;
-            Claims = claims ?? new List<Claim>();
+            Claims = claims ?? [];
         }
 
         public string Key { get; }
@@ -66,12 +62,12 @@ namespace AspNetCore.Authentication.ApiKey.Tests.Infrastructure
         internal static Claim FakeNameIdentifierClaim = new(ClaimTypes.NameIdentifier, "FakeNameIdentifierClaim", ClaimValueTypes.String);
         internal static Claim FakeRoleClaim = new(ClaimTypes.Role, "FakeRoleClaim", ClaimValueTypes.String);
 
-        internal static List<IApiKey> Keys => new()
-        {
-            new FakeApiKey(FakeKey, FakeKeyOwner, new List<Claim> { FakeNameClaim, FakeNameIdentifierClaim, FakeRoleClaim }),
-            new FakeApiKey(FakeKeyThrowsNotImplemented, FakeKeyOwner, new List<Claim> { FakeNameClaim, FakeNameIdentifierClaim, FakeRoleClaim }),
-            new FakeApiKey(FakeKeyForLegacyIgnoreExtraValidatedApiKeyCheck, FakeKeyOwner, new List<Claim> { FakeNameClaim, FakeNameIdentifierClaim, FakeRoleClaim }),
-            new FakeApiKey(FakeKeyIgnoreAuthenticationIfAllowAnonymous, FakeKeyOwner, new List<Claim> { FakeNameClaim, FakeNameIdentifierClaim, FakeRoleClaim })
-        };
+        internal static List<IApiKey> Keys =>
+        [
+            new FakeApiKey(FakeKey, FakeKeyOwner, [FakeNameClaim, FakeNameIdentifierClaim, FakeRoleClaim]),
+            new FakeApiKey(FakeKeyThrowsNotImplemented, FakeKeyOwner, [FakeNameClaim, FakeNameIdentifierClaim, FakeRoleClaim]),
+            new FakeApiKey(FakeKeyForLegacyIgnoreExtraValidatedApiKeyCheck, FakeKeyOwner, [FakeNameClaim, FakeNameIdentifierClaim, FakeRoleClaim]),
+            new FakeApiKey(FakeKeyIgnoreAuthenticationIfAllowAnonymous, FakeKeyOwner, [FakeNameClaim, FakeNameIdentifierClaim, FakeRoleClaim])
+        ];
     }
 }

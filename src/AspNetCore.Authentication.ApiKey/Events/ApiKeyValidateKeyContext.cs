@@ -3,8 +3,6 @@
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
 using System.Security.Claims;
 
 namespace AspNetCore.Authentication.ApiKey
@@ -38,7 +36,7 @@ namespace AspNetCore.Authentication.ApiKey
         /// and <see cref="ResultContext{TOptions}.Success"/> method will also be called.
         /// </summary>
         /// <param name="claims">Claims to be added to the identity.</param>
-        public void ValidationSucceeded(IEnumerable<Claim> claims = null)
+        public void ValidationSucceeded(IEnumerable<Claim>? claims = null)
         {
             ValidationSucceeded(null, claims);
         }
@@ -50,7 +48,7 @@ namespace AspNetCore.Authentication.ApiKey
         /// </summary>
         /// <param name="ownerName">The owner name to be added to claims as <see cref="ClaimTypes.Name"/> and <see cref="ClaimTypes.NameIdentifier"/> if not already added with <paramref name="claims"/>.</param>
         /// <param name="claims">Claims to be added to the identity.</param>
-        public void ValidationSucceeded(string ownerName, IEnumerable<Claim> claims = null)
+        public void ValidationSucceeded(string? ownerName, IEnumerable<Claim>? claims = null)
         {
             Principal = ApiKeyUtils.BuildClaimsPrincipal(ownerName, Scheme.Name, Options.ClaimsIssuer, claims);
             Success();
@@ -61,7 +59,7 @@ namespace AspNetCore.Authentication.ApiKey
         /// otherwise, <see cref="ResultContext{TOptions}.Fail(string)"/> method will be called.
         /// </summary>
         /// <param name="failureMessage">(Optional) The failure message.</param>
-        public void ValidationFailed(string failureMessage = null)
+        public void ValidationFailed(string? failureMessage = null)
         {
             if (string.IsNullOrWhiteSpace(failureMessage))
             {

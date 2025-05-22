@@ -4,27 +4,24 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
-using System.Linq;
 using System.Text.Encodings.Web;
-using System.Threading.Tasks;
 
 namespace AspNetCore.Authentication.ApiKey
 {
 	public class ApiKeyInQueryParamsHandler : ApiKeyHandlerBase
 	{
-        private const string WwwAuthenticateInParameter = "query_params";
-        protected override string GetWwwAuthenticateInParameter() => WwwAuthenticateInParameter;
+		private const string WwwAuthenticateInParameter = "query_params";
+		protected override string GetWwwAuthenticateInParameter() => WwwAuthenticateInParameter;
 
 #if NET8_0_OR_GREATER
-        protected ApiKeyInQueryParamsHandler(IOptionsMonitor<ApiKeyOptions> options, ILoggerFactory logger, UrlEncoder encoder)
-            : base(options, logger, encoder)
-        {
-        }
+		protected ApiKeyInQueryParamsHandler(IOptionsMonitor<ApiKeyOptions> options, ILoggerFactory logger, UrlEncoder encoder)
+			: base(options, logger, encoder)
+		{
+		}
 
-        [Obsolete("ISystemClock is obsolete, use TimeProvider on AuthenticationSchemeOptions instead.")]
+		[Obsolete("ISystemClock is obsolete, use TimeProvider on AuthenticationSchemeOptions instead.")]
 #endif
-        public ApiKeyInQueryParamsHandler(IOptionsMonitor<ApiKeyOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock)
+		public ApiKeyInQueryParamsHandler(IOptionsMonitor<ApiKeyOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock)
 			: base(options, logger, encoder, clock)
 		{
 		}
@@ -33,7 +30,7 @@ namespace AspNetCore.Authentication.ApiKey
 		{
 			if (Request.Query.TryGetValue(Options.KeyName, out var value))
 			{
-				return Task.FromResult(value.FirstOrDefault());
+				return Task.FromResult(value.FirstOrDefault() ?? string.Empty);
 			}
 
 			// No ApiKey query parameter found

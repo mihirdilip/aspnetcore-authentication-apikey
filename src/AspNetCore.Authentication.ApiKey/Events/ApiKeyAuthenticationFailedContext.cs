@@ -3,7 +3,6 @@
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
-using System;
 
 namespace AspNetCore.Authentication.ApiKey
 {

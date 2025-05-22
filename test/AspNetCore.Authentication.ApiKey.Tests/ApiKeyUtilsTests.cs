@@ -1,9 +1,6 @@
 ﻿// Copyright (c) Mihir Dilip. All rights reserved.
 // Licensed under the MIT License. See LICENSE file in the project root for license information.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using Xunit;
 
@@ -21,7 +18,7 @@ namespace AspNetCore.Authentication.ApiKey.Tests
         [Fact]
         public static void BuildClaimsPrincipal_null_schemeName_throws_ArgumentNullException()
         {
-            var exception = Assert.Throws<ArgumentNullException>(() => ApiKeyUtils.BuildClaimsPrincipal(null, null, null, null));
+            var exception = Assert.Throws<ArgumentNullException>(() => ApiKeyUtils.BuildClaimsPrincipal(null, null!, null, null));
             Assert.Contains("schemeName", exception.Message);
         }
 

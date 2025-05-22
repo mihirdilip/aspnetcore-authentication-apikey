@@ -1,9 +1,6 @@
 ﻿// Copyright (c) Mihir Dilip. All rights reserved.
 // Licensed under the MIT License. See LICENSE file in the project root for license information.
 
-using System;
-using System.Threading.Tasks;
-
 namespace AspNetCore.Authentication.ApiKey
 {
     /// <summary>
@@ -20,7 +17,7 @@ namespace AspNetCore.Authentication.ApiKey
         /// or construct an authentication principal &amp; attach it to the context.Principal property and finally call context.Success() method.
         /// If only context.Principal property set without calling context.Success() method then, Success() method is automaticalled called.
         /// </remarks>
-        public Func<ApiKeyValidateKeyContext, Task> OnValidateKey { get; set; }
+        public Func<ApiKeyValidateKeyContext, Task>? OnValidateKey { get; set; }
 
         /// <summary>
         /// A delegate assigned to this property will be invoked when the authentication succeeds. It will not be called if <see cref="OnValidateKey"/> delegate is assigned.
@@ -29,12 +26,12 @@ namespace AspNetCore.Authentication.ApiKey
         /// <remarks>
         /// Only use this if you know what you are doing.
         /// </remarks>
-        public Func<ApiKeyAuthenticationSucceededContext, Task> OnAuthenticationSucceeded { get; set; }
+        public Func<ApiKeyAuthenticationSucceededContext, Task>? OnAuthenticationSucceeded { get; set; }
 
         /// <summary>
         /// A delegate assigned to this property will be invoked when the authentication fails.
         /// </summary>
-        public Func<ApiKeyAuthenticationFailedContext, Task> OnAuthenticationFailed { get; set; }
+        public Func<ApiKeyAuthenticationFailedContext, Task>? OnAuthenticationFailed { get; set; }
 
         /// <summary>
         /// A delegate assigned to this property will be invoked before a challenge is sent back to the caller when handling unauthorized response.
@@ -46,7 +43,7 @@ namespace AspNetCore.Authentication.ApiKey
         /// changing the 401 result to 302 of a login page or external sign-in location.)
         /// Call context.Handled() at the end so that any default logic for this challenge will be skipped.
         /// </remarks>
-        public Func<ApiKeyHandleChallengeContext, Task> OnHandleChallenge { get; set; }
+        public Func<ApiKeyHandleChallengeContext, Task>? OnHandleChallenge { get; set; }
 
         /// <summary>
         /// A delegate assigned to this property will be invoked if Authorization fails and results in a Forbidden response.
@@ -56,7 +53,7 @@ namespace AspNetCore.Authentication.ApiKey
         /// Set the delegate to handle Forbid.
         /// Call context.Handled() at the end so that any default logic will be skipped.
         /// </remarks>
-        public Func<ApiKeyHandleForbiddenContext, Task> OnHandleForbidden { get; set; }
+        public Func<ApiKeyHandleForbiddenContext, Task>? OnHandleForbidden { get; set; }
 
 
 

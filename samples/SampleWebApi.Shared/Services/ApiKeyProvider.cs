@@ -16,7 +16,7 @@ namespace SampleWebApi.Services
 			_apiKeyRepository = apiKeyRepository;
 		}
 
-		public async Task<IApiKey> ProvideAsync(string key)
+		public async Task<IApiKey?> ProvideAsync(string key)
 		{
 			try
 			{

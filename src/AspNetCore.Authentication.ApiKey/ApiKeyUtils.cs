@@ -1,9 +1,6 @@
 ﻿// Copyright (c) Mihir Dilip. All rights reserved.
 // Licensed under the MIT License. See LICENSE file in the project root for license information.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 
 namespace AspNetCore.Authentication.ApiKey
@@ -23,7 +20,7 @@ namespace AspNetCore.Authentication.ApiKey
 		/// <param name="claimsIssuer">The claims issuer.</param>
 		/// <param name="claims">The list of claims.</param>
 		/// <returns></returns>
-		internal static ClaimsPrincipal BuildClaimsPrincipal(string ownerName, string schemeName, string claimsIssuer, IEnumerable<Claim> claims = null)
+		internal static ClaimsPrincipal BuildClaimsPrincipal(string? ownerName, string schemeName, string? claimsIssuer, IEnumerable<Claim>? claims = null)
 		{
 			if (string.IsNullOrWhiteSpace(schemeName)) throw new ArgumentNullException(nameof(schemeName));
 
